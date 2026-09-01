@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Top Up Saldo - Partnership Global Media</title>
+
   <style>
     :root {
       --bg-color: #07111f;
@@ -17,12 +18,16 @@
       --danger: #ff5252;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, Helvetica, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-main);
       margin: 0;
-      padding: 0;
+      padding: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -30,7 +35,7 @@
     }
 
     .topup-wrapper {
-      width: 90%;
+      width: 100%;
       max-width: 420px;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
@@ -46,6 +51,7 @@
       margin-bottom: 20px;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 12px;
+      gap: 10px;
     }
 
     .topup-header h2 {
@@ -58,10 +64,13 @@
       font-size: 12px;
       color: var(--accent);
       text-decoration: none;
+      white-space: nowrap;
     }
-    .back-link:hover { text-decoration: underline; }
 
-    /* Informasi Saldo Saat Ini */
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
     .balance-card {
       background: rgba(0, 212, 255, 0.05);
       border: 1px solid rgba(0, 212, 255, 0.15);
@@ -70,13 +79,24 @@
       margin-bottom: 20px;
       text-align: center;
     }
-    .balance-card span { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px; }
-    .balance-card h3 { font-size: 20px; margin: 0; color: var(--success); }
 
-    /* Form Group */
+    .balance-card span {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .balance-card h3 {
+      font-size: 20px;
+      margin: 0;
+      color: var(--success);
+    }
+
     .form-group {
       margin-bottom: 15px;
     }
+
     .form-group label {
       display: block;
       font-size: 12px;
@@ -84,6 +104,7 @@
       margin-bottom: 6px;
       font-weight: bold;
     }
+
     .form-group input {
       width: 100%;
       padding: 11px;
@@ -92,12 +113,13 @@
       border-radius: 8px;
       color: #fff;
       font-size: 14px;
-      box-sizing: border-box;
       outline: none;
     }
-    .form-group input:focus { border-color: var(--accent); }
 
-    /* Tombol Aksi */
+    .form-group input:focus {
+      border-color: var(--accent);
+    }
+
     .btn-action {
       width: 100%;
       padding: 12px;
@@ -111,9 +133,17 @@
       box-shadow: 0 10px 30px rgba(0,190,240,0.2);
       transition: 0.2s;
     }
-    .btn-action:hover { transform: translateY(-2px); }
 
-    /* Tampilan Langkah Pembayaran & Rekening */
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-action:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
     .payment-box {
       background: #050d18;
       border: 1px dashed var(--border-color);
@@ -122,174 +152,658 @@
       margin-bottom: 20px;
       text-align: center;
     }
-    .payment-box p { font-size: 12px; color: var(--text-muted); margin: 4px 0; }
-    .payment-box strong { color: #fff; font-size: 15px; }
 
-    .hidden { display: none !important; }
+    .payment-box p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 4px 0;
+    }
 
-    /* Animasi Ceklis Sukses */
-    .success-container { text-align: center; padding: 20px 0; }
-    .success-checkmark { width: 60px; height: 60px; margin: 0 auto 15px; position: relative; }
-    .success-checkmark .check-icon { width: 60px; height: 60px; position: relative; border-radius: 50%; box-sizing: content-box; border: 3px solid var(--success); }
-    .success-checkmark .check-icon .icon-line { height: 3px; background-color: var(--success); display: block; position: absolute; z-index: 10; border-radius: 2px; }
-    .success-checkmark .check-icon .icon-line.line-tip { top: 34px; left: 10px; width: 18px; transform: rotate(45deg); }
-    .success-checkmark .check-icon .icon-line.line-long { top: 28px; left: 22px; width: 28px; transform: rotate(-45deg); }
+    .payment-box strong {
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .success-container {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .success-checkmark {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 15px;
+      position: relative;
+    }
+
+    .success-checkmark .check-icon {
+      width: 60px;
+      height: 60px;
+      position: relative;
+      border-radius: 50%;
+      box-sizing: content-box;
+      border: 3px solid var(--success);
+    }
+
+    .success-checkmark .check-icon .icon-line {
+      height: 3px;
+      background-color: var(--success);
+      display: block;
+      position: absolute;
+      z-index: 10;
+      border-radius: 2px;
+    }
+
+    .success-checkmark .check-icon .icon-line.line-tip {
+      top: 34px;
+      left: 10px;
+      width: 18px;
+      transform: rotate(45deg);
+    }
+
+    .success-checkmark .check-icon .icon-line.line-long {
+      top: 28px;
+      left: 22px;
+      width: 28px;
+      transform: rotate(-45deg);
+    }
+
+    .user-info {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+    }
   </style>
 </head>
+
 <body>
 
-  <div class="topup-wrapper">
-    <div class="topup-header">
-      <h2>Top Up Saldo Akun</h2>
-      <a href="dashboard.html" class="back-link">&larr; Beranda</a>
-    </div>
+<div class="topup-wrapper">
 
-    <!-- Informasi Saldo User Aktif -->
-    <div class="balance-card">
-      <span>SALDO AKUN SAAT INI</span>
-      <h3 id="userCurrentBalance">Rp 0</h3>
-    </div>
-
-    <!-- LANGKAH 1: Input Nominal -->
-    <div id="step-input">
-      <div class="form-group">
-        <label>Nominal Top Up (Minimum Rp 10.000)</label>
-        <input type="number" id="topup-amount" placeholder="Cth: 50000" min="10000">
-      </div>
-      <button type="button" class="btn-action" onclick="proceedToPayment()">Lanjut ke Pembayaran</button>
-    </div>
-
-    <!-- LANGKAH 2: Informasi Transfer Rekening -->
-    <div id="step-payment" class="hidden">
-      <div class="payment-box">
-        <p>Silakan transfer tepat sejumlah:</p>
-        <strong id="display-nominal" style="color: var(--success); font-size: 18px;">Rp 0</strong>
-        <p style="margin-top: 12px;">Ke Rekening Bank BCA:</p>
-        <strong>1234567890</strong>
-        <p>a.n. Partnership Global Media</p>
-      </div>
-      <button type="button" class="btn-action" onclick="submitFirebaseTopup()">Saya Sudah Transfer</button>
-      <button type="button" onclick="backToInput()" style="width:100%; margin-top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:12px;">&larr; Ubah Nominal</button>
-    </div>
-
-    <!-- LANGKAH 3: Berhasil Terkirim -->
-    <div id="step-success" class="hidden">
-      <div class="success-container">
-        <div class="success-checkmark">
-          <div class="check-icon">
-            <span class="icon-line line-tip"></span>
-            <span class="icon-line line-long"></span>
-          </div>
-        </div>
-        <h3 style="color: #fff; margin-bottom: 6px;">Permintaan Terkirim!</h3>
-        <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">Permintaan top-up Anda berhasil dibuat dan sedang menunggu verifikasi oleh admin.</p>
-        <a href="dashboard.html" class="btn-action" style="display: block; margin-top: 20px; text-decoration: none; line-height: 42px;">Kembali</a>
-      </div>
-    </div>
+  <div class="topup-header">
+    <h2>Top Up Saldo Akun</h2>
+    <a href="dashboard.html" class="back-link">&larr; Beranda</a>
   </div>
 
-  <!-- SCRIPT FIREBASE & LOGIKA TOPUP -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  <!-- USER -->
+  <div id="userInfo" class="user-info">
+    Memeriksa akun...
+  </div>
 
-    // Konfigurasi Firebase Anda (Sesuaikan dengan file lainnya)
-    const firebaseConfig = {
-  apiKey: "AIzaSyAkt9-rMF_yiXC6M_K2wuExsIhDFFGcKQ8",
-  authDomain: "website-smm-6b9be.firebaseapp.com",
-  projectId: "website-smm-6b9be",
-  storageBucket: "website-smm-6b9be.firebasestorage.app",
-  messagingSenderId: "739072727667",
-  appId: "1:739072727667:web:c860fc79ddc338b8fd6806",
-  measurementId: "G-MB6NT6HQ6J"
-};
+  <!-- SALDO -->
+  <div class="balance-card">
+    <span>SALDO AKUN SAAT INI</span>
+    <h3 id="userCurrentBalance">Rp 0</h3>
+  </div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
 
-    document.addEventListener("DOMContentLoaded", async function() {
-      await loadUserBalance();
-    });
+  <!-- ======================================
+       LANGKAH 1
+  ======================================= -->
 
-    // Memuat saldo user terbaru dari sesi/database
-    async function loadUserBalance() {
-      const activeUserStr = sessionStorage.getItem('activeUserSession') || localStorage.getItem('activeUserSession');
-      if (!activeUserStr) {
-        alert("Silakan login terlebih dahulu untuk melakukan top up!");
-        window.location.href = 'auth.html';
-        return;
-      }
+  <div id="step-input">
 
-      const activeUser = JSON.parse(activeUserStr);
-      let balance = activeUser.balance || 0;
+    <div class="form-group">
 
-      try {
-        if (activeUser.email) {
-          const querySnapshot = await getDocs(collection(db, "users"));
-          querySnapshot.forEach((docSnap) => {
-            const uData = docSnap.data();
-            if (uData.email === activeUser.email) {
-              balance = uData.balance || 0;
-            }
-          });
+      <label>
+        Nominal Top Up (Minimum Rp 10.000)
+      </label>
+
+      <input
+        type="number"
+        id="topup-amount"
+        placeholder="Cth: 50000"
+        min="10000"
+        step="1000"
+      >
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-action"
+      id="paymentButton"
+      onclick="proceedToPayment()"
+    >
+      Lanjut ke Pembayaran
+    </button>
+
+  </div>
+
+
+  <!-- ======================================
+       LANGKAH 2
+  ======================================= -->
+
+  <div id="step-payment" class="hidden">
+
+    <div class="payment-box">
+
+      <p>
+        Silakan transfer tepat sejumlah:
+      </p>
+
+      <strong
+        id="display-nominal"
+        style="color: var(--success); font-size: 18px;"
+      >
+        Rp 0
+      </strong>
+
+      <p style="margin-top: 12px;">
+        Ke Rekening Bank BCA:
+      </p>
+
+      <strong>
+        1234567890
+      </strong>
+
+      <p>
+        a.n. Partnership Global Media
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-action"
+      id="submitTopupButton"
+      onclick="submitFirebaseTopup()"
+    >
+      Saya Sudah Transfer
+    </button>
+
+    <button
+      type="button"
+      onclick="backToInput()"
+      style="width:100%; margin-top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:12px;"
+    >
+      &larr; Ubah Nominal
+    </button>
+
+  </div>
+
+
+  <!-- ======================================
+       LANGKAH 3
+  ======================================= -->
+
+  <div id="step-success" class="hidden">
+
+    <div class="success-container">
+
+      <div class="success-checkmark">
+
+        <div class="check-icon">
+
+          <span class="icon-line line-tip"></span>
+          <span class="icon-line line-long"></span>
+
+        </div>
+
+      </div>
+
+      <h3 style="color:#fff; margin-bottom:6px;">
+        Permintaan Terkirim!
+      </h3>
+
+      <p
+        style="font-size:12px; color:var(--text-muted); line-height:1.4;"
+      >
+        Permintaan top-up Anda berhasil dibuat dan sedang menunggu verifikasi oleh admin.
+      </p>
+
+      <a
+        href="dashboard.html"
+        class="btn-action"
+        style="display:block; margin-top:20px; text-decoration:none; line-height:42px;"
+      >
+        Kembali
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ==========================================
+     FIREBASE
+=========================================== -->
+
+<script type="module">
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+  import {
+    getFirestore,
+    doc,
+    onSnapshot,
+    addDoc,
+    collection,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+  /* ==========================================
+     FIREBASE CONFIG
+     PROJECT: multibooster-media
+  ========================================== */
+
+  const firebaseConfig = {
+
+    apiKey:
+      "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
+
+    authDomain:
+      "multibooster-media.firebaseapp.com",
+
+    projectId:
+      "multibooster-media",
+
+    storageBucket:
+      "multibooster-media.firebasestorage.app",
+
+    messagingSenderId:
+      "455058483621",
+
+    appId:
+      "1:455058483621:web:7a969f17fdae000588204c",
+
+    measurementId:
+      "G-Z9S252K9C5"
+
+  };
+
+
+  /* ==========================================
+     INIT
+  ========================================== */
+
+  const app =
+    initializeApp(firebaseConfig);
+
+  const auth =
+    getAuth(app);
+
+  const db =
+    getFirestore(app);
+
+
+  /* ==========================================
+     CURRENT USER
+  ========================================== */
+
+  let currentUser = null;
+
+  let unsubscribeUser = null;
+
+
+  /* ==========================================
+     CEK AUTH
+  ========================================== */
+
+  onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+      currentUser = null;
+
+      document.getElementById(
+        "userInfo"
+      ).textContent =
+        "Silakan login terlebih dahulu.";
+
+      document.getElementById(
+        "userCurrentBalance"
+      ).textContent =
+        "Rp 0";
+
+      setTimeout(() => {
+
+        window.location.href =
+          "login.html";
+
+      }, 1200);
+
+      return;
+    }
+
+
+    currentUser = user;
+
+
+    document.getElementById(
+      "userInfo"
+    ).textContent =
+      user.displayName ||
+      user.email ||
+      "User";
+
+
+    /* ======================================
+       FIRESTORE USER
+       users/{UID}
+    ====================================== */
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        user.uid
+      );
+
+
+    /* ======================================
+       REALTIME USER DATA
+    ====================================== */
+
+    unsubscribeUser =
+      onSnapshot(
+        userRef,
+
+        (snapshot) => {
+
+          if (!snapshot.exists()) {
+
+            document.getElementById(
+              "userCurrentBalance"
+            ).textContent =
+              "Rp 0";
+
+            return;
+          }
+
+
+          const data =
+            snapshot.data();
+
+
+          /* CEK BLOKIR */
+
+          if (data.isBlocked === true) {
+
+            alert(
+              "Akun Anda telah diblokir oleh admin."
+            );
+
+            window.location.href =
+              "login.html";
+
+            return;
+          }
+
+
+          /* SALDO */
+
+          const balance =
+            Number(
+              data.balance || 0
+            );
+
+
+          document.getElementById(
+            "userCurrentBalance"
+          ).textContent =
+            "Rp " +
+            balance.toLocaleString(
+              "id-ID"
+            );
+
+
+          /* NAMA */
+
+          if (data.name) {
+
+            document.getElementById(
+              "userInfo"
+            ).textContent =
+              data.name;
+
+          }
+
+        },
+
+        (error) => {
+
+          console.error(
+            "Firestore error:",
+            error
+          );
+
         }
-      } catch (e) {
-        console.error("Gagal mengambil saldo database:", e);
-      }
+      );
 
-      document.getElementById('userCurrentBalance').innerText = 'Rp ' + Number(balance).toLocaleString('id-ID');
-    }
+  });
 
-    // Navigasi Langkah Pembayaran
-    window.proceedToPayment = function() {
-      const amountInput = document.getElementById('topup-amount').value;
-      const amount = parseInt(amountInput);
 
-      if (!amount || amount < 10000) {
-        alert('Minimal nominal top-up adalah Rp 10.000!');
+  /* ==========================================
+     LANGKAH PEMBAYARAN
+  ========================================== */
+
+  window.proceedToPayment =
+    function() {
+
+      if (!currentUser) {
+
+        alert(
+          "Silakan login terlebih dahulu."
+        );
+
         return;
+
       }
 
-      document.getElementById('display-nominal').innerText = 'Rp ' + amount.toLocaleString('id-ID');
-      document.getElementById('step-input').classList.add('hidden');
-      document.getElementById('step-payment').classList.remove('hidden');
-    }
 
-    window.backToInput = function() {
-      document.getElementById('step-payment').classList.add('hidden');
-      document.getElementById('step-input').classList.remove('hidden');
-    }
+      const amount =
+        parseInt(
+          document.getElementById(
+            "topup-amount"
+          ).value
+        );
 
-    // Mengirim Permintaan Top-Up ke Firebase Firestore (Masuk ke admin.html)
-    window.submitFirebaseTopup = async function() {
-      const amount = parseInt(document.getElementById('topup-amount').value);
-      const activeUserStr = sessionStorage.getItem('activeUserSession') || localStorage.getItem('activeUserSession');
-      
-      if (!activeUserStr) {
-        alert("Sesi kedaluwarsa. Silakan login ulang.");
-        window.location.href = 'auth.html';
+
+      if (
+        !amount ||
+        amount < 10000
+      ) {
+
+        alert(
+          "Minimal nominal top-up adalah Rp 10.000!"
+        );
+
         return;
+
       }
 
-      const activeUser = JSON.parse(activeUserStr);
+
+      document.getElementById(
+        "display-nominal"
+      ).innerText =
+        "Rp " +
+        amount.toLocaleString(
+          "id-ID"
+        );
+
+
+      document.getElementById(
+        "step-input"
+      ).classList.add(
+        "hidden"
+      );
+
+
+      document.getElementById(
+        "step-payment"
+      ).classList.remove(
+        "hidden"
+      );
+
+    };
+
+
+  /* ==========================================
+     KEMBALI INPUT
+  ========================================== */
+
+  window.backToInput =
+    function() {
+
+      document.getElementById(
+        "step-payment"
+      ).classList.add(
+        "hidden"
+      );
+
+      document.getElementById(
+        "step-input"
+      ).classList.remove(
+        "hidden"
+      );
+
+    };
+
+
+  /* ==========================================
+     KIRIM REQUEST TOP UP
+  ========================================== */
+
+  window.submitFirebaseTopup =
+    async function() {
+
+      if (!currentUser) {
+
+        alert(
+          "Sesi login tidak ditemukan."
+        );
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      const amount =
+        parseInt(
+          document.getElementById(
+            "topup-amount"
+          ).value
+        );
+
+
+      if (
+        !amount ||
+        amount < 10000
+      ) {
+
+        alert(
+          "Nominal top-up tidak valid."
+        );
+
+        return;
+
+      }
+
+
+      const button =
+        document.getElementById(
+          "submitTopupButton"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Mengirim...";
+
 
       try {
-        await addDoc(collection(db, "topupRequests"), {
-          userEmail: activeUser.email,
-          userName: activeUser.name,
-          amount: amount,
-          status: "Pending",
-          createdAt: new Date()
-        });
 
-        document.getElementById('step-payment').classList.add('hidden');
-        document.getElementById('step-success').classList.remove('hidden');
+        await addDoc(
+          collection(
+            db,
+            "topupRequests"
+          ),
+          {
+
+            uid:
+              currentUser.uid,
+
+            userEmail:
+              currentUser.email || "",
+
+            userName:
+              currentUser.displayName || "",
+
+            amount:
+              amount,
+
+            status:
+              "Pending",
+
+            createdAt:
+              serverTimestamp()
+
+          }
+        );
+
+
+        document.getElementById(
+          "step-payment"
+        ).classList.add(
+          "hidden"
+        );
+
+
+        document.getElementById(
+          "step-success"
+        ).classList.remove(
+          "hidden"
+        );
+
 
       } catch (error) {
-        console.error("Gagal mengirim permintaan top-up:", error);
-        alert("Terjadi kesalahan saat memproses top-up ke server.");
+
+        console.error(
+          "Gagal mengirim top-up:",
+          error
+        );
+
+        alert(
+          "Gagal mengirim permintaan top-up: " +
+          error.message
+        );
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Saya Sudah Transfer";
+
       }
-    }
-  </script>
+
+    };
+
+</script>
+
 </body>
 </html>
+
