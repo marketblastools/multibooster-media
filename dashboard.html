@@ -3058,87 +3058,369 @@ updateOnlineStatus();
 
 </script>
 
-  <script type="module">
-  // Import Firebase SDK yang diperlukan
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<script type="module">
+  /* ==========================================
+     FIREBASE SDK
+  ========================================== */
 
-  // Konfigurasi Firebase Anda (pastikan sama dengan file auth.html dan admin.html)
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+  /* ==========================================
+     FIREBASE CONFIG
+     PROJECT: multibooster-media
+  ========================================== */
+
   const firebaseConfig = {
-  apiKey: "AIzaSyAkt9-rMF_yiXC6M_K2wuExsIhDFFGcKQ8",
-  authDomain: "website-smm-6b9be.firebaseapp.com",
-  projectId: "website-smm-6b9be",
-  storageBucket: "website-smm-6b9be.firebasestorage.app",
-  messagingSenderId: "739072727667",
-  appId: "1:739072727667:web:c860fc79ddc338b8fd6806",
-  measurementId: "G-MB6NT6HQ6J"
-};
+    apiKey: "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
+    authDomain: "multibooster-media.firebaseapp.com",
+    projectId: "multibooster-media",
+    storageBucket: "multibooster-media.firebasestorage.app",
+    messagingSenderId: "455058483621",
+    appId: "1:455058483621:web:7a969f17fdae000588204c",
+    measurementId: "G-Z9S252K9C5"
+  };
+
+
+  /* ==========================================
+     INITIALIZE FIREBASE
+  ========================================== */
+
   const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
   const db = getFirestore(app);
 
-  document.addEventListener("DOMContentLoaded", async function() {
-    await checkFirebaseUserSession();
-  });
 
-  async function checkFirebaseUserSession() {
-    // Ambil data email / sesi user yang disimpan saat berhasil login dari auth.html
-    const activeUserStr = sessionStorage.getItem('activeUserSession') || localStorage.getItem('activeUserSession');
-    
-    const headerUserBar = document.getElementById('headerUserBar');
-    const menuAuth = document.getElementById('menu-auth');
+  /* ==========================================
+     ELEMENT HTML
+  ========================================== */
 
-    if (!activeUserStr) {
-      // Jika belum login
-      if (headerUserBar) headerUserBar.style.display = "none";
-      if (menuAuth) menuAuth.style.display = 'inline';
+  const headerUserBar =
+    document.getElementById("headerUserBar");
+
+  const menuAuth =
+    document.getElementById("menu-auth");
+
+  const nameEl =
+    document.getElementById("hName");
+
+  const balanceEl =
+    document.getElementById("hBalance");
+
+  const avatarEl =
+    document.getElementById("hAvatar");
+
+
+  /* ==========================================
+     CEK LOGIN FIREBASE
+  ========================================== */
+
+  onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+      // Belum login
+      if (headerUserBar) {
+        headerUserBar.style.display = "none";
+      }
+
+      if (menuAuth) {
+        menuAuth.style.display = "inline";
+      }
+
       return;
     }
 
-    try {
-      const localUser = JSON.parse(activeUserStr);
-      
-      // Ambil data terbaru langsung dari database Firestore Firebase (agar saldo real-time)
-      // Asalkan saat login Anda menyimpan identifier seperti email atau uid di localUser
-      let currentBalance = localUser.balance || 0;
-      let currentName = localUser.name || "User";
 
-      if (localUser.email) {
-        // Jika Anda menyimpan email, kita bisa tarik data terbarunya dari koleksi "users"
-        // (Opsional: jika Anda menggunakan UID firebase auth, bisa disesuaikan)
-      }
+    // User sudah login
+    if (headerUserBar) {
 
-      // Tampilkan User Bar di Header
-      if (headerUserBar) {
-        headerUserBar.style.display = "flex";
-        headerUserBar.classList.add('active');
-      }
-      if (menuAuth) menuAuth.style.display = 'none';
+      headerUserBar.style.display = "flex";
 
-      // Masukkan data ke elemen HTML Header
-      const nameEl = document.getElementById('hName');
-      const balanceEl = document.getElementById('hBalance');
-      const avatarEl = document.getElementById('hAvatar');
+      headerUserBar.classList.add("active");
 
-      if (nameEl) nameEl.innerText = currentName;
-      if (balanceEl) balanceEl.innerText = 'Rp ' + Number(currentBalance).toLocaleString('id-ID');
-      if (avatarEl && localUser.avatar) {
-        avatarEl.src = localUser.avatar;
-      }
-
-    } catch (e) {
-      console.error("Gagal memuat sesi Firebase:", e);
-      if (headerUserBar) headerUserBar.style.display = "none";
-      if (menuAuth) menuAuth.style.display = 'inline';
     }
-  }
 
-  // Fungsi Logout Global
-  window.handleHeaderLogout = function() {
-    sessionStorage.removeItem('activeUserSession');
-    localStorage.removeItem('activeUserSession');
-    window.location.href = 'index.html';
-  }
+    if (menuAuth) {
+
+      menuAuth.style.display = "none";
+
+    }
+
+
+    /* ======================================
+       DATA DASAR DARI FIREBASE AUTH
+    ====================================== */
+
+    if (nameEl) {
+
+      nameEl.innerText =
+        user.displayName ||
+        "User";
+
+    }
+
+
+    if (avatarEl && user.photoURL) {
+
+      avatarEl.src = user.photoURL;
+
+    }
+
+
+    /* ======================================
+       AMBIL DATA USER DARI FIRESTORE
+       users/{UID}
+    ====================================== */
+
+    const userRef =
+      doc(db, "users", user.uid);
+
+
+    try {
+
+      const userSnap =
+        await getDoc(userRef);
+
+
+      if (userSnap.exists()) {
+
+        const data =
+          userSnap.data();
+
+
+        /* ================================
+           CEK BLOKIR
+        ================================= */
+
+        if (data.isBlocked === true) {
+
+          alert(
+            "Akun Anda telah diblokir oleh admin."
+          );
+
+          await signOut(auth);
+
+          window.location.href =
+            "index.html";
+
+          return;
+
+        }
+
+
+        /* ================================
+           NAMA
+        ================================= */
+
+        if (nameEl) {
+
+          nameEl.innerText =
+            data.name ||
+            user.displayName ||
+            "User";
+
+        }
+
+
+        /* ================================
+           SALDO
+        ================================= */
+
+        const balance =
+          Number(data.balance || 0);
+
+
+        if (balanceEl) {
+
+          balanceEl.innerText =
+            "Rp " +
+            balance.toLocaleString("id-ID");
+
+        }
+
+
+        /* ================================
+           FOTO PROFIL
+        ================================= */
+
+        if (
+          avatarEl &&
+          (data.photoURL || user.photoURL)
+        ) {
+
+          avatarEl.src =
+            data.photoURL ||
+            user.photoURL;
+
+        }
+
+      } else {
+
+        // Dokumen user belum ada
+
+        if (balanceEl) {
+
+          balanceEl.innerText =
+            "Rp 0";
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Gagal mengambil data user:",
+        error
+      );
+
+    }
+
+
+    /* ======================================
+       REAL-TIME UPDATE SALDO
+       Jika admin mengubah saldo Firestore,
+       dashboard akan ikut berubah.
+    ====================================== */
+
+    onSnapshot(
+      userRef,
+      (snapshot) => {
+
+        if (!snapshot.exists()) {
+          return;
+        }
+
+        const data =
+          snapshot.data();
+
+
+        /* Cek blokir */
+
+        if (data.isBlocked === true) {
+
+          alert(
+            "Akun Anda telah diblokir oleh admin."
+          );
+
+          signOut(auth).then(() => {
+
+            window.location.href =
+              "index.html";
+
+          });
+
+          return;
+
+        }
+
+
+        /* Update nama */
+
+        if (nameEl && data.name) {
+
+          nameEl.innerText =
+            data.name;
+
+        }
+
+
+        /* Update saldo */
+
+        if (balanceEl) {
+
+          const balance =
+            Number(data.balance || 0);
+
+          balanceEl.innerText =
+            "Rp " +
+            balance.toLocaleString("id-ID");
+
+        }
+
+
+        /* Update avatar */
+
+        if (
+          avatarEl &&
+          data.photoURL
+        ) {
+
+          avatarEl.src =
+            data.photoURL;
+
+        }
+
+      },
+      (error) => {
+
+        console.error(
+          "Realtime Firestore error:",
+          error
+        );
+
+      }
+    );
+
+  });
+
+
+  /* ==========================================
+     LOGOUT
+  ========================================== */
+
+  window.handleHeaderLogout = async function() {
+
+    try {
+
+      await signOut(auth);
+
+      // Hapus sesi lama jika masih ada
+      sessionStorage.removeItem(
+        "activeUserSession"
+      );
+
+      localStorage.removeItem(
+        "activeUserSession"
+      );
+
+      window.location.href =
+        "index.html";
+
+    } catch (error) {
+
+      console.error(
+        "Logout gagal:",
+        error
+      );
+
+      alert(
+        "Logout gagal. Silakan coba lagi."
+      );
+
+    }
+
+  };
+
 </script>
+
 
 </body>
 </html>
