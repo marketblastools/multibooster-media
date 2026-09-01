@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Chat Global - Partnership Global Media</title>
+  <style>
+    :root {
+      --bg-color: #07111f;
+      --card-bg: #0d1d30;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #eaf2ff;
+      --text-muted: #8ea2bd;
+      --accent: #00d4ff;
+      --success: #27e889;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .chat-container {
+      width: 95%;
+      max-width: 500px;
+      height: 88vh;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+
+    /* Header Chat */
+    .chat-header {
+      padding: 15px 20px;
+      background: rgba(5, 14, 27, 0.94);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header h2 { font-size: 16px; margin: 0; color: #fff; }
+    .online-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--success); }
+    .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+
+    /* Area Pesan Masuk (Scrollable) */
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #050d18;
+    }
+
+    .message-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      border-radius: 10px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .message-sender {
+      font-size: 11px;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 3px;
+    }
+
+    .message-text {
+      font-size: 13px;
+      color: #eaf2ff;
+      line-height: 1.4;
+    }
+
+    .message-time {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    /* Form Input Chat */
+    .chat-input-area {
+      padding: 15px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-name {
+      width: 100%;
+      padding: 8px 12px;
+      background: #050d18;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 12px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    /* Panel Emotikon */
+    .emoji-picker-container {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      background: rgba(5, 13, 24, 0.6);
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .emoji-btn {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: transform 0.1s;
+    }
+    .emoji-btn:hover { transform: scale(1.2); background: rgba(255,255,255,0.08); }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .input-message {
+      flex: 1;
+      padding: 10px 12px;
+      background: #050d18;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 13px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .send-btn {
+      padding: 0 20px;
+      background: linear-gradient(135deg, #00bfe9, #6857ff);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+    .send-btn:hover { opacity: 0.85; }
+
+    .back-btn {
+      background: none; border: none; color: var(--text-muted); font-size: 12px; cursor: pointer; text-decoration: none;
+    }
+    .back-btn:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <!-- Header -->
+    <div class="chat-header">
+      <div>
+        <h2>Global Live Chat</h2>
+        <a href="index.html" class="back-btn">&larr; Kembali ke Beranda</a>
+      </div>
+      <div class="online-indicator">
+        <span class="dot"></span> Live Realtime
+      </div>
+    </div>
+
+    <!-- Kotak Riwayat Pesan -->
+    <div id="chatMessages" class="chat-messages">
+      <div style="text-align:center; color: var(--text-muted); font-size: 12px; margin-top: 20px;">Memuat pesan chat...</div>
+    </div>
+
+    <!-- Input Form & Panel Emotikon -->
+    <form id="chatForm" class="chat-input-area" onsubmit="sendMessage(event)">
+      <input type="text" id="senderName" class="input-name" placeholder="Ketik nama Anda di sini..." required autocomplete="off">
+      
+      <!-- Pilihan Emotikon Cepat -->
+      <div class="emoji-picker-container">
+        <button type="button" class="emoji-btn" onclick="addEmoji('😊')">😊</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('😂')">😂</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('🔥')">🔥</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('👍')">👍</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('❤️')">❤️</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('🚀')">🚀</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('😎')">😎</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('✨')">✨</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('🎉')">🎉</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('👏')">👏</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('🙏')">🙏</button>
+        <button type="button" class="emoji-btn" onclick="addEmoji('💡')">💡</button>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="messageText" class="input-message" placeholder="Tulis pesan..." required autocomplete="off">
+        <button type="submit" class="send-btn">Kirim</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Audio Tersembunyi Total -->
+<audio id="hiddenBGM" loop preload="auto">
+  <!-- Ganti link .mp3 di bawah dengan file musik pilihan Anda -->
+  <source src="mymusic.mp3" type="audio/mpeg">
+</audio>
+
+  <!-- SCRIPT FIREBASE & REALTIME CHAT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Konfigurasi Firebase Anda (Sesuaikan dengan proyek Anda)
+    const firebaseConfig = {
+  apiKey: "AIzaSyAkt9-rMF_yiXC6M_K2wuExsIhDFFGcKQ8",
+  authDomain: "website-smm-6b9be.firebaseapp.com",
+  projectId: "website-smm-6b9be",
+  storageBucket: "website-smm-6b9be.firebasestorage.app",
+  messagingSenderId: "739072727667",
+  appId: "1:739072727667:web:c860fc79ddc338b8fd6806",
+  measurementId: "G-MB6NT6HQ6J"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const messagesContainer = document.getElementById('chatMessages');
+
+    // 1. Ambil Pesan Secara Real-Time (onSnapshot)
+    const q = query(collection(db, "globalChats"), orderBy("createdAt", "asc"));
+
+    onSnapshot(q, (snapshot) => {
+      let messagesHtml = "";
+      
+      if (snapshot.empty) {
+        messagesContainer.innerHTML = '<div style="text-align:center; color: var(--text-muted); font-size: 12px; margin-top: 20px;">Belum ada pesan. Jadilah yang pertama mengirim pesan!</div>';
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const msg = docSnap.data();
+        
+        let timeString = "";
+        if (msg.createdAt) {
+          const date = msg.createdAt.toDate();
+          timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        messagesHtml += `
+          <div class="message-item">
+            <div class="message-sender">${escapeHtml(msg.name)}</div>
+            <div class="message-text">${escapeHtml(msg.text)}</div>
+            <div class="message-time">${timeString}</div>
+          </div>
+        `;
+      });
+
+      messagesContainer.innerHTML = messagesHtml;
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+
+    // 2. Fungsi Menambahkan Emoji ke Input Pesan
+    window.addEmoji = function(emoji) {
+      const messageInput = document.getElementById('messageText');
+      messageInput.value += emoji;
+      messageInput.focus();
+    }
+
+    // 3. Fungsi Mengirim Pesan ke Firestore
+    window.sendMessage = async function(event) {
+      event.preventDefault();
+      
+      const nameInput = document.getElementById('senderName').value.trim();
+      const textInput = document.getElementById('messageText').value.trim();
+
+      if (!nameInput || !textInput) return;
+
+      try {
+        await addDoc(collection(db, "globalChats"), {
+          name: nameInput,
+          text: textInput,
+          createdAt: new Date()
+        });
+
+        document.getElementById('messageText').value = '';
+        document.getElementById('messageText').focus();
+
+      } catch (error) {
+        console.error("Gagal mengirim pesan:", error);
+        alert("Gagal mengirim pesan. Periksa koneksi atau konfigurasi database Anda.");
+      }
+    }
+
+    // Fungsi keamanan sederhana untuk mencegah injeksi script (XSS)
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+  const audio = document.getElementById('hiddenBGM');
+  if (!audio) return;
+
+  // Atur volume (0.3 = 30% agar lembut sebagai latar belakang)
+  audio.volume = 0.3;
+
+  // Coba putar otomatis
+  let playPromise = audio.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      // Jika diblokir oleh kebijakan browser, putar otomatis pada interaksi pertama user (klik/ketik di layar)
+      const triggerAutoplay = function() {
+        audio.play().catch(e => console.log("Gagal memutar audio:", e));
+        // Hapus event listener setelah berhasil berbunyi
+        document.removeEventListener('click', triggerAutoplay);
+        document.removeEventListener('keydown', triggerAutoplay);
+      };
+
+      document.addEventListener('click', triggerAutoplay);
+      document.addEventListener('keydown', triggerAutoplay);
+    });
+  }
+});
+  </script>
+</body>
+</html>

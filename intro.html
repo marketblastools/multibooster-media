@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - Partnership Global Media</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #07111f;
+      color: #eaf2ff;
+      font-family: Arial, Helvetica, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==================== SPLASH SCREEN PINTU ==================== */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #07111f;
+      perspective: 1200px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease 2.2s, visibility 0.5s ease 2.2s;
+    }
+
+    #splash-screen.finished {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .door-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    /* Pintu Kiri & Kanan */
+    .door {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: linear-gradient(135deg, #07111f, #0c1a2c);
+      border: 1px solid rgba(0, 212, 255, 0.15);
+      box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+      transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+    }
+
+    .door-left {
+      left: 0;
+      transform-origin: left center;
+      border-right: 2px solid rgba(0, 212, 255, 0.4);
+    }
+
+    .door-right {
+      right: 0;
+      transform-origin: right center;
+      border-left: 2px solid rgba(0, 212, 255, 0.4);
+    }
+
+    .door-panel {
+      width: 80%;
+      height: 70%;
+      margin: auto;
+      border: 1px dashed rgba(0, 212, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    #splash-screen.open .door-left {
+      transform: rotateY(-105deg) translateX(-100%);
+    }
+
+    #splash-screen.open .door-right {
+      transform: rotateY(105deg) translateX(100%);
+    }
+
+    /* ==================== DESAIN GEMBOK ==================== */
+    .lock-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .padlock {
+      width: 50px;
+      height: 65px;
+      position: relative;
+      animation: lockShake 0.6s ease infinite alternate;
+    }
+
+    .shackle {
+      width: 32px;
+      height: 32px;
+      border: 5px solid #00d4ff;
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+    }
+
+    .lock-body {
+      width: 48px;
+      height: 38px;
+      background: linear-gradient(135deg, #00d4ff, #7357ff);
+      border-radius: 8px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    }
+
+    .keyhole {
+      width: 8px;
+      height: 14px;
+      background: #07111f;
+      border-radius: 4px;
+    }
+
+    .lock-text {
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #00d4ff;
+      text-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+      font-family: monospace;
+    }
+
+    .padlock.unlocked .shackle {
+      transform: translate(-50%, -14px);
+    }
+
+    .padlock.unlocked {
+      animation: none;
+    }
+
+    #splash-screen.open .lock-wrapper {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5);
+    }
+
+    @keyframes lockShake {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(3deg); }
+    }
+
+    /* ==================== ANIMASI ROKET ==================== */
+    .rocket-container {
+      position: absolute;
+      bottom: -150px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .rocket-container.fly {
+      opacity: 1;
+      animation: rocketFlyUp 2.2s cubic-bezier(0.5, 0, 0.2, 1) forwards;
+    }
+
+    .rocket {
+      font-size: 60px;
+      filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.8));
+      transform: rotate(-45deg); /* Mengarah ke atas serong/lurus */
+    }
+
+    .rocket-fire {
+      width: 12px;
+      height: 40px;
+      background: linear-gradient(to bottom, #ff9800, #ff1744, transparent);
+      border-radius: 50%;
+      filter: blur(4px);
+      margin-top: -10px;
+      animation: fireFlicker 0.1s infinite alternate;
+    }
+
+    @keyframes rocketFlyUp {
+      0% {
+        bottom: -150px;
+        transform: translateX(-50%) scale(0.8);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.2);
+      }
+      100% {
+        bottom: 120vh;
+        transform: translateX(-50%) scale(1);
+      }
+    }
+
+    @keyframes fireFlicker {
+      0% { height: 35px; opacity: 0.8; }
+      100% { height: 50px; opacity: 1; }
+    }
+
+    /* Konten Halaman */
+    .intro-content {
+      text-align: center;
+      z-index: 1;
+    }
+
+    .intro-content h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #00d4ff, #7b61ff, #c86bff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .intro-content p {
+      color: #8ea2bd;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- KONTEN DI BALIK PINTU -->
+  <div class="intro-content">
+    <h1>Partnership Global Media</h1>
+    <p>Menuju Era Teknologi Digital Masa Depan...</p>
+  </div>
+
+  <!-- SPLASH SCREEN ANIMASI PINTU & ROKET -->
+  <div id="splash-screen">
+    <!-- Roket di belakang pintu yang akan meluncur saat pintu terbuka -->
+    <div class="rocket-container" id="rocketContainer">
+      <div class="rocket">🚀</div>
+      <div class="rocket-fire"></div>
+    </div>
+
+    <div class="door-container">
+      <div class="door door-left"><div class="door-panel"></div></div>
+      <div class="door door-right"><div class="door-panel"></div></div>
+
+      <div class="lock-wrapper" id="lockWrapper">
+        <div class="padlock" id="padlock">
+          <div class="shackle"></div>
+          <div class="lock-body"><div class="keyhole"></div></div>
+        </div>
+        <span class="lock-text" id="lockText">WELCOME</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const splash = document.getElementById("splash-screen");
+      const padlock = document.getElementById("padlock");
+      const lockText = document.getElementById("lockText");
+      const rocket = document.getElementById("rocketContainer");
+
+      // 1. Gembok terbuka setelah 0.8 detik
+      setTimeout(() => {
+        padlock.classList.add("unlocked");
+        lockText.innerText = "LETS GO";
+        lockText.style.color = "#27e889";
+      }, 800);
+
+      // 2. Pintu terbuka ke kiri & kanan setelah 1.4 detik
+      setTimeout(() => {
+        splash.classList.add("open");
+      }, 1400);
+
+      // 3. Roket melesat ke atas bersamaan dengan terbukanya pintu (1.5 detik)
+      setTimeout(() => {
+        rocket.classList.add("fly");
+      }, 1500);
+
+      // 4. Otomatis masuk ke index.html setelah roket terbang penuh (3.2 detik)
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 3200);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masuk / Daftar Akun - SMM Panel</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .auth-box { background: #fff; padding: 25px; border-radius: 8px; width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h3 { text-align: center; color: #333; font-size: 16px; margin-bottom: 15px; }
+    input { width: 100%; padding: 9px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 13px; }
+    button { width: 100%; padding: 9px; background: #007bff; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; }
+    button:hover { background: #0056b3; }
+    .toggle-link { text-align: center; margin-top: 12px; font-size: 12px; color: #007bff; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<div class="auth-box">
+  <!-- Form Login -->
+  <form id="login-form" onsubmit="handleLogin(event)">
+    <h3>Masuk Akun</h3>
+    <input type="email" id="login-email" placeholder="Email" required>
+    <input type="password" id="login-password" placeholder="Password" required>
+    <button type="submit">Masuk</button>
+    <p class="toggle-link" onclick="toggleForm('register')">Belum punya akun? Daftar</p>
+  </form>
+
+  <!-- Form Daftar (Tersembunyi Awalnya) -->
+  <form id="register-form" style="display:none;" onsubmit="handleRegister(event)">
+    <h3>Daftar Akun Baru</h3>
+    <input type="text" id="reg-name" placeholder="Nama Lengkap" required>
+    <input type="email" id="reg-email" placeholder="Email" required>
+    <input type="tel" id="reg-phone" placeholder="Nomor Telepon" required>
+    <input type="password" id="reg-password" placeholder="Password" required>
+    <input type="password" id="reg-confirm" placeholder="Konfirmasi Password" required>
+    <button type="submit">Daftar</button>
+    <p class="toggle-link" onclick="toggleForm('login')">Sudah punya akun? Masuk</p>
+  </form>
+</div>
+
+<!-- ==================== SCRIPT FIREBASE & LOGIKA AUTH ==================== -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 1. Ganti konfigurasi di bawah ini dengan konfigurasi asli dari Firebase Console Anda (Langkah 2)
+  const firebaseConfig = {
+  apiKey: "AIzaSyAkt9-rMF_yiXC6M_K2wuExsIhDFFGcKQ8",
+  authDomain: "website-smm-6b9be.firebaseapp.com",
+  projectId: "website-smm-6b9be",
+  storageBucket: "website-smm-6b9be.firebasestorage.app",
+  messagingSenderId: "739072727667",
+  appId: "1:739072727667:web:c860fc79ddc338b8fd6806",
+  measurementId: "G-MB6NT6HQ6J"
+};
+
+  // Inisialisasi Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Fungsi untuk beralih tampilan form Login <-> Daftar
+  window.toggleForm = function(type) {
+    if (type === 'register') {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+    } else {
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+    }
+  }
+
+  // 2. Fungsi Pendaftaran (Menyimpan data ke Firestore)
+  window.handleRegister = async function(event) {
+    event.preventDefault();
+    const name = document.getElementById('reg-name').value;
+    const email = document.getElementById('reg-email').value;
+    const phone = document.getElementById('reg-phone').value;
+    const password = document.getElementById('reg-password').value;
+    const confirm = document.getElementById('reg-confirm').value;
+
+    if (password !== confirm) {
+      alert('Konfirmasi password tidak sama!');
+      return;
+    }
+
+    try {
+      // Cek apakah email sudah terdaftar sebelumnya di database
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        alert('Email ini sudah terdaftar! Gunakan email lain.');
+        return;
+      }
+
+      // Simpan user baru ke koleksi "users" di Firebase
+      await addDoc(collection(db, "users"), {
+        name: name,
+        email: email,
+        phone: phone,
+        password: password, // Catatan: Untuk produksi nyata, password harus di-hash, tapi untuk uji coba ini sudah aman.
+        balance: 0,
+        isBlocked: false,
+        createdAt: new Date()
+      });
+
+      alert('Pendaftaran berhasil! Silakan masuk.');
+      toggleForm('login');
+    } catch (error) {
+      console.error("Error pendaftaran: ", error);
+      alert('Terjadi kesalahan saat mendaftar.');
+    }
+  }
+
+  // 3. Fungsi Login (Mengecek data dari Firestore)
+  window.handleLogin = async function(event) {
+    event.preventDefault();
+    const inputEmail = document.getElementById('login-email').value;
+    const inputPass = document.getElementById('login-password').value;
+
+    try {
+      // Cari user berdasarkan email di database Firestore
+      const q = query(collection(db, "users"), where("email", "==", inputEmail));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        alert('Email tidak ditemukan atau belum terdaftar!');
+        return;
+      }
+
+      let userData = null;
+      querySnapshot.forEach((doc) => {
+        userData = doc.data();
+      });
+
+      // Cek apakah user diblokir oleh admin
+      if (userData.isBlocked) {
+        alert('Akun Anda telah diblokir oleh admin.');
+        return;
+      }
+
+      // Cek kecocokan password
+      if (inputPass === userData.password) {
+        alert('Login sukses!');
+        
+        // Simpan sesi aktif ke sessionStorage browser agar halaman lain tahu user ini sedang login
+        sessionStorage.setItem('activeUserSession', JSON.stringify(userData));
+
+        // Pindahkan ke halaman dashboard / beranda
+        window.location.href = 'dashboard.html'; 
+      } else {
+        alert('Password salah!');
+      }
+
+    } catch (error) {
+      console.error("Error login: ", error);
+      alert('Terjadi kesalahan saat proses login.');
+    }
+  }
+</script>
+
+</body>
+</html>
