@@ -1,236 +1,477 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Masuk / Daftar Akun - MultiBooster</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f9;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #07111f,
+          #101d35
+        );
+
+      color: #fff;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
+
       min-height: 100vh;
+
       margin: 0;
+
       padding: 15px;
+
     }
+
 
     .auth-box {
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
+
       width: 100%;
-      max-width: 360px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+
+      max-width: 380px;
+
+      background: #0d1d30;
+
+      border: 1px solid
+        rgba(255,255,255,0.08);
+
+      border-radius: 18px;
+
+      padding: 25px;
+
+      box-shadow:
+        0 20px 50px
+        rgba(0,0,0,0.5);
+
     }
+
+
+    .logo {
+
+      text-align: center;
+
+      font-size: 24px;
+
+      font-weight: bold;
+
+      margin-bottom: 5px;
+
+      color: #00d4ff;
+
+    }
+
+
+    .subtitle {
+
+      text-align: center;
+
+      color: #8ea2bd;
+
+      font-size: 12px;
+
+      margin-bottom: 25px;
+
+    }
+
 
     h3 {
+
       text-align: center;
-      color: #333;
+
       font-size: 18px;
-      margin: 0 0 18px;
+
+      margin-bottom: 18px;
+
     }
+
+
+    .form-group {
+
+      margin-bottom: 13px;
+
+    }
+
+
+    label {
+
+      display: block;
+
+      color: #8ea2bd;
+
+      font-size: 12px;
+
+      margin-bottom: 6px;
+
+    }
+
 
     input {
+
       width: 100%;
+
       padding: 12px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
+
+      background: #050d18;
+
+      border: 1px solid
+        rgba(255,255,255,0.1);
+
+      border-radius: 8px;
+
+      color: #fff;
+
       outline: none;
+
+      font-size: 14px;
+
     }
+
 
     input:focus {
-      border-color: #007bff;
+
+      border-color: #00d4ff;
+
     }
+
 
     button {
+
       width: 100%;
+
       padding: 12px;
-      background: #007bff;
-      color: white;
+
       border: none;
-      border-radius: 6px;
+
+      border-radius: 8px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #00bfe9,
+          #6857ff
+        );
+
+      color: #fff;
+
       font-weight: bold;
+
       cursor: pointer;
+
       font-size: 14px;
-      margin-top: 4px;
+
+      margin-top: 5px;
+
     }
 
-    button:hover {
-      background: #0056b3;
+
+    button:disabled {
+
+      opacity: 0.6;
+
+      cursor: not-allowed;
+
     }
 
-    .google-btn {
-      background: #fff;
-      color: #333;
-      border: 1px solid #ccc;
-      margin-top: 10px;
-    }
-
-    .google-btn:hover {
-      background: #f5f5f5;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 15px 0;
-      color: #999;
-      font-size: 12px;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: #ddd;
-    }
 
     .toggle-link {
+
       text-align: center;
+
       margin-top: 15px;
-      font-size: 13px;
-      color: #007bff;
+
+      font-size: 12px;
+
+      color: #00d4ff;
+
       cursor: pointer;
+
     }
 
-    .status {
+
+    .message {
+
+      display: none;
+
+      padding: 10px;
+
+      border-radius: 8px;
+
+      margin-bottom: 15px;
+
+      font-size: 12px;
+
       text-align: center;
-      font-size: 13px;
-      margin-bottom: 12px;
-      color: #555;
-      min-height: 18px;
+
     }
 
-    .hidden {
-      display: none !important;
+
+    .message.error {
+
+      display: block;
+
+      background: rgba(255,82,82,0.12);
+
+      color: #ff7777;
+
+      border: 1px solid
+        rgba(255,82,82,0.25);
+
     }
+
+
+    .message.success {
+
+      display: block;
+
+      background: rgba(39,232,137,0.12);
+
+      color: #27e889;
+
+      border: 1px solid
+        rgba(39,232,137,0.25);
+
+    }
+
+
+    .password-info {
+
+      color: #687d98;
+
+      font-size: 10px;
+
+      margin-top: 5px;
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="auth-box">
 
-  <div id="status" class="status"></div>
+  <div class="logo">
+    MULTIBOOSTER
+  </div>
 
-  <!-- LOGIN -->
-  <form id="login-form">
-    <h3>Masuk Akun</h3>
+  <div class="subtitle">
+    Partnership Global Media
+  </div>
 
-    <input
-      type="email"
-      id="login-email"
-      placeholder="Email"
-      autocomplete="email"
-      required
+
+  <!-- PESAN -->
+
+  <div
+    id="message"
+    class="message"
+  ></div>
+
+
+  <!-- ==================================
+       LOGIN
+  =================================== -->
+
+  <form
+    id="login-form"
+  >
+
+    <h3>
+      Masuk Akun
+    </h3>
+
+
+    <div class="form-group">
+
+      <label>
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="login-email"
+        placeholder="Masukkan email"
+        autocomplete="email"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="login-password"
+        placeholder="Masukkan password"
+        autocomplete="current-password"
+        required
+      >
+
+    </div>
+
+
+    <button
+      type="submit"
+      id="login-button"
     >
-
-    <input
-      type="password"
-      id="login-password"
-      placeholder="Password"
-      autocomplete="current-password"
-      required
-    >
-
-    <button type="submit">
       Masuk
     </button>
 
-    <div class="divider">ATAU</div>
-
-    <button
-      type="button"
-      class="google-btn"
-      id="google-login"
-    >
-      🔵 Masuk dengan Google
-    </button>
 
     <p
       class="toggle-link"
-      id="show-register"
+      onclick="showRegister()"
     >
       Belum punya akun? Daftar
     </p>
+
   </form>
 
 
-  <!-- REGISTER -->
-  <form id="register-form" class="hidden">
+  <!-- ==================================
+       REGISTER
+  =================================== -->
 
-    <h3>Daftar Akun Baru</h3>
+  <form
+    id="register-form"
+    style="display:none;"
+  >
 
-    <input
-      type="text"
-      id="reg-name"
-      placeholder="Nama Lengkap"
-      autocomplete="name"
-      required
+    <h3>
+      Daftar Akun Baru
+    </h3>
+
+
+    <div class="form-group">
+
+      <label>
+        Nama Lengkap
+      </label>
+
+      <input
+        type="text"
+        id="reg-name"
+        placeholder="Nama lengkap"
+        autocomplete="name"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Nomor Telepon
+      </label>
+
+      <input
+        type="tel"
+        id="reg-phone"
+        placeholder="08xxxxxxxxxx"
+        autocomplete="tel"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="reg-email"
+        placeholder="Masukkan email"
+        autocomplete="email"
+        required
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="reg-password"
+        placeholder="Minimal 6 karakter"
+        autocomplete="new-password"
+        minlength="6"
+        required
+      >
+
+      <div class="password-info">
+        Password minimal 6 karakter.
+      </div>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Konfirmasi Password
+      </label>
+
+      <input
+        type="password"
+        id="reg-confirm"
+        placeholder="Ulangi password"
+        autocomplete="new-password"
+        minlength="6"
+        required
+      >
+
+    </div>
+
+
+    <button
+      type="submit"
+      id="register-button"
     >
-
-    <input
-      type="email"
-      id="reg-email"
-      placeholder="Email"
-      autocomplete="email"
-      required
-    >
-
-    <input
-      type="tel"
-      id="reg-phone"
-      placeholder="Nomor Telepon"
-      autocomplete="tel"
-      required
-    >
-
-    <input
-      type="password"
-      id="reg-password"
-      placeholder="Password minimal 6 karakter"
-      autocomplete="new-password"
-      minlength="6"
-      required
-    >
-
-    <input
-      type="password"
-      id="reg-confirm"
-      placeholder="Konfirmasi Password"
-      autocomplete="new-password"
-      minlength="6"
-      required
-    >
-
-    <button type="submit">
       Daftar
     </button>
 
-    <div class="divider">ATAU</div>
-
-    <button
-      type="button"
-      class="google-btn"
-      id="google-register"
-    >
-      🔵 Daftar dengan Google
-    </button>
 
     <p
       class="toggle-link"
-      id="show-login"
+      onclick="showLogin()"
     >
       Sudah punya akun? Masuk
     </p>
@@ -240,458 +481,676 @@
 </div>
 
 
+<!-- ==========================================
+     FIREBASE
+=========================================== -->
+
 <script type="module">
 
-  /* =====================================================
-     FIREBASE
-  ===================================================== */
-
-  import { initializeApp }
-    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
   import {
+    initializeApp
+  } from
+  "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+
+  import {
+
     getAuth,
+
     createUserWithEmailAndPassword,
+
     signInWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged,
-    updateProfile
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    onAuthStateChanged
+
+  } from
+  "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 
   import {
+
     getFirestore,
+
     doc,
+
     setDoc,
-    getDoc,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    getDoc
+
+  } from
+  "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-  /* =====================================================
-     FIREBASE CONFIG PROJECT MULTIBOOSTER
-  ===================================================== */
+  /* ==========================================
+     FIREBASE CONFIG
+     PROJECT: multibooster-media
+  ========================================== */
+
 
   const firebaseConfig = {
-    apiKey: "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
-    authDomain: "multibooster-media.firebaseapp.com",
-    projectId: "multibooster-media",
-    storageBucket: "multibooster-media.firebasestorage.app",
-    messagingSenderId: "455058483621",
-    appId: "1:455058483621:web:7a969f17fdae000588204c",
-    measurementId: "G-Z9S252K9C5"
+
+    apiKey:
+      "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
+
+    authDomain:
+      "multibooster-media.firebaseapp.com",
+
+    projectId:
+      "multibooster-media",
+
+    storageBucket:
+      "multibooster-media.firebasestorage.app",
+
+    messagingSenderId:
+      "455058483621",
+
+    appId:
+      "1:455058483621:web:7a969f17fdae000588204c",
+
+    measurementId:
+      "G-Z9S252K9C5"
+
   };
 
 
-  const app = initializeApp(firebaseConfig);
-
-  const auth = getAuth(app);
-
-  const db = getFirestore(app);
-
-  const googleProvider = new GoogleAuthProvider();
+  /* ==========================================
+     INITIALIZE
+  ========================================== */
 
 
-  /* =====================================================
+  const app =
+    initializeApp(firebaseConfig);
+
+
+  const auth =
+    getAuth(app);
+
+
+  const db =
+    getFirestore(app);
+
+
+  /* ==========================================
      ELEMENT
-  ===================================================== */
-
-  const loginForm = document.getElementById("login-form");
-  const registerForm = document.getElementById("register-form");
-
-  const statusBox = document.getElementById("status");
+  ========================================== */
 
 
-  /* =====================================================
-     STATUS
-  ===================================================== */
-
-  function status(message) {
-    statusBox.textContent = message;
-  }
+  const loginForm =
+    document.getElementById(
+      "login-form"
+    );
 
 
-  /* =====================================================
-     TOGGLE FORM
-  ===================================================== */
-
-  document.getElementById("show-register").onclick = () => {
-
-    loginForm.classList.add("hidden");
-    registerForm.classList.remove("hidden");
-
-    status("");
-
-  };
+  const registerForm =
+    document.getElementById(
+      "register-form"
+    );
 
 
-  document.getElementById("show-login").onclick = () => {
-
-    registerForm.classList.add("hidden");
-    loginForm.classList.remove("hidden");
-
-    status("");
-
-  };
+  const message =
+    document.getElementById(
+      "message"
+    );
 
 
-  /* =====================================================
-     CEK USER
-  ===================================================== */
+  /* ==========================================
+     PESAN
+  ========================================== */
 
-  async function checkUserBlocked(uid) {
 
-    const userRef = doc(db, "users", uid);
+  function showMessage(
+    text,
+    type = "error"
+  ) {
 
-    const userSnap = await getDoc(userRef);
+    message.textContent =
+      text;
 
-    if (!userSnap.exists()) {
-      return false;
-    }
-
-    const data = userSnap.data();
-
-    return data.isBlocked === true;
+    message.className =
+      "message " + type;
 
   }
 
 
-  /* =====================================================
-     SIMPAN DATA USER
-  ===================================================== */
+  function clearMessage() {
 
-  async function saveUserData(user, extraData = {}) {
+    message.textContent =
+      "";
 
-    const userRef = doc(db, "users", user.uid);
-
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-
-      await setDoc(userRef, {
-
-        uid: user.uid,
-
-        name:
-          extraData.name ||
-          user.displayName ||
-          "",
-
-        email:
-          user.email ||
-          "",
-
-        phone:
-          extraData.phone ||
-          user.phoneNumber ||
-          "",
-
-        photoURL:
-          user.photoURL ||
-          "",
-
-        balance: 0,
-
-        isBlocked: false,
-
-        provider:
-          user.providerData?.[0]?.providerId ||
-          "password",
-
-        createdAt: serverTimestamp()
-
-      });
-
-    }
+    message.className =
+      "message";
 
   }
 
 
-  /* =====================================================
-     REGISTER EMAIL
-  ===================================================== */
-
-  registerForm.addEventListener("submit", async (event) => {
-
-    event.preventDefault();
-
-    const name =
-      document.getElementById("reg-name").value.trim();
-
-    const email =
-      document.getElementById("reg-email").value.trim();
-
-    const phone =
-      document.getElementById("reg-phone").value.trim();
-
-    const password =
-      document.getElementById("reg-password").value;
-
-    const confirm =
-      document.getElementById("reg-confirm").value;
+  /* ==========================================
+     GANTI FORM
+  ========================================== */
 
 
-    if (password !== confirm) {
+  window.showRegister =
+    function() {
 
-      status("Password dan konfirmasi tidak sama.");
+      clearMessage();
 
-      return;
+      loginForm.style.display =
+        "none";
 
-    }
+      registerForm.style.display =
+        "block";
 
-
-    if (password.length < 6) {
-
-      status("Password minimal 6 karakter.");
-
-      return;
-
-    }
+    };
 
 
-    try {
+  window.showLogin =
+    function() {
 
-      status("Mendaftarkan akun...");
+      clearMessage();
+
+      registerForm.style.display =
+        "none";
+
+      loginForm.style.display =
+        "block";
+
+    };
 
 
-      const credential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
+  /* ==========================================
+     REGISTER
+  ========================================== */
+
+
+  registerForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+      clearMessage();
+
+
+      const name =
+        document.getElementById(
+          "reg-name"
+        ).value.trim();
+
+
+      const phone =
+        document.getElementById(
+          "reg-phone"
+        ).value.trim();
+
+
+      const email =
+        document.getElementById(
+          "reg-email"
+        ).value.trim();
+
+
+      const password =
+        document.getElementById(
+          "reg-password"
+        ).value;
+
+
+      const confirm =
+        document.getElementById(
+          "reg-confirm"
+        ).value;
+
+
+      if (password !== confirm) {
+
+        showMessage(
+          "Konfirmasi password tidak sama."
         );
-
-
-      const user = credential.user;
-
-
-      await updateProfile(user, {
-        displayName: name
-      });
-
-
-      await saveUserData(user, {
-        name: name,
-        phone: phone
-      });
-
-
-      status("Pendaftaran berhasil.");
-
-      window.location.href = "dashboard.html";
-
-
-    } catch (error) {
-
-      console.error(error);
-
-      if (error.code === "auth/email-already-in-use") {
-
-        status("Email sudah terdaftar.");
-
-      } else if (error.code === "auth/invalid-email") {
-
-        status("Format email tidak valid.");
-
-      } else if (error.code === "auth/weak-password") {
-
-        status("Password terlalu lemah.");
-
-      } else {
-
-        status("Pendaftaran gagal: " + error.message);
-
-      }
-
-    }
-
-  });
-
-
-  /* =====================================================
-     LOGIN EMAIL
-  ===================================================== */
-
-  loginForm.addEventListener("submit", async (event) => {
-
-    event.preventDefault();
-
-
-    const email =
-      document.getElementById("login-email").value.trim();
-
-    const password =
-      document.getElementById("login-password").value;
-
-
-    try {
-
-      status("Memeriksa akun...");
-
-
-      const credential =
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-
-      const user = credential.user;
-
-
-      const blocked =
-        await checkUserBlocked(user.uid);
-
-
-      if (blocked) {
-
-        await auth.signOut();
-
-        status("Akun Anda telah diblokir oleh admin.");
 
         return;
 
       }
 
 
-      status("Login berhasil.");
+      if (password.length < 6) {
 
-      window.location.href = "dashboard.html";
-
-
-    } catch (error) {
-
-      console.error(error);
-
-
-      if (
-        error.code === "auth/invalid-credential" ||
-        error.code === "auth/wrong-password" ||
-        error.code === "auth/user-not-found"
-      ) {
-
-        status("Email atau password salah.");
-
-      } else {
-
-        status("Login gagal: " + error.message);
-
-      }
-
-    }
-
-  });
-
-
-  /* =====================================================
-     LOGIN GOOGLE
-  ===================================================== */
-
-  async function googleLogin() {
-
-    try {
-
-      status("Membuka Google...");
-
-
-      const result =
-        await signInWithPopup(
-          auth,
-          googleProvider
+        showMessage(
+          "Password minimal 6 karakter."
         );
-
-
-      const user = result.user;
-
-
-      const blocked =
-        await checkUserBlocked(user.uid);
-
-
-      if (blocked) {
-
-        await auth.signOut();
-
-        status("Akun Anda telah diblokir admin.");
 
         return;
 
       }
 
 
-      await saveUserData(user);
+      const button =
+        document.getElementById(
+          "register-button"
+        );
 
 
-      status("Login Google berhasil.");
+      button.disabled =
+        true;
 
-      window.location.href = "dashboard.html";
-
-
-    } catch (error) {
-
-      console.error(error);
+      button.textContent =
+        "Mendaftarkan...";
 
 
-      if (error.code === "auth/popup-closed-by-user") {
+      try {
 
-        status("Login Google dibatalkan.");
 
-      } else {
+        /* ==============================
+           BUAT AKUN FIREBASE AUTH
+        ============================== */
 
-        status("Login Google gagal: " + error.message);
+
+        const credential =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        const user =
+          credential.user;
+
+
+        /* ==============================
+           BUAT DATA USER DI FIRESTORE
+
+           Password TIDAK disimpan.
+        ============================== */
+
+
+        await setDoc(
+
+          doc(
+            db,
+            "users",
+            user.uid
+          ),
+
+          {
+
+            uid:
+              user.uid,
+
+            name:
+              name,
+
+            email:
+              email,
+
+            phone:
+              phone,
+
+            balance:
+              0,
+
+            isBlocked:
+              false,
+
+            photoURL:
+              "",
+
+            createdAt:
+              new Date()
+
+          }
+
+        );
+
+
+        showMessage(
+          "Pendaftaran berhasil! Mengarahkan ke dashboard...",
+          "success"
+        );
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "dashboard.html";
+
+          },
+          1000
+        );
+
+
+      } catch (error) {
+
+
+        console.error(
+          "REGISTER ERROR:",
+          error
+        );
+
+
+        let text =
+          "Pendaftaran gagal.";
+
+
+        if (
+          error.code ===
+          "auth/email-already-in-use"
+        ) {
+
+          text =
+            "Email tersebut sudah terdaftar.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/invalid-email"
+        ) {
+
+          text =
+            "Format email tidak valid.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/weak-password"
+        ) {
+
+          text =
+            "Password terlalu lemah.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/configuration-not-found"
+        ) {
+
+          text =
+            "Firebase Authentication belum dikonfigurasi.";
+
+        }
+
+
+        else {
+
+          text +=
+            " " +
+            error.message;
+
+        }
+
+
+        showMessage(
+          text
+        );
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Daftar";
 
       }
 
     }
-
-  }
-
-
-  document
-    .getElementById("google-login")
-    .addEventListener("click", googleLogin);
+  );
 
 
-  document
-    .getElementById("google-register")
-    .addEventListener("click", googleLogin);
+  /* ==========================================
+     LOGIN
+  ========================================== */
 
 
-  /* =====================================================
-     CEK SESSION FIREBASE
-  ===================================================== */
+  loginForm.addEventListener(
+    "submit",
+    async function(event) {
 
-  onAuthStateChanged(auth, async (user) => {
+      event.preventDefault();
 
-    if (!user) {
-
-      return;
-
-    }
+      clearMessage();
 
 
-    try {
+      const email =
+        document.getElementById(
+          "login-email"
+        ).value.trim();
 
-      const blocked =
-        await checkUserBlocked(user.uid);
+
+      const password =
+        document.getElementById(
+          "login-password"
+        ).value;
 
 
-      if (blocked) {
+      const button =
+        document.getElementById(
+          "login-button"
+        );
 
-        await auth.signOut();
 
-        status("Akun Anda telah diblokir admin.");
+      button.disabled =
+        true;
+
+      button.textContent =
+        "Memeriksa...";
+
+
+      try {
+
+
+        /* ==============================
+           LOGIN FIREBASE AUTH
+        ============================== */
+
+
+        const credential =
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        const user =
+          credential.user;
+
+
+        /* ==============================
+           CEK DATA FIRESTORE
+        ============================== */
+
+
+        const userRef =
+          doc(
+            db,
+            "users",
+            user.uid
+          );
+
+
+        const userSnap =
+          await getDoc(
+            userRef
+          );
+
+
+        if (
+          userSnap.exists()
+        ) {
+
+          const userData =
+            userSnap.data();
+
+
+          /* CEK BLOKIR */
+
+          if (
+            userData.isBlocked === true
+          ) {
+
+            showMessage(
+              "Akun Anda telah diblokir oleh admin."
+            );
+
+
+            await auth.signOut();
+
+            button.disabled =
+              false;
+
+            button.textContent =
+              "Masuk";
+
+            return;
+
+          }
+
+        }
+
+
+        showMessage(
+          "Login berhasil! Mengarahkan...",
+          "success"
+        );
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "dashboard.html";
+
+          },
+          500
+        );
+
+
+      } catch (error) {
+
+
+        console.error(
+          "LOGIN ERROR:",
+          error
+        );
+
+
+        let text =
+          "Login gagal.";
+
+
+        if (
+          error.code ===
+          "auth/invalid-credential"
+        ) {
+
+          text =
+            "Email atau password salah.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/user-not-found"
+        ) {
+
+          text =
+            "Akun dengan email tersebut tidak ditemukan.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/wrong-password"
+        ) {
+
+          text =
+            "Password salah.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/too-many-requests"
+        ) {
+
+          text =
+            "Terlalu banyak percobaan. Coba lagi nanti.";
+
+        }
+
+
+        else if (
+          error.code ===
+          "auth/configuration-not-found"
+        ) {
+
+          text =
+            "Firebase Authentication belum dikonfigurasi.";
+
+        }
+
+
+        else {
+
+          text +=
+            " " +
+            error.message;
+
+        }
+
+
+        showMessage(
+          text
+        );
+
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "Masuk";
 
       }
 
-    } catch (error) {
+    }
+  );
 
-      console.error(error);
+
+  /* ==========================================
+     CEK STATUS AUTH
+  ========================================== */
+
+
+  onAuthStateChanged(
+    auth,
+    (user) => {
+
+      /*
+       * Jika user sudah login dan membuka
+       * auth.html lagi, langsung ke dashboard.
+       */
+
+      if (user) {
+
+        console.log(
+          "User sudah login:",
+          user.email
+        );
+
+      }
 
     }
+  );
 
-  });
 
 </script>
 
