@@ -1,891 +1,798 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Masuk / Daftar - MultiBooster Media</title>
+<title>Login - MultiBooster Media</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #fff;
-      background:
-        radial-gradient(circle at top left, rgba(0,212,255,.18), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(104,87,255,.20), transparent 35%),
-        #050b14;
-    }
+body{
+    min-height:100vh;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at top left,#263b70 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#531b5d 0%,transparent 35%),
+        linear-gradient(135deg,#070b18,#11182c,#080b16);
+    color:white;
+}
 
-    .auth-box {
-      width: 100%;
-      max-width: 390px;
-      padding: 28px;
-      border-radius: 22px;
-      background: rgba(13,29,48,.94);
-      border: 1px solid rgba(255,255,255,.09);
-      box-shadow: 0 25px 70px rgba(0,0,0,.55);
-      backdrop-filter: blur(12px);
-    }
+.login-box{
+    width:100%;
+    max-width:420px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(20,27,48,.88);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 25px 70px rgba(0,0,0,.5);
+    backdrop-filter:blur(15px);
+}
 
-    .logo {
-      width: 70px;
-      height: 70px;
-      margin: 0 auto 15px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-      font-weight: 900;
-      background: linear-gradient(135deg,#00d4ff,#6857ff);
-      box-shadow: 0 12px 35px rgba(0,212,255,.25);
-    }
+.logo{
+    width:75px;
+    height:75px;
+    margin:0 auto 15px;
+    border-radius:22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#6d5dfc,#b44cff);
+    box-shadow:0 10px 35px rgba(120,70,255,.45);
+}
 
-    h2 {
-      text-align: center;
-      margin: 0;
-      font-size: 21px;
-    }
+h1{
+    text-align:center;
+    font-size:25px;
+    margin-bottom:7px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #8ea2bd;
-      font-size: 12px;
-      margin: 8px 0 25px;
-    }
+.subtitle{
+    text-align:center;
+    color:#aab3c8;
+    font-size:14px;
+    margin-bottom:25px;
+}
 
-    .form-title {
-      font-size: 17px;
-      margin-bottom: 16px;
-      text-align: center;
-    }
+.form-group{
+    margin-bottom:16px;
+}
 
-    .input-group {
-      margin-bottom: 13px;
-    }
+label{
+    display:block;
+    font-size:13px;
+    color:#cbd2e5;
+    margin-bottom:7px;
+}
 
-    label {
-      display: block;
-      font-size: 11px;
-      color: #8ea2bd;
-      margin-bottom: 6px;
-    }
+input{
+    width:100%;
+    padding:14px 15px;
+    border-radius:13px;
+    border:1px solid #303b59;
+    background:#0d1324;
+    color:white;
+    outline:none;
+    font-size:15px;
+}
 
-    input {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.09);
-      outline: none;
-      background: #050d18;
-      color: #fff;
-      font-size: 14px;
-    }
+input:focus{
+    border-color:#805cff;
+    box-shadow:0 0 0 3px rgba(128,92,255,.12);
+}
 
-    input:focus {
-      border-color: #00d4ff;
-      box-shadow: 0 0 0 3px rgba(0,212,255,.08);
-    }
+button{
+    width:100%;
+    border:0;
+    padding:15px;
+    border-radius:14px;
+    font-size:15px;
+    font-weight:bold;
+    color:white;
+    cursor:pointer;
+    background:linear-gradient(135deg,#6855ff,#b14cff);
+    box-shadow:0 10px 30px rgba(108,80,255,.3);
+}
 
-    .btn {
-      width: 100%;
-      padding: 13px;
-      border: 0;
-      border-radius: 10px;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-      font-size: 14px;
-      background: linear-gradient(135deg,#00bfe9,#6857ff);
-      margin-top: 5px;
-    }
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
 
-    .btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-    }
+.message{
+    display:none;
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:12px;
+    font-size:13px;
+    text-align:center;
+}
 
-    .switch {
-      text-align: center;
-      margin-top: 18px;
-      color: #8ea2bd;
-      font-size: 12px;
-    }
+.error{
+    background:rgba(255,60,80,.12);
+    border:1px solid rgba(255,60,80,.25);
+    color:#ff9ba6;
+}
 
-    .switch span {
-      color: #00d4ff;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.success{
+    background:rgba(50,220,130,.12);
+    border:1px solid rgba(50,220,130,.25);
+    color:#79efad;
+}
 
-    .hidden {
-      display: none !important;
-    }
+.switch{
+    text-align:center;
+    margin-top:20px;
+    font-size:13px;
+    color:#aab3c8;
+}
 
-    .loading {
-      display: none;
-      text-align: center;
-      margin-top: 12px;
-      color: #00d4ff;
-      font-size: 12px;
-    }
+.switch span{
+    color:#a88cff;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-    .loading.show {
-      display: block;
-    }
+.loading{
+    text-align:center;
+    display:none;
+    margin-top:15px;
+    color:#b9c2d8;
+    font-size:13px;
+}
 
-    .info {
-      margin-top: 18px;
-      padding: 10px;
-      border-radius: 9px;
-      background: rgba(0,212,255,.05);
-      border: 1px solid rgba(0,212,255,.10);
-      color: #8ea2bd;
-      font-size: 10px;
-      line-height: 1.5;
-      text-align: center;
-    }
-  </style>
-
+.register-fields{
+    display:none;
+}
+</style>
 </head>
 
 <body>
 
-<div class="auth-box">
+<div class="login-box">
 
-  <div class="logo">MB</div>
+    <div class="logo">MB</div>
 
-  <h2>MultiBooster Media</h2>
+    <h1 id="title">Login</h1>
+    <div class="subtitle">
+        MultiBooster Media
+    </div>
 
-  <div class="subtitle">
-    Panel digital marketing & social media
-  </div>
+    <div id="message" class="message"></div>
 
-  <!-- ================= LOGIN ================= -->
+    <form id="authForm">
 
-  <form id="login-form">
+        <div class="register-fields" id="registerFields">
 
+            <div class="form-group">
+                <label>Nama</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Nama lengkap"
+                >
+            </div>
 
-<div class="form-title">
-  Masuk ke Akun
-</div>
+            <div class="form-group">
+                <label>Nomor WhatsApp</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="08xxxxxxxxxx"
+                >
+            </div>
 
-<div class="input-group">
-  <label>Email</label>
-  <input
-    type="email"
-    id="login-email"
-    placeholder="Masukkan email"
-    autocomplete="email"
-    required
-  >
-</div>
+        </div>
 
-<div class="input-group">
-  <label>Password</label>
-  <input
-    type="password"
-    id="login-password"
-    placeholder="Masukkan password"
-    autocomplete="current-password"
-    required
-  >
-</div>
+        <div class="form-group">
+            <label>Email</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="email@gmail.com"
+                required
+            >
+        </div>
 
-<button
-  type="submit"
-  class="btn"
-  id="login-button"
->
-  Masuk
-</button>
+        <div class="form-group">
+            <label>Password</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                required
+            >
+        </div>
 
-<div class="loading" id="login-loading">
-  Memeriksa akun...
-</div>
+        <button type="submit" id="submitBtn">
+            Login
+        </button>
 
-<div class="switch">
-  Belum punya akun?
-  <span onclick="showRegister()">Daftar sekarang</span>
-</div>
+    </form>
 
+    <div class="loading" id="loading">
+        Memproses login...
+    </div>
 
-  </form>
-
-  <!-- ================= REGISTER ================= -->
-
-  <form id="register-form" class="hidden">
-
-
-<div class="form-title">
-  Buat Akun Baru
-</div>
-
-<div class="input-group">
-  <label>Nama Lengkap</label>
-  <input
-    type="text"
-    id="reg-name"
-    placeholder="Nama lengkap"
-    required
-  >
-</div>
-
-<div class="input-group">
-  <label>Nomor Telepon</label>
-  <input
-    type="tel"
-    id="reg-phone"
-    placeholder="08xxxxxxxxxx"
-    required
-  >
-</div>
-
-<div class="input-group">
-  <label>Email</label>
-  <input
-    type="email"
-    id="reg-email"
-    placeholder="nama@email.com"
-    autocomplete="email"
-    required
-  >
-</div>
-
-<div class="input-group">
-  <label>Password</label>
-  <input
-    type="password"
-    id="reg-password"
-    placeholder="Minimal 6 karakter"
-    autocomplete="new-password"
-    minlength="6"
-    required
-  >
-</div>
-
-<div class="input-group">
-  <label>Konfirmasi Password</label>
-  <input
-    type="password"
-    id="reg-confirm"
-    placeholder="Ulangi password"
-    autocomplete="new-password"
-    minlength="6"
-    required
-  >
-</div>
-
-<button
-  type="submit"
-  class="btn"
-  id="register-button"
->
-  Daftar
-</button>
-
-<div class="loading" id="register-loading">
-  Membuat akun...
-</div>
-
-<div class="switch">
-  Sudah punya akun?
-  <span onclick="showLogin()">Masuk</span>
-</div>
-
-
-  </form>
-
-  <div class="info">
-    Akun Anda menggunakan Firebase Authentication.
-    Saldo dan data akun disimpan di Firestore.
-  </div>
+    <div class="switch">
+        <span id="switchText">Belum punya akun? Daftar</span>
+    </div>
 
 </div>
+
 
 <script type="module">
 
-  /* =====================================================
-     FIREBASE
-  ===================================================== */
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-
-  import {
+import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-  import {
+import {
     getFirestore,
     doc,
-    setDoc,
     getDoc,
+    setDoc,
     serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-  /* =====================================================
-     CONFIG PROJECT MULTIBOOSTER-MEDIA
-  ===================================================== */
+/* ==========================================
+   FIREBASE CONFIG
+========================================== */
 
-  const firebaseConfig = {
+const firebaseConfig = {
+    apiKey: "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
+    authDomain: "multibooster-media.firebaseapp.com",
+    projectId: "multibooster-media",
+    storageBucket: "multibooster-media.firebasestorage.app",
+    messagingSenderId: "455058483621",
+    appId: "1:455058483621:web:7a969f17fdae000588204c",
+    measurementId: "G-Z9S252K9C5"
+};
 
-    apiKey:
-      "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
 
-    authDomain:
-      "multibooster-media.firebaseapp.com",
+/* ==========================================
+   FIREBASE INITIALIZE
+========================================== */
 
-    projectId:
-      "multibooster-media",
+const app = initializeApp(firebaseConfig);
 
-    storageBucket:
-      "multibooster-media.firebasestorage.app",
+const auth = getAuth(app);
 
-    messagingSenderId:
-      "455058483621",
+const db = getFirestore(app);
 
-    appId:
-      "1:455058483621:web:7a969f17fdae000588204c",
 
-    measurementId:
-      "G-Z9S252K9C5"
+/* ==========================================
+   ELEMENT
+========================================== */
 
-  };
+const form = document.getElementById("authForm");
 
+const emailInput = document.getElementById("email");
 
-  /* =====================================================
-     INITIALIZE
-  ===================================================== */
+const passwordInput = document.getElementById("password");
 
-  const app = initializeApp(firebaseConfig);
+const nameInput = document.getElementById("name");
 
-  const auth = getAuth(app);
+const phoneInput = document.getElementById("phone");
 
-  const db = getFirestore(app);
+const registerFields =
+document.getElementById("registerFields");
 
+const submitBtn =
+document.getElementById("submitBtn");
 
-  /* =====================================================
-     FORM
-  ===================================================== */
+const switchText =
+document.getElementById("switchText");
 
-  const loginForm =
-    document.getElementById("login-form");
+const title =
+document.getElementById("title");
 
-  const registerForm =
-    document.getElementById("register-form");
+const message =
+document.getElementById("message");
 
+const loading =
+document.getElementById("loading");
 
-  /* =====================================================
-     SWITCH FORM
-  ===================================================== */
 
-  window.showRegister = function() {
+let registerMode = false;
 
-    loginForm.classList.add("hidden");
+let redirecting = false;
 
-    registerForm.classList.remove("hidden");
 
-  };
+/* ==========================================
+   MESSAGE
+========================================== */
 
+function showMessage(text,type="error"){
 
-  window.showLogin = function() {
+    message.textContent = text;
 
-    registerForm.classList.add("hidden");
+    message.className =
+        "message " + type;
 
-    loginForm.classList.remove("hidden");
+    message.style.display = "block";
+}
 
-  };
 
+/* ==========================================
+   LOADING
+========================================== */
 
-  /* =====================================================
-     REGISTER
-  ===================================================== */
+function setLoading(status){
 
-  registerForm.addEventListener("submit", async function(event) {
+    loading.style.display =
+        status ? "block" : "none";
 
-    event.preventDefault();
+    submitBtn.disabled = status;
+}
 
 
-    const name =
-      document.getElementById("reg-name").value.trim();
+/* ==========================================
+   CHECK ADMIN
+========================================== */
 
-    const phone =
-      document.getElementById("reg-phone").value.trim();
+async function checkAdmin(user){
 
-    const email =
-      document.getElementById("reg-email").value.trim();
-
-    const password =
-      document.getElementById("reg-password").value;
-
-    const confirm =
-      document.getElementById("reg-confirm").value;
-
-
-    if (password !== confirm) {
-
-      alert("Konfirmasi password tidak sama.");
-
-      return;
-
-    }
-
-
-    if (password.length < 6) {
-
-      alert("Password minimal 6 karakter.");
-
-      return;
-
-    }
-
-
-    const button =
-      document.getElementById("register-button");
-
-    const loading =
-      document.getElementById("register-loading");
-
-
-    button.disabled = true;
-
-    loading.classList.add("show");
-
-
-    try {
-
-      /*
-       * Buat akun melalui Firebase Authentication.
-       */
-
-      const credential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-
-      const user =
-        credential.user;
-
-
-      /*
-       * Buat data user di Firestore.
-       *
-       * Document ID = UID Firebase Authentication
-       */
-
-      await setDoc(
-        doc(db, "users", user.uid),
-        {
-
-          uid: user.uid,
-
-          name: name,
-
-          phone: phone,
-
-          email: user.email,
-
-          balance: 0,
-
-          isBlocked: false,
-
-          role: "user",
-
-          createdAt: serverTimestamp()
-
-        }
-      );
-
-
-      alert(
-        "Pendaftaran berhasil. Selamat datang!"
-      );
-
-
-      /*
-       * User baru langsung diarahkan
-       * ke dashboard.
-       */
-
-      window.location.href =
-        "dashboard.html";
-
-
-    } catch (error) {
-
-      console.error(
-        "Register error:",
-        error
-      );
-
-
-      let message =
-        "Pendaftaran gagal.";
-
-
-      if (
-        error.code ===
-        "auth/email-already-in-use"
-      ) {
-
-        message =
-          "Email tersebut sudah terdaftar.";
-
-      }
-
-      else if (
-        error.code ===
-        "auth/invalid-email"
-      ) {
-
-        message =
-          "Format email tidak valid.";
-
-      }
-
-      else if (
-        error.code ===
-        "auth/weak-password"
-      ) {
-
-        message =
-          "Password terlalu lemah.";
-
-      }
-
-      else if (
-        error.code ===
-        "permission-denied"
-      ) {
-
-        message =
-          "Firebase menolak akses Firestore. Periksa Firestore Rules.";
-
-      }
-
-
-      alert(message);
-
-    }
-
-
-    button.disabled = false;
-
-    loading.classList.remove("show");
-
-  });
-
-
-  /* =====================================================
-     LOGIN
-  ===================================================== */
-
-  loginForm.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-
-    const email =
-      document.getElementById("login-email")
-        .value
-        .trim();
-
-    const password =
-      document.getElementById("login-password")
-        .value;
-
-
-    const button =
-      document.getElementById("login-button");
-
-    const loading =
-      document.getElementById("login-loading");
-
-
-    button.disabled = true;
-
-    loading.classList.add("show");
-
-
-    try {
-
-      /*
-       * Login menggunakan Firebase Authentication.
-       */
-
-      const credential =
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-
-      const user =
-        credential.user;
-
-
-      /*
-       * Setelah berhasil login,
-       * cek apakah UID terdapat
-       * di collection admins.
-       */
-
-      const adminRef =
-        doc(
-          db,
-          "admins",
-          user.uid
-        );
-
-
-      const adminSnap =
-        await getDoc(adminRef);
-
-
-      /* =================================================
-         ADMIN
-      ================================================= */
-
-      if (adminSnap.exists()) {
-
-        const adminData =
-          adminSnap.data();
-
-
-        if (
-          adminData.active === true &&
-          adminData.role === "admin"
-        ) {
-
-          alert(
-            "Login admin berhasil."
-          );
-
-
-          window.location.href =
-            "admin.html";
-
-
-          return;
-
-        }
-
-      }
-
-
-      /* =================================================
-         USER BIASA
-      ================================================= */
-
-      const userRef =
-        doc(
-          db,
-          "users",
-          user.uid
-        );
-
-
-      const userSnap =
-        await getDoc(userRef);
-
-
-      if (userSnap.exists()) {
-
-        const userData =
-          userSnap.data();
-
-
-        if (userData.isBlocked === true) {
-
-          alert(
-            "Akun Anda telah diblokir oleh admin."
-          );
-
-          return;
-
-        }
-
-      }
-
-
-      alert(
-        "Login berhasil."
-      );
-
-
-      window.location.href =
-        "dashboard.html";
-
-
-    } catch (error) {
-
-      console.error(
-        "Login error:",
-        error
-      );
-
-
-      let message =
-        "Login gagal.";
-
-
-      if (
-        error.code ===
-        "auth/invalid-credential"
-      ) {
-
-        message =
-          "Email atau password salah.";
-
-      }
-
-      else if (
-        error.code ===
-        "auth/user-not-found"
-      ) {
-
-        message =
-          "Akun tidak ditemukan.";
-
-      }
-
-      else if (
-        error.code ===
-        "auth/wrong-password"
-      ) {
-
-        message =
-          "Password salah.";
-
-      }
-
-      else if (
-        error.code ===
-        "auth/too-many-requests"
-      ) {
-
-        message =
-          "Terlalu banyak percobaan. Coba lagi nanti.";
-
-      }
-
-      else if (
-        error.code ===
-        "permission-denied"
-      ) {
-
-        message =
-          "Tidak memiliki izin membaca data admin. Periksa Firestore Rules.";
-
-      }
-
-      alert(message);
-
-    }
-
-
-    button.disabled = false;
-
-    loading.classList.remove("show");
-
-  });
-
-
-  /* =====================================================
-     CEK JIKA SUDAH LOGIN
-  ===================================================== */
-
-  onAuthStateChanged(
-    auth,
-    async function(user) {
-
-      if (!user) {
-        return;
-      }
-
-
-      /*
-       * Jangan otomatis redirect ketika halaman
-       * baru dibuka setelah user sedang login.
-       *
-       * Kita hanya menjalankan pemeriksaan jika
-       * URL memang auth.html dan user sudah login.
-       */
-
-
-      try {
+    try{
 
         const adminRef =
-          doc(
-            db,
-            "admins",
-            user.uid
-          );
-
+            doc(db,"admins",user.uid);
 
         const adminSnap =
-          await getDoc(adminRef);
+            await getDoc(adminRef);
 
+        console.log(
+            "ADMIN CHECK:",
+            user.uid,
+            adminSnap.exists(),
+            adminSnap.exists()
+                ? adminSnap.data()
+                : null
+        );
 
-        if (adminSnap.exists()) {
+        if(!adminSnap.exists()){
 
-          const data =
-            adminSnap.data();
-
-
-          if (
-            data.active === true &&
-            data.role === "admin"
-          ) {
-
-            /*
-             * Jika admin sudah login
-             * dan membuka auth.html,
-             * arahkan ke admin.
-             */
-
-            window.location.href =
-              "admin.html";
-
-            return;
-
-          }
+            return false;
 
         }
 
-      } catch (error) {
+        const data =
+            adminSnap.data();
 
-        console.error(
-          "Pemeriksaan admin gagal:",
-          error
+        return (
+            data.role === "admin" &&
+            data.active === true
         );
 
-      }
+    }catch(error){
 
+        console.error(
+            "ADMIN CHECK ERROR:",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+/* ==========================================
+   CHECK USER
+========================================== */
+
+async function checkUser(user){
+
+    try{
+
+        const userRef =
+            doc(db,"users",user.uid);
+
+        const userSnap =
+            await getDoc(userRef);
+
+        if(!userSnap.exists()){
+
+            return {
+                exists:false,
+                blocked:false
+            };
+
+        }
+
+        const data =
+            userSnap.data();
+
+        return {
+            exists:true,
+            blocked:data.isBlocked === true
+        };
+
+    }catch(error){
+
+        console.error(
+            "USER CHECK ERROR:",
+            error
+        );
+
+        return {
+            exists:false,
+            blocked:false
+        };
+    }
+}
+
+
+/* ==========================================
+   REDIRECT SESUAI ROLE
+========================================== */
+
+async function redirectByRole(user){
+
+    if(!user || redirecting){
+
+        return;
     }
 
-  );
+    redirecting = true;
+
+    setLoading(true);
+
+    console.log(
+        "LOGIN USER:",
+        user.email
+    );
+
+    console.log(
+        "UID:",
+        user.uid
+    );
+
+
+    /* ===============================
+       CEK ADMIN TERLEBIH DAHULU
+    =============================== */
+
+    const isAdmin =
+        await checkAdmin(user);
+
+
+    if(isAdmin){
+
+        console.log(
+            "ROLE: ADMIN"
+        );
+
+        window.location.replace(
+            "admin.html"
+        );
+
+        return;
+    }
+
+
+    /* ===============================
+       CEK USER
+    =============================== */
+
+    const userData =
+        await checkUser(user);
+
+
+    if(userData.blocked){
+
+        await signOut(auth);
+
+        redirecting = false;
+
+        setLoading(false);
+
+        showMessage(
+            "Akun Anda telah diblokir.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "ROLE: USER"
+    );
+
+
+    window.location.replace(
+        "dashboard.html"
+    );
+}
+
+
+/* ==========================================
+   AUTH STATE
+========================================== */
+
+onAuthStateChanged(
+    auth,
+    async (user)=>{
+
+        if(!user){
+
+            console.log(
+                "Belum login"
+            );
+
+            return;
+        }
+
+        console.log(
+            "Sudah login:",
+            user.uid
+        );
+
+        await redirectByRole(user);
+
+    }
+);
+
+
+/* ==========================================
+   LOGIN / REGISTER
+========================================== */
+
+form.addEventListener(
+    "submit",
+    async(e)=>{
+
+        e.preventDefault();
+
+        if(redirecting){
+
+            return;
+        }
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        try{
+
+            setLoading(true);
+
+            message.style.display =
+                "none";
+
+
+            /* ===============================
+               REGISTER
+            =============================== */
+
+            if(registerMode){
+
+                const name =
+                    nameInput.value.trim();
+
+                const phone =
+                    phoneInput.value.trim();
+
+
+                if(!name){
+
+                    throw new Error(
+                        "Nama wajib diisi."
+                    );
+                }
+
+
+                if(!phone){
+
+                    throw new Error(
+                        "Nomor WhatsApp wajib diisi."
+                    );
+                }
+
+
+                const credential =
+                    await createUserWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+
+
+                const user =
+                    credential.user;
+
+
+                await setDoc(
+                    doc(db,"users",user.uid),
+                    {
+                        uid:user.uid,
+                        name:name,
+                        phone:phone,
+                        email:user.email,
+                        balance:0,
+                        isBlocked:false,
+                        role:"user",
+                        createdAt:serverTimestamp()
+                    }
+                );
+
+
+                showMessage(
+                    "Pendaftaran berhasil. Mengarahkan...",
+                    "success"
+                );
+
+
+                await redirectByRole(user);
+
+                return;
+            }
+
+
+            /* ===============================
+               LOGIN
+            =============================== */
+
+            const credential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            const user =
+                credential.user;
+
+
+            /*
+              JANGAN MENUNGGU KLIK USER.
+
+              Setelah Firebase berhasil login,
+              langsung cek role dan redirect.
+            */
+
+            await redirectByRole(user);
+
+        }catch(error){
+
+            console.error(
+                "AUTH ERROR:",
+                error
+            );
+
+            redirecting = false;
+
+            setLoading(false);
+
+
+            let text =
+                "Login gagal.";
+
+            if(
+                error.code ===
+                "auth/invalid-credential"
+            ){
+
+                text =
+                    "Email atau password salah.";
+
+            }else if(
+                error.code ===
+                "auth/email-already-in-use"
+            ){
+
+                text =
+                    "Email sudah terdaftar.";
+
+            }else if(
+                error.code ===
+                "auth/weak-password"
+            ){
+
+                text =
+                    "Password minimal 6 karakter.";
+
+            }else if(
+                error.code ===
+                "auth/invalid-email"
+            ){
+
+                text =
+                    "Format email tidak valid.";
+
+            }else if(
+                error.code ===
+                "permission-denied"
+            ){
+
+                text =
+                    "Firestore Rules menolak akses admin/user.";
+
+            }else if(error.message){
+
+                text =
+                    error.message;
+            }
+
+
+            showMessage(
+                text,
+                "error"
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   SWITCH LOGIN / REGISTER
+========================================== */
+
+switchText.addEventListener(
+    "click",
+    ()=>{
+
+        registerMode =
+            !registerMode;
+
+
+        if(registerMode){
+
+            title.textContent =
+                "Daftar Akun";
+
+            registerFields.style.display =
+                "block";
+
+            submitBtn.textContent =
+                "Daftar";
+
+            switchText.textContent =
+                "Sudah punya akun? Login";
+
+        }else{
+
+            title.textContent =
+                "Login";
+
+            registerFields.style.display =
+                "none";
+
+            submitBtn.textContent =
+                "Login";
+
+            switchText.textContent =
+                "Belum punya akun? Daftar";
+        }
+
+    }
+);
 
 </script>
 
