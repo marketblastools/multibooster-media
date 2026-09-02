@@ -486,7 +486,7 @@ th{
     gap:6px;
 }
 
-/* TOPUP CARDS */
+/* TOPUP */
 
 .topup-list{
     display:grid;
@@ -927,7 +927,6 @@ th{
                         <p>Total User</p>
                         <h3 id="totalUsers">0</h3>
                     </div>
-
                     <div class="stat-icon">👥</div>
                 </div>
             </div>
@@ -938,7 +937,6 @@ th{
                         <p>Total Saldo</p>
                         <h3 id="totalBalance">Rp 0</h3>
                     </div>
-
                     <div class="stat-icon">💰</div>
                 </div>
             </div>
@@ -949,7 +947,6 @@ th{
                         <p>Top Up Pending</p>
                         <h3 id="pendingCount">0</h3>
                     </div>
-
                     <div class="stat-icon">⏳</div>
                 </div>
             </div>
@@ -960,7 +957,6 @@ th{
                         <p>User Diblokir</p>
                         <h3 id="blockedUsers">0</h3>
                     </div>
-
                     <div class="stat-icon">🚫</div>
                 </div>
             </div>
@@ -1333,26 +1329,13 @@ from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 ========================================================= */
 
 const firebaseConfig = {
-
     apiKey: "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
-
-    authDomain:
-        "multibooster-media.firebaseapp.com",
-
-    projectId:
-        "multibooster-media",
-
-    storageBucket:
-        "multibooster-media.firebasestorage.app",
-
-    messagingSenderId:
-        "455058483621",
-
-    appId:
-        "1:455058483621:web:7a969f17fdae000588204c",
-
-    measurementId:
-        "G-Z9S252K9C5"
+    authDomain: "multibooster-media.firebaseapp.com",
+    projectId: "multibooster-media",
+    storageBucket: "multibooster-media.firebasestorage.app",
+    messagingSenderId: "455058483621",
+    appId: "1:455058483621:web:7a969f17fdae000588204c",
+    measurementId: "G-Z9S252K9C5"
 };
 
 
@@ -1361,9 +1344,7 @@ const firebaseConfig = {
 ========================================================= */
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
 
@@ -1380,19 +1361,12 @@ const ADMIN_UID =
 ========================================================= */
 
 let currentAdmin = null;
-
 let usersData = [];
-
 let topupsData = [];
-
 let paymentsData = [];
-
 let selectedUser = null;
-
 let balanceMode = "add";
-
 let unsubscribeTopups = null;
-
 let unsubscribePayments = null;
 
 
@@ -1402,20 +1376,16 @@ let unsubscribePayments = null;
 
 function rupiah(value){
 
-    const number =
-        Number(value) || 0;
+    const number = Number(value) || 0;
 
     return "Rp " +
         number.toLocaleString("id-ID");
-
 }
 
 
 function escapeHtml(value){
 
-    if(value === null ||
-       value === undefined){
-
+    if(value === null || value === undefined){
         return "";
     }
 
@@ -1445,9 +1415,7 @@ function getDate(value){
 
             date = value.toDate();
 
-        }else if(
-            value instanceof Date
-        ){
+        }else if(value instanceof Date){
 
             date = value;
 
@@ -1498,9 +1466,7 @@ function toast(
     container.appendChild(div);
 
     setTimeout(()=>{
-
         div.remove();
-
     },duration);
 }
 
@@ -1509,14 +1475,22 @@ window.toast = toast;
 
 
 /* =========================================================
-   AUTH
+   AUTH STATE
 ========================================================= */
 
 onAuthStateChanged(
     auth,
     async(user)=>{
 
+        /*
+         * Jika tidak ada user yang login,
+         * jangan redirect otomatis.
+         * Tampilkan halaman akses ditolak.
+         */
+
         if(!user){
+
+            currentAdmin = null;
 
             showDenied(
                 "Anda belum login. Silakan login terlebih dahulu."
@@ -1532,7 +1506,15 @@ onAuthStateChanged(
             ).textContent =
                 "Memeriksa akun administrator...";
 
+            /*
+             * VERIFIKASI ADMIN
+             */
             await verifyAdmin(user);
+
+            /*
+             * Hanya setelah lolos verifikasi,
+             * akun dianggap sebagai admin.
+             */
 
             currentAdmin = user;
 
@@ -1547,6 +1529,11 @@ onAuthStateChanged(
                 "none";
 
             document.getElementById(
+                "accessDenied"
+            ).style.display =
+                "none";
+
+            document.getElementById(
                 "app"
             ).style.display =
                 "block";
@@ -1557,7 +1544,12 @@ onAuthStateChanged(
 
         }catch(error){
 
-            console.error(error);
+            console.error(
+                "ADMIN AUTH ERROR:",
+                error
+            );
+
+            currentAdmin = null;
 
             showDenied(
                 error.message ||
@@ -1570,48 +1562,136 @@ onAuthStateChanged(
 
 
 /* =========================================================
-   VERIFY ADMIN
+   VERIFY ADMIN - FIXED
 ========================================================= */
 
 async function verifyAdmin(user){
+
+    /*
+     * 1. Pastikan user benar-benar login
+     */
+
+    if(!user || !user.uid){
+
+        throw new Error(
+            "Sesi login tidak valid."
+        );
+    }
+
+
+    /*
+     * 2. Pastikan UID adalah UID admin yang ditentukan
+     */
+
+    if(user.uid !== ADMIN_UID){
+
+        throw new Error(
+            "Akun ini bukan akun administrator."
+        );
+    }
+
+
+    /*
+     * 3. Ambil dokumen admin berdasarkan UID
+     */
 
     const adminRef =
         doc(
             db,
             "admins",
-            user.uid
+            ADMIN_UID
         );
 
     const adminSnap =
         await getDoc(adminRef);
 
+
+    /*
+     * 4. Pastikan dokumen admin ada
+     */
+
     if(!adminSnap.exists()){
 
         throw new Error(
-            "Akun admin belum terdaftar di collection admins."
+            "Data admin tidak ditemukan di collection admins."
         );
     }
+
+
+    /*
+     * 5. Ambil data admin
+     *
+     * PENTING:
+     * Firestore menggunakan:
+     *
+     * Role
+     * Active
+     *
+     * Huruf besar/kecil harus sama persis.
+     */
 
     const adminData =
         adminSnap.data();
 
+
+    const role =
+        adminData.Role;
+
+    const active =
+        adminData.Active;
+
+
+    /*
+     * 6. Cek ROLE
+     */
+
     if(
-        adminData.role !== "admin" ||
-        adminData.active !== true
+        String(role)
+            .trim()
+            .toLowerCase()
+        !==
+        "admin"
     ){
 
         throw new Error(
-            "Akun tidak memiliki akses administrator."
+            "Role akun bukan admin."
         );
     }
 
+
+    /*
+     * 7. Cek STATUS ACTIVE
+     */
+
+    if(active !== true){
+
+        throw new Error(
+            "Akun admin sedang tidak aktif."
+        );
+    }
+
+
+    /*
+     * 8. Semua pemeriksaan berhasil
+     */
+
+    return true;
 }
 
+
+/* =========================================================
+   SHOW DENIED
+========================================================= */
 
 function showDenied(message){
 
     document.getElementById(
         "loadingScreen"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "app"
     ).style.display =
         "none";
 
@@ -1647,11 +1727,20 @@ async function(){
             "Yakin ingin logout dari admin?"
         )
     ){
-
         return;
     }
 
     try{
+
+        if(unsubscribeTopups){
+            unsubscribeTopups();
+            unsubscribeTopups = null;
+        }
+
+        if(unsubscribePayments){
+            unsubscribePayments();
+            unsubscribePayments = null;
+        }
 
         await signOut(auth);
 
@@ -1659,6 +1748,8 @@ async function(){
             "auth.html";
 
     }catch(error){
+
+        console.error(error);
 
         toast(
             error.message,
@@ -1688,11 +1779,8 @@ async function loadUsers(){
         usersData =
             snap.docs.map(
                 item=>({
-
                     id:item.id,
-
                     ...item.data()
-
                 })
             );
 
@@ -1778,7 +1866,6 @@ function(){
         );
 
         return;
-
     }
 
     empty.classList.add(
@@ -1812,7 +1899,6 @@ function(){
         tr.innerHTML = `
 
             <td>
-
                 <div class="user-name">
                     ${escapeHtml(name)}
                 </div>
@@ -1820,7 +1906,6 @@ function(){
                 <div class="user-email">
                     ${escapeHtml(email)}
                 </div>
-
             </td>
 
             <td>
@@ -1839,15 +1924,11 @@ function(){
 
                 ${
                     blocked
-
                     ?
-
                     `<span class="badge badge-red">
                         🚫 Blocked
                     </span>`
-
                     :
-
                     `<span class="badge badge-green">
                         ● Aktif
                     </span>`
@@ -2032,7 +2113,14 @@ window.saveBalance =
 async function(){
 
     if(!selectedUser){
+        return;
+    }
 
+    if(!currentAdmin){
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
         return;
     }
 
@@ -2048,10 +2136,7 @@ async function(){
             "balanceNote"
         ).value.trim();
 
-    if(
-        !amount ||
-        amount <= 0
-    ){
+    if(!amount || amount <= 0){
 
         toast(
             "Masukkan nominal yang valid.",
@@ -2096,9 +2181,7 @@ async function(){
 
                 let newBalance;
 
-                if(
-                    balanceMode === "add"
-                ){
+                if(balanceMode === "add"){
 
                     newBalance =
                         current + amount;
@@ -2109,7 +2192,6 @@ async function(){
                         current - amount;
 
                     if(newBalance < 0){
-
                         newBalance = 0;
                     }
                 }
@@ -2117,8 +2199,7 @@ async function(){
                 transaction.update(
                     userRef,
                     {
-                        balance:
-                            newBalance,
+                        balance:newBalance,
 
                         balanceUpdatedAt:
                             serverTimestamp(),
@@ -2173,13 +2254,20 @@ async function(){
 window.toggleBlock =
 async function(userId){
 
+    if(!currentAdmin){
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
+        return;
+    }
+
     const user =
         usersData.find(
             item=>item.id === userId
         );
 
     if(!user){
-
         return;
     }
 
@@ -2196,7 +2284,6 @@ async function(userId){
             `Yakin ingin ${action} user ini?`
         )
     ){
-
         return;
     }
 
@@ -2209,8 +2296,7 @@ async function(userId){
                 userId
             ),
             {
-                isBlocked:
-                    !current,
+                isBlocked:!current,
 
                 updatedAt:
                     serverTimestamp(),
@@ -2244,17 +2330,19 @@ async function(userId){
 
 
 /* =========================================================
-   TOPUP REALTIME
+   REALTIME LISTENERS
 ========================================================= */
 
 function startRealtimeListeners(){
 
     if(unsubscribeTopups){
         unsubscribeTopups();
+        unsubscribeTopups = null;
     }
 
     if(unsubscribePayments){
         unsubscribePayments();
+        unsubscribePayments = null;
     }
 
 
@@ -2282,16 +2370,12 @@ function startRealtimeListeners(){
                     topupsData =
                         snap.docs.map(
                             item=>({
-
                                 id:item.id,
-
                                 ...item.data()
-
                             })
                         );
 
                     renderTopups();
-
                     updateStats();
 
                 },
@@ -2337,11 +2421,8 @@ function startRealtimeListeners(){
                     paymentsData =
                         snap.docs.map(
                             item=>({
-
                                 id:item.id,
-
                                 ...item.data()
-
                             })
                         );
 
@@ -2387,11 +2468,8 @@ async function fallbackTopups(){
         topupsData =
             snap.docs.map(
                 item=>({
-
                     id:item.id,
-
                     ...item.data()
-
                 })
             );
 
@@ -2414,7 +2492,6 @@ async function fallbackTopups(){
         );
 
         renderTopups();
-
         updateStats();
 
     }catch(error){
@@ -2573,9 +2650,7 @@ function renderTopups(){
 
             ${
                 proof
-
                 ?
-
                 `
                 <div class="topup-proof">
 
@@ -2595,9 +2670,7 @@ function renderTopups(){
 
                 </div>
                 `
-
                 :
-
                 `
                 <div class="topup-proof">
                     <span class="badge badge-red">
@@ -2629,9 +2702,7 @@ function renderTopups(){
 
         `;
 
-        container.appendChild(
-            card
-        );
+        container.appendChild(card);
 
     });
 
@@ -2639,24 +2710,18 @@ function renderTopups(){
 
 
 /* =========================================================
-   FIND USER FOR TOPUP
+   FIND USER
 ========================================================= */
 
 async function findUserRef(topup){
 
     const possibleIds = [
-
         topup.userId,
-
         topup.uid,
-
         topup.userUID
-
     ].filter(Boolean);
 
-    for(
-        const id of possibleIds
-    ){
+    for(const id of possibleIds){
 
         const ref =
             doc(
@@ -2669,11 +2734,9 @@ async function findUserRef(topup){
             await getDoc(ref);
 
         if(snap.exists()){
-
             return ref;
         }
     }
-
 
     const email =
         topup.email ||
@@ -2702,7 +2765,6 @@ async function findUserRef(topup){
             );
 
         if(found){
-
             return found.ref;
         }
     }
@@ -2717,6 +2779,14 @@ async function findUserRef(topup){
 
 window.approveTopup =
 async function(topupId){
+
+    if(!currentAdmin){
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
+        return;
+    }
 
     const topup =
         topupsData.find(
@@ -2740,9 +2810,7 @@ async function(topupId){
             0
         );
 
-    if(
-        amount <= 0
-    ){
+    if(amount <= 0){
 
         toast(
             "Nominal top up tidak valid.",
@@ -2761,7 +2829,6 @@ async function(topupId){
             "Lanjut APPROVE?"
         )
     ){
-
         return;
     }
 
@@ -2783,7 +2850,6 @@ async function(topupId){
                 "User tujuan top up tidak ditemukan."
             );
         }
-
 
         await runTransaction(
             db,
@@ -2810,15 +2876,12 @@ async function(topupId){
                         "pending"
                     ).toLowerCase();
 
-                if(
-                    status !== "pending"
-                ){
+                if(status !== "pending"){
 
                     throw new Error(
                         "Top up ini sudah diproses sebelumnya."
                     );
                 }
-
 
                 const userSnap =
                     await transaction.get(
@@ -2847,9 +2910,7 @@ async function(topupId){
                         0
                     );
 
-                if(
-                    freshAmount <= 0
-                ){
+                if(freshAmount <= 0){
 
                     throw new Error(
                         "Nominal top up tidak valid."
@@ -2861,13 +2922,10 @@ async function(topupId){
                     freshAmount;
 
 
-                /* TAMBAH SALDO */
-
                 transaction.update(
                     userRef,
                     {
-                        balance:
-                            newBalance,
+                        balance:newBalance,
 
                         balanceUpdatedAt:
                             serverTimestamp(),
@@ -2878,13 +2936,10 @@ async function(topupId){
                 );
 
 
-                /* UPDATE TOPUP */
-
                 transaction.update(
                     topupRef,
                     {
-                        status:
-                            "approved",
+                        status:"approved",
 
                         approvedAt:
                             serverTimestamp(),
@@ -2900,14 +2955,12 @@ async function(topupId){
             }
         );
 
-
         toast(
             "Top up berhasil APPROVE dan saldo user bertambah.",
             "success"
         );
 
         await loadUsers();
-
         await fallbackTopups();
 
     }catch(error){
@@ -2931,13 +2984,20 @@ async function(topupId){
 window.rejectTopup =
 async function(topupId){
 
+    if(!currentAdmin){
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
+        return;
+    }
+
     const topup =
         topupsData.find(
             item=>item.id === topupId
         );
 
     if(!topup){
-
         return;
     }
 
@@ -2947,7 +3007,6 @@ async function(topupId){
         );
 
     if(reason === null){
-
         return;
     }
 
@@ -2959,7 +3018,6 @@ async function(topupId){
                 "topupRequests",
                 topupId
             );
-
 
         await runTransaction(
             db,
@@ -2986,9 +3044,7 @@ async function(topupId){
                         "pending"
                     ).toLowerCase();
 
-                if(
-                    status !== "pending"
-                ){
+                if(status !== "pending"){
 
                     throw new Error(
                         "Topup sudah diproses."
@@ -2998,8 +3054,7 @@ async function(topupId){
                 transaction.update(
                     topupRef,
                     {
-                        status:
-                            "rejected",
+                        status:"rejected",
 
                         rejectedAt:
                             serverTimestamp(),
@@ -3015,7 +3070,6 @@ async function(topupId){
 
             }
         );
-
 
         toast(
             "Top up berhasil ditolak.",
@@ -3039,7 +3093,7 @@ async function(topupId){
 
 
 /* =========================================================
-   PAYMENT METHODS FALLBACK
+   PAYMENT METHODS
 ========================================================= */
 
 async function fallbackPayments(){
@@ -3057,23 +3111,16 @@ async function fallbackPayments(){
         paymentsData =
             snap.docs.map(
                 item=>({
-
                     id:item.id,
-
                     ...item.data()
-
                 })
             );
 
         paymentsData.sort(
             (a,b)=>
-                (
-                    Number(a.order)||0
-                )
+                (Number(a.order)||0)
                 -
-                (
-                    Number(b.order)||0
-                )
+                (Number(b.order)||0)
         );
 
         renderPayments();
@@ -3110,9 +3157,7 @@ function renderPayments(){
 
     container.innerHTML = "";
 
-    if(
-        paymentsData.length === 0
-    ){
+    if(paymentsData.length === 0){
 
         empty.classList.remove(
             "hidden"
@@ -3124,7 +3169,6 @@ function renderPayments(){
     empty.classList.add(
         "hidden"
     );
-
 
     paymentsData.forEach(item=>{
 
@@ -3151,7 +3195,6 @@ function renderPayments(){
             item.qrUrl ||
             "";
 
-
         const card =
             document.createElement(
                 "div"
@@ -3159,7 +3202,6 @@ function renderPayments(){
 
         card.className =
             "payment-card";
-
 
         card.innerHTML = `
 
@@ -3183,15 +3225,11 @@ function renderPayments(){
 
                 ${
                     active
-
                     ?
-
                     `<span class="badge badge-green">
                         ● AKTIF
                     </span>`
-
                     :
-
                     `<span class="badge badge-gray">
                         NONAKTIF
                     </span>`
@@ -3201,9 +3239,7 @@ function renderPayments(){
 
             ${
                 qr
-
                 ?
-
                 `
                 <div class="payment-qr">
 
@@ -3215,9 +3251,7 @@ function renderPayments(){
 
                 </div>
                 `
-
                 :
-
                 ""
             }
 
@@ -3259,9 +3293,7 @@ function renderPayments(){
 
         `;
 
-        container.appendChild(
-            card
-        );
+        container.appendChild(card);
 
     });
 
@@ -3419,6 +3451,16 @@ function(id){
 window.savePaymentMethod =
 async function(){
 
+    if(!currentAdmin){
+
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
+
+        return;
+    }
+
     const id =
         document.getElementById(
             "paymentId"
@@ -3461,7 +3503,6 @@ async function(){
             "paymentActive"
         ).checked;
 
-
     if(!name){
 
         toast(
@@ -3471,7 +3512,6 @@ async function(){
 
         return;
     }
-
 
     try{
 
@@ -3501,7 +3541,6 @@ async function(){
                 currentAdmin.uid
 
         };
-
 
         if(id){
 
@@ -3541,9 +3580,7 @@ async function(){
                 "Payment method berhasil ditambahkan.",
                 "success"
             );
-
         }
-
 
         closeModal(
             "paymentModal"
@@ -3572,6 +3609,16 @@ async function(){
 window.togglePayment =
 async function(id,current){
 
+    if(!currentAdmin){
+
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
+
+        return;
+    }
+
     try{
 
         await updateDoc(
@@ -3581,8 +3628,7 @@ async function(id,current){
                 id
             ),
             {
-                active:
-                    !current,
+                active:!current,
 
                 updatedAt:
                     serverTimestamp(),
@@ -3603,6 +3649,8 @@ async function(id,current){
 
     }catch(error){
 
+        console.error(error);
+
         toast(
             "Gagal mengubah status: " +
             error.message,
@@ -3620,27 +3668,32 @@ async function(id,current){
 window.deletePayment =
 async function(id){
 
+    if(!currentAdmin){
+
+        toast(
+            "Sesi admin tidak valid.",
+            "error"
+        );
+
+        return;
+    }
+
     const item =
         paymentsData.find(
             payment=>payment.id === id
         );
 
     if(!item){
-
         return;
     }
 
     if(
         !confirm(
             "Hapus payment method " +
-            (
-                item.name ||
-                ""
-            ) +
+            (item.name || "") +
             "?"
         )
     ){
-
         return;
     }
 
@@ -3697,7 +3750,6 @@ function(name,button){
         "active"
     );
 
-
     document.getElementById(
         "tab-users"
     ).classList.add(
@@ -3715,7 +3767,6 @@ function(name,button){
     ).classList.add(
         "hidden"
     );
-
 
     document.getElementById(
         "tab-" + name
@@ -3743,7 +3794,7 @@ function(id){
 
 
 /* =========================================================
-   CLOSE MODAL WHEN OUTSIDE CLICK
+   CLOSE MODAL OUTSIDE
 ========================================================= */
 
 document
