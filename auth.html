@@ -2,135 +2,83 @@
 
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#6855ff">
 
 <title>Login - MultiBooster Media</title>
 
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
-html,
-body{
+html,body{
     width:100%;
     min-height:100%;
 }
 
 body{
-
     min-height:100vh;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     padding:14px;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family:Arial,Helvetica,sans-serif;
     color:#fff;
 
     background:
-
         radial-gradient(
             circle at 10% 10%,
             rgba(74,72,190,.45),
             transparent 35%
         ),
-
         radial-gradient(
             circle at 90% 90%,
             rgba(190,55,190,.30),
             transparent 35%
         ),
-
         linear-gradient(
             135deg,
             #050816,
             #0d1428,
             #050816
         );
-
 }
-
-
-/* =====================================================
-   LOGIN BOX
-===================================================== */
 
 .login-box{
-
     width:100%;
+    max-width:430px;
+    padding:28px;
 
-    max-width:440px;
+    border-radius:26px;
 
-    padding:28px 22px;
+    background:rgba(18,25,47,.96);
 
-    border-radius:25px;
-
-    background:
-        rgba(18,25,47,.96);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.12);
 
     box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.60);
+        0 30px 80px rgba(0,0,0,.60);
 
-    backdrop-filter:
-        blur(20px);
-
-    -webkit-backdrop-filter:
-        blur(20px);
-
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
 }
 
-
-/* =====================================================
-   LOGO
-===================================================== */
-
 .logo{
-
-    width:70px;
-
-    height:70px;
-
-    margin:
-        0 auto 15px;
+    width:76px;
+    height:76px;
+    margin:0 auto 16px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
-    border-radius:20px;
+    border-radius:22px;
 
-    font-size:23px;
-
+    font-size:25px;
     font-weight:900;
 
     background:
@@ -141,106 +89,60 @@ body{
         );
 
     box-shadow:
-        0 15px 40px
-        rgba(110,80,255,.45);
-
+        0 15px 40px rgba(110,80,255,.45);
 }
 
-
-/* =====================================================
-   TITLE
-===================================================== */
-
 h1{
-
     text-align:center;
-
-    font-size:24px;
-
-    margin-bottom:6px;
-
+    font-size:25px;
+    margin-bottom:7px;
 }
 
 .subtitle{
-
     text-align:center;
-
     color:#9da8c2;
-
     font-size:14px;
-
-    margin-bottom:23px;
-
+    margin-bottom:25px;
 }
 
-
-/* =====================================================
-   FORM
-===================================================== */
-
 .form-group{
-
-    margin-bottom:15px;
-
+    margin-bottom:16px;
 }
 
 label{
-
     display:block;
-
     margin-bottom:7px;
-
     color:#cbd2e5;
-
     font-size:13px;
-
 }
 
 input{
-
     width:100%;
-
     padding:14px 15px;
 
     border-radius:13px;
-
-    border:
-        1px solid
-        #303b59;
+    border:1px solid #303b59;
 
     outline:none;
 
     background:#0b1121;
-
     color:#fff;
 
     font-size:15px;
-
 }
 
 input:focus{
-
     border-color:#805cff;
 
     box-shadow:
-        0 0 0 3px
-        rgba(128,92,255,.13);
-
+        0 0 0 3px rgba(128,92,255,.13);
 }
 
-
-/* =====================================================
-   BUTTON
-===================================================== */
-
 button{
-
     width:100%;
-
-    padding:14px;
+    padding:15px;
 
     border:0;
-
     border-radius:14px;
 
     color:#fff;
@@ -253,76 +155,23 @@ button{
         );
 
     font-size:15px;
-
     font-weight:bold;
 
     cursor:pointer;
 
     box-shadow:
-        0 12px 35px
-        rgba(108,80,255,.30);
-
+        0 12px 35px rgba(108,80,255,.30);
 }
 
 button:disabled{
-
     opacity:.55;
-
     cursor:not-allowed;
-
 }
-
-
-/* =====================================================
-   SECONDARY BUTTON
-===================================================== */
-
-.secondary-button{
-
-    margin-top:10px;
-
-    background:
-        #202a43;
-
-    border:
-        1px solid
-        rgba(255,255,255,.10);
-
-    box-shadow:none;
-
-}
-
-
-/* =====================================================
-   LOGOUT BUTTON
-===================================================== */
-
-.logout-button{
-
-    margin-top:10px;
-
-    background:
-        #321d29;
-
-    border:
-        1px solid
-        rgba(255,100,130,.18);
-
-    box-shadow:none;
-
-}
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
 
 .message{
-
     display:none;
 
     margin-bottom:15px;
-
     padding:13px;
 
     border-radius:12px;
@@ -330,96 +179,69 @@ button:disabled{
     text-align:center;
 
     font-size:13px;
-
     line-height:1.5;
-
 }
 
 .message.show{
-
     display:block;
-
 }
 
 .message.error{
-
-    background:
-        rgba(255,60,80,.12);
-
-    border:
-        1px solid
-        rgba(255,60,80,.25);
-
+    background:rgba(255,60,80,.12);
+    border:1px solid rgba(255,60,80,.25);
     color:#ff9ba6;
-
 }
 
 .message.success{
-
-    background:
-        rgba(50,220,130,.12);
-
-    border:
-        1px solid
-        rgba(50,220,130,.25);
-
+    background:rgba(50,220,130,.12);
+    border:1px solid rgba(50,220,130,.25);
     color:#79efad;
-
 }
 
 .message.info{
-
-    background:
-        rgba(80,140,255,.12);
-
-    border:
-        1px solid
-        rgba(80,140,255,.25);
-
+    background:rgba(80,140,255,.12);
+    border:1px solid rgba(80,140,255,.25);
     color:#9ec4ff;
-
 }
 
-
-/* =====================================================
-   LOADING
-===================================================== */
-
 .loading{
-
     display:none;
 
     text-align:center;
 
-    margin-top:14px;
+    margin-top:15px;
 
     color:#aeb9d0;
 
     font-size:13px;
-
 }
 
 .loading.show{
-
     display:block;
-
 }
 
+.switch{
+    text-align:center;
 
-/* =====================================================
-   REGISTER
-===================================================== */
+    margin-top:20px;
+
+    color:#9da8c2;
+
+    font-size:13px;
+}
+
+.switch span{
+    color:#a88cff;
+    font-weight:bold;
+    cursor:pointer;
+}
 
 .register-fields{
-
     display:none;
-
 }
 
 .register-fields.show{
-
     display:block;
-
 }
 
 
@@ -428,213 +250,92 @@ button:disabled{
 ===================================================== */
 
 .debug-box{
-
     display:none;
 
     margin-top:18px;
-
     padding:16px;
 
-    border-radius:16px;
+    border-radius:15px;
 
-    background:
-        rgba(4,8,20,.95);
+    background:#080d1b;
 
-    border:
-        1px solid
-        rgba(126,100,255,.35);
+    border:1px solid rgba(255,255,255,.14);
 
-    box-shadow:
-        0 12px 35px
-        rgba(0,0,0,.30);
+    color:#dbe3f5;
 
     font-size:12px;
 
-    line-height:1.65;
+    line-height:1.7;
 
     word-break:break-word;
-
 }
 
 .debug-box.show{
-
     display:block;
-
 }
 
 .debug-title{
-
-    margin-bottom:12px;
-
-    padding-bottom:10px;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.08);
-
     color:#fff;
-
-    font-size:15px;
-
+    font-size:14px;
     font-weight:bold;
 
-}
+    padding-bottom:9px;
+    margin-bottom:9px;
 
-.debug-subtitle{
-
-    margin-bottom:12px;
-
-    color:#8996b2;
-
-    font-size:11px;
-
+    border-bottom:1px solid rgba(255,255,255,.10);
 }
 
 .debug-row{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:3px;
-
-    padding:8px 0;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.05);
-
-}
-
-.debug-row:last-child{
-
-    border-bottom:0;
-
+    display:block;
+    margin:5px 0;
 }
 
 .debug-label{
-
     color:#7f8ba5;
-
-    font-size:11px;
-
 }
 
 .debug-value{
-
-    color:#e6ebf8;
-
-    font-size:12px;
-
+    color:#dbe3f5;
 }
 
-.debug-value.ok{
-
-    color:#55e39b;
-
+.status-ok{
+    color:#55e39b !important;
     font-weight:bold;
-
 }
 
-.debug-value.no{
-
-    color:#ff7885;
-
+.status-no{
+    color:#ff7885 !important;
     font-weight:bold;
-
 }
 
-.debug-value.warning{
-
-    color:#ffc56b;
-
+.status-warn{
+    color:#ffd166 !important;
     font-weight:bold;
-
 }
 
-.debug-path{
+.debug-note{
+    margin-top:12px;
+    padding:10px;
 
-    color:#bdaeff;
+    border-radius:10px;
 
-    font-size:11px;
-
-}
-
-
-/* =====================================================
-   RESULT BOX
-===================================================== */
-
-.result-box{
-
-    display:none;
-
-    margin-top:14px;
-
-    padding:15px;
-
-    border-radius:14px;
-
-    background:
-        rgba(80,140,255,.08);
-
-    border:
-        1px solid
-        rgba(100,150,255,.20);
-
-}
-
-.result-box.show{
-
-    display:block;
-
-}
-
-.result-title{
-
-    font-size:14px;
-
-    font-weight:bold;
-
-    margin-bottom:7px;
-
-}
-
-.result-text{
+    background:rgba(255,255,255,.05);
 
     color:#aeb9d0;
 
+    font-size:11px;
+}
+
+.debug-button{
+    margin-top:12px;
+
+    padding:10px;
+
     font-size:12px;
 
-    line-height:1.6;
+    background:#202b48;
 
-}
-
-
-/* =====================================================
-   SWITCH
-===================================================== */
-
-.switch{
-
-    text-align:center;
-
-    margin-top:19px;
-
-    color:#9da8c2;
-
-    font-size:13px;
-
-}
-
-.switch span{
-
-    color:#a88cff;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
+    box-shadow:none;
 }
 
 
@@ -645,43 +346,28 @@ button:disabled{
 @media(max-width:480px){
 
     body{
-
         padding:10px;
-
-        align-items:flex-start;
-
-        padding-top:20px;
-
-        padding-bottom:20px;
-
     }
 
     .login-box{
-
         padding:24px 18px;
-
-        border-radius:21px;
-
+        border-radius:22px;
     }
 
     .logo{
-
-        width:65px;
-
-        height:65px;
-
-        font-size:21px;
-
+        width:68px;
+        height:68px;
+        font-size:22px;
     }
 
     h1{
-
-        font-size:22px;
-
+        font-size:23px;
     }
 
+    .debug-box{
+        font-size:11px;
+    }
 }
-
 </style>
 
 </head>
@@ -691,58 +377,27 @@ button:disabled{
 <div class="login-box">
 
 ```
-<!-- =================================================
-     LOGO
-================================================== -->
-
 <div class="logo">
     MB
 </div>
-
-
-<!-- =================================================
-     TITLE
-================================================== -->
 
 <h1 id="title">
     Login
 </h1>
 
-
 <div class="subtitle">
     MultiBooster Media
 </div>
 
-
-<!-- =================================================
-     MESSAGE
-================================================== -->
-
-<div
-    id="message"
-    class="message">
-</div>
-
-
-<!-- =================================================
-     FORM
-================================================== -->
+<div id="message" class="message"></div>
 
 <form id="authForm">
 
-
-    <!-- REGISTER -->
-
-    <div
-        id="registerFields"
-        class="register-fields">
-
+    <div id="registerFields" class="register-fields">
 
         <div class="form-group">
 
-            <label>
-                Nama
-            </label>
+            <label>Nama</label>
 
             <input
                 id="name"
@@ -753,12 +408,9 @@ button:disabled{
 
         </div>
 
-
         <div class="form-group">
 
-            <label>
-                Nomor WhatsApp
-            </label>
+            <label>Nomor WhatsApp</label>
 
             <input
                 id="phone"
@@ -769,17 +421,11 @@ button:disabled{
 
         </div>
 
-
     </div>
-
-
-    <!-- EMAIL -->
 
     <div class="form-group">
 
-        <label>
-            Email
-        </label>
+        <label>Email</label>
 
         <input
             id="email"
@@ -791,14 +437,9 @@ button:disabled{
 
     </div>
 
-
-    <!-- PASSWORD -->
-
     <div class="form-group">
 
-        <label>
-            Password
-        </label>
+        <label>Password</label>
 
         <input
             id="password"
@@ -810,7 +451,6 @@ button:disabled{
 
     </div>
 
-
     <button
         id="submitBtn"
         type="submit">
@@ -819,282 +459,192 @@ button:disabled{
 
     </button>
 
-
 </form>
 
-
-<!-- =================================================
-     LOADING
-================================================== -->
-
-<div
-    id="loading"
-    class="loading">
-
+<div id="loading" class="loading">
     Memproses...
-
 </div>
 
 
 <!-- =================================================
-     DEBUG PANEL
+     DEBUG
 ================================================== -->
 
-<div
-    id="debugBox"
-    class="debug-box">
-
+<div id="debugBox" class="debug-box">
 
     <div class="debug-title">
-        🔎 Pemeriksaan Akun
+        🔎 PEMERIKSAAN ADMIN
     </div>
-
-
-    <div class="debug-subtitle">
-        Panel ini sengaja dibuat tetap tampil untuk
-        mengetahui penyebab akun admin masuk dashboard.
-    </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            UID Firebase Login
-        </span>
-
-        <span
-            id="debugUID"
-            class="debug-value">
+            Email Firebase Login:
+        </span><br>
+        <span id="debugEmail" class="debug-value">
             -
         </span>
-
     </div>
 
-
     <div class="debug-row">
-
         <span class="debug-label">
-            Email Firebase Login
-        </span>
-
-        <span
-            id="debugEmail"
-            class="debug-value">
+            UID Login:
+        </span><br>
+        <span id="debugUID" class="debug-value">
             -
         </span>
-
     </div>
 
-
     <div class="debug-row">
-
         <span class="debug-label">
-            UID Admin Yang Diharapkan
-        </span>
-
-        <span
-            id="debugExpectedUID"
-            class="debug-value">
+            UID Admin Yang Diharapkan:
+        </span><br>
+        <span id="debugExpectedUID" class="debug-value">
             -
         </span>
-
     </div>
 
-
     <div class="debug-row">
-
         <span class="debug-label">
-            UID Cocok
+            UID Cocok:
         </span>
-
-        <span
-            id="debugUIDMatch"
-            class="debug-value">
+        <span id="debugUIDMatch" class="debug-value">
             -
         </span>
-
     </div>
 
-
     <div class="debug-row">
-
         <span class="debug-label">
-            Collection
+            Collection:
         </span>
-
-        <span
-            id="debugCollection"
-            class="debug-value">
+        <span class="debug-value">
             admins
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Document ID
-        </span>
-
-        <span
-            id="debugDocument"
-            class="debug-value">
+            Document ID:
+        </span><br>
+        <span id="debugDocument" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Firestore Path
-        </span>
-
-        <span
-            id="debugPath"
-            class="debug-path">
+            Firestore Path:
+        </span><br>
+        <span id="debugPath" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Dokumen Admin Ditemukan
+            Dokumen Admin Ditemukan:
         </span>
-
-        <span
-            id="debugFound"
-            class="debug-value">
+        <span id="debugFound" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Role
+            Field role:
         </span>
-
-        <span
-            id="debugRole"
-            class="debug-value">
+        <span id="debugRoleLower" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Active
+            Field Role:
         </span>
-
-        <span
-            id="debugActive"
-            class="debug-value">
+        <span id="debugRoleUpper" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Hasil Admin
+            Role Yang Dipakai:
         </span>
-
-        <span
-            id="debugAdmin"
-            class="debug-value">
+        <span id="debugRole" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Status Firestore
+            Field active:
         </span>
-
-        <span
-            id="debugFirestore"
-            class="debug-value">
+        <span id="debugActiveLower" class="debug-value">
             -
         </span>
-
     </div>
-
 
     <div class="debug-row">
-
         <span class="debug-label">
-            Tujuan
+            Field Active:
         </span>
-
-        <span
-            id="debugTarget"
-            class="debug-value">
+        <span id="debugActiveUpper" class="debug-value">
             -
         </span>
-
     </div>
 
-
-    <div class="result-box" id="resultBox">
-
-        <div
-            class="result-title"
-            id="resultTitle">
-            Hasil Pemeriksaan
-        </div>
-
-        <div
-            class="result-text"
-            id="resultText">
-        </div>
-
+    <div class="debug-row">
+        <span class="debug-label">
+            Active Yang Dipakai:
+        </span>
+        <span id="debugActive" class="debug-value">
+            -
+        </span>
     </div>
 
+    <div class="debug-row">
+        <span class="debug-label">
+            Hasil Admin:
+        </span>
+        <span id="debugAdmin" class="debug-value">
+            -
+        </span>
+    </div>
 
-    <!-- TOMBOL DIBUAT MANUAL -->
+    <div class="debug-row">
+        <span class="debug-label">
+            Status Firestore:
+        </span>
+        <span id="debugFirestore" class="debug-value">
+            -
+        </span>
+    </div>
+
+    <div class="debug-row">
+        <span class="debug-label">
+            Tujuan:
+        </span>
+        <span id="debugTarget" class="debug-value">
+            -
+        </span>
+    </div>
+
+    <div class="debug-note">
+        Panel ini sengaja tidak menghilang otomatis agar
+        hasil pemeriksaan dapat dilihat dan screenshot.
+    </div>
 
     <button
-        id="continueBtn"
         type="button"
-        style="display:none;margin-top:15px;">
+        id="refreshCheck"
+        class="debug-button">
 
-        Lanjut
-
-    </button>
-
-
-    <button
-        id="logoutBtn"
-        class="logout-button"
-        type="button">
-
-        Logout / Reset Login
+        🔄 Periksa Admin Lagi
 
     </button>
-
 
 </div>
 
-
-<!-- =================================================
-     SWITCH
-================================================== -->
 
 <div class="switch">
 
@@ -1109,9 +659,8 @@ button:disabled{
 
 <script type="module">
 
-
 /* =====================================================
-   FIREBASE SDK
+   FIREBASE IMPORT
 ===================================================== */
 
 import {
@@ -1171,12 +720,11 @@ const firebaseConfig = {
 
     measurementId:
         "G-Z9S252K9C5"
-
 };
 
 
 /* =====================================================
-   INITIALIZE FIREBASE
+   INITIALIZE
 ===================================================== */
 
 const app =
@@ -1184,205 +732,115 @@ const app =
         firebaseConfig
     );
 
-
 const auth =
     getAuth(app);
-
 
 const db =
     getFirestore(app);
 
 
 /* =====================================================
-   ADMIN UID
-===================================================== */
-
-const EXPECTED_ADMIN_UID =
-    "WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
-
-
-/* =====================================================
-   ELEMENTS
+   ELEMENT
 ===================================================== */
 
 const form =
-    document.getElementById(
-        "authForm"
-    );
-
+    document.getElementById("authForm");
 
 const emailInput =
-    document.getElementById(
-        "email"
-    );
-
+    document.getElementById("email");
 
 const passwordInput =
-    document.getElementById(
-        "password"
-    );
-
+    document.getElementById("password");
 
 const nameInput =
-    document.getElementById(
-        "name"
-    );
-
+    document.getElementById("name");
 
 const phoneInput =
-    document.getElementById(
-        "phone"
-    );
-
+    document.getElementById("phone");
 
 const registerFields =
-    document.getElementById(
-        "registerFields"
-    );
-
+    document.getElementById("registerFields");
 
 const submitBtn =
-    document.getElementById(
-        "submitBtn"
-    );
-
+    document.getElementById("submitBtn");
 
 const switchText =
-    document.getElementById(
-        "switchText"
-    );
-
+    document.getElementById("switchText");
 
 const title =
-    document.getElementById(
-        "title"
-    );
-
+    document.getElementById("title");
 
 const message =
-    document.getElementById(
-        "message"
-    );
-
+    document.getElementById("message");
 
 const loading =
-    document.getElementById(
-        "loading"
-    );
-
+    document.getElementById("loading");
 
 const debugBox =
-    document.getElementById(
-        "debugBox"
-    );
-
-
-const debugUID =
-    document.getElementById(
-        "debugUID"
-    );
-
+    document.getElementById("debugBox");
 
 const debugEmail =
-    document.getElementById(
-        "debugEmail"
-    );
+    document.getElementById("debugEmail");
 
+const debugUID =
+    document.getElementById("debugUID");
 
 const debugExpectedUID =
-    document.getElementById(
-        "debugExpectedUID"
-    );
-
+    document.getElementById("debugExpectedUID");
 
 const debugUIDMatch =
-    document.getElementById(
-        "debugUIDMatch"
-    );
-
-
-const debugCollection =
-    document.getElementById(
-        "debugCollection"
-    );
-
+    document.getElementById("debugUIDMatch");
 
 const debugDocument =
-    document.getElementById(
-        "debugDocument"
-    );
-
+    document.getElementById("debugDocument");
 
 const debugPath =
-    document.getElementById(
-        "debugPath"
-    );
-
+    document.getElementById("debugPath");
 
 const debugFound =
-    document.getElementById(
-        "debugFound"
-    );
+    document.getElementById("debugFound");
 
+const debugRoleLower =
+    document.getElementById("debugRoleLower");
+
+const debugRoleUpper =
+    document.getElementById("debugRoleUpper");
 
 const debugRole =
-    document.getElementById(
-        "debugRole"
-    );
+    document.getElementById("debugRole");
 
+const debugActiveLower =
+    document.getElementById("debugActiveLower");
+
+const debugActiveUpper =
+    document.getElementById("debugActiveUpper");
 
 const debugActive =
-    document.getElementById(
-        "debugActive"
-    );
-
+    document.getElementById("debugActive");
 
 const debugAdmin =
-    document.getElementById(
-        "debugAdmin"
-    );
-
+    document.getElementById("debugAdmin");
 
 const debugFirestore =
-    document.getElementById(
-        "debugFirestore"
-    );
-
+    document.getElementById("debugFirestore");
 
 const debugTarget =
-    document.getElementById(
-        "debugTarget"
-    );
+    document.getElementById("debugTarget");
+
+const refreshCheck =
+    document.getElementById("refreshCheck");
 
 
-const resultBox =
-    document.getElementById(
-        "resultBox"
-    );
+/* =====================================================
+   CONFIG ADMIN
+===================================================== */
+
+const ADMIN_UID =
+    "WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
 
 
-const resultTitle =
-    document.getElementById(
-        "resultTitle"
-    );
-
-
-const resultText =
-    document.getElementById(
-        "resultText"
-    );
-
-
-const continueBtn =
-    document.getElementById(
-        "continueBtn"
-    );
-
-
-const logoutBtn =
-    document.getElementById(
-        "logoutBtn"
-    );
+const ADMIN_COLLECTION =
+    "admins";
 
 
 /* =====================================================
@@ -1392,36 +850,60 @@ const logoutBtn =
 let registerMode =
     false;
 
+let redirectStarted =
+    false;
 
-let checkingAccount =
+let checking =
     false;
 
 
-let currentTarget =
-    "";
-
-
 /* =====================================================
-   DEBUG PANEL SELALU TAMPIL
+   MESSAGE
 ===================================================== */
 
-function openDebug(){
+function showMessage(
+    text,
+    type = "info"
+){
 
-    debugBox.classList.add(
-        "show"
-    );
+    message.textContent =
+        text;
 
+    message.className =
+        "message show " + type;
 }
 
 
 /* =====================================================
-   SET DEBUG VALUE
+   LOADING
 ===================================================== */
 
-function setDebug(
+function setLoading(
+    active,
+    text = "Memproses..."
+){
+
+    submitBtn.disabled =
+        active;
+
+    loading.textContent =
+        text;
+
+    loading.classList.toggle(
+        "show",
+        active
+    );
+}
+
+
+/* =====================================================
+   DEBUG HELPER
+===================================================== */
+
+function debugValue(
     element,
     value,
-    status=""
+    status = ""
 ){
 
     element.textContent =
@@ -1435,72 +917,25 @@ function setDebug(
     ){
 
         element.classList.add(
-            "ok"
+            "status-ok"
         );
 
-    }
-
-    if(
+    }else if(
         status === "no"
     ){
 
         element.classList.add(
-            "no"
+            "status-no"
         );
 
-    }
-
-    if(
-        status === "warning"
+    }else if(
+        status === "warn"
     ){
 
         element.classList.add(
-            "warning"
+            "status-warn"
         );
-
     }
-
-}
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
-function showMessage(
-    text,
-    type="info"
-){
-
-    message.textContent =
-        text;
-
-    message.className =
-        "message show " + type;
-
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function setLoading(
-    active,
-    text="Memproses..."
-){
-
-    submitBtn.disabled =
-        active;
-
-    loading.textContent =
-        text;
-
-    loading.classList.toggle(
-        "show",
-        active
-    );
-
 }
 
 
@@ -1510,503 +945,610 @@ function setLoading(
 
 function resetDebug(){
 
-    openDebug();
-
-    debugUID.textContent =
-        "-";
-
-    debugEmail.textContent =
-        "-";
-
-    debugExpectedUID.textContent =
-        EXPECTED_ADMIN_UID;
-
-    setDebug(
-        debugUIDMatch,
-        "-",
-        ""
-    );
-
-    debugCollection.textContent =
-        "admins";
-
-    debugDocument.textContent =
-        "-";
-
-    debugPath.textContent =
-        "admins/-";
-
-    setDebug(
-        debugFound,
-        "-",
-        ""
-    );
-
-    setDebug(
-        debugRole,
-        "-",
-        ""
-    );
-
-    setDebug(
-        debugActive,
-        "-",
-        ""
-    );
-
-    setDebug(
-        debugAdmin,
-        "-",
-        ""
-    );
-
-    setDebug(
-        debugFirestore,
-        "-",
-        ""
-    );
-
-    setDebug(
-        debugTarget,
-        "-",
-        ""
-    );
-
-    resultBox.classList.remove(
+    debugBox.classList.add(
         "show"
     );
 
-    continueBtn.style.display =
-        "none";
+    debugValue(
+        debugEmail,
+        "-"
+    );
 
-    currentTarget =
-        "";
+    debugValue(
+        debugUID,
+        "-"
+    );
 
+    debugValue(
+        debugExpectedUID,
+        ADMIN_UID
+    );
+
+    debugValue(
+        debugUIDMatch,
+        "-"
+    );
+
+    debugValue(
+        debugDocument,
+        "-"
+    );
+
+    debugValue(
+        debugPath,
+        "-"
+    );
+
+    debugValue(
+        debugFound,
+        "-"
+    );
+
+    debugValue(
+        debugRoleLower,
+        "-"
+    );
+
+    debugValue(
+        debugRoleUpper,
+        "-"
+    );
+
+    debugValue(
+        debugRole,
+        "-"
+    );
+
+    debugValue(
+        debugActiveLower,
+        "-"
+    );
+
+    debugValue(
+        debugActiveUpper,
+        "-"
+    );
+
+    debugValue(
+        debugActive,
+        "-"
+    );
+
+    debugValue(
+        debugAdmin,
+        "-"
+    );
+
+    debugValue(
+        debugFirestore,
+        "-"
+    );
+
+    debugValue(
+        debugTarget,
+        "-"
+    );
 }
 
 
 /* =====================================================
-   RESULT
+   SHOW USER DEBUG
 ===================================================== */
 
-function showResult(
-    titleText,
-    text
+function showUserDebug(
+    user
 ){
 
-    resultBox.classList.add(
+    debugBox.classList.add(
         "show"
     );
 
-    resultTitle.textContent =
-        titleText;
+    debugValue(
+        debugEmail,
+        user?.email || "-"
+    );
 
-    resultText.textContent =
-        text;
+    debugValue(
+        debugUID,
+        user?.uid || "-"
+    );
 
+    debugValue(
+        debugExpectedUID,
+        ADMIN_UID
+    );
+
+    const uidMatch =
+        !!user &&
+        user.uid === ADMIN_UID;
+
+    debugValue(
+        debugUIDMatch,
+        uidMatch ? "YA" : "TIDAK",
+        uidMatch ? "ok" : "no"
+    );
+
+    debugValue(
+        debugDocument,
+        user?.uid || "-"
+    );
+
+    debugValue(
+        debugPath,
+        ADMIN_COLLECTION +
+        "/" +
+        (user?.uid || "-")
+    );
 }
 
 
 /* =====================================================
-   CEK ADMIN
+   CHECK ADMIN
 ===================================================== */
 
 async function checkAdmin(
     user
 ){
 
-    openDebug();
+    if(
+        checking
+    ){
 
+        return null;
+    }
+
+    checking =
+        true;
 
     resetDebug();
 
-
-    debugUID.textContent =
-        user.uid;
-
-
-    debugEmail.textContent =
-        user.email ||
-        "-";
-
-
-    debugExpectedUID.textContent =
-        EXPECTED_ADMIN_UID;
-
-
-    /*
-       CEK UID
-    */
-
-    const uidMatch =
-        user.uid ===
-        EXPECTED_ADMIN_UID;
-
-
-    setDebug(
-        debugUIDMatch,
-        uidMatch
-        ? "YA"
-        : "TIDAK",
-        uidMatch
-        ? "ok"
-        : "no"
+    showUserDebug(
+        user
     );
-
-
-    /*
-       SELALU menggunakan UID LOGIN
-       sebagai document ID.
-    */
-
-    const documentId =
-        user.uid;
-
-
-    debugDocument.textContent =
-        documentId;
-
-
-    const firestorePath =
-        "admins/" +
-        documentId;
-
-
-    debugPath.textContent =
-        firestorePath;
-
-
-    console.log(
-        "FIRESTORE PATH:",
-        firestorePath
-    );
-
-
-    /*
-       Jika UID tidak cocok,
-       tetap kita baca admins/{UID LOGIN}
-       supaya hasil diagnosis jelas.
-    */
-
-    const adminRef =
-        doc(
-            db,
-            "admins",
-            documentId
-        );
-
-
-    let adminSnap;
-
 
     try{
 
-        adminSnap =
+        if(
+            !user
+        ){
+
+            debugValue(
+                debugFirestore,
+                "BELUM LOGIN",
+                "warn"
+            );
+
+            debugValue(
+                debugTarget,
+                "auth.html",
+                "warn"
+            );
+
+            return {
+                isAdmin:false,
+                role:"",
+                active:false
+            };
+        }
+
+
+        /*
+         * CEK UID
+         */
+
+        const uidMatch =
+            user.uid === ADMIN_UID;
+
+
+        /*
+         * PENTING:
+         * Dokumen dibaca berdasarkan UID LOGIN.
+         */
+
+        const adminRef =
+            doc(
+                db,
+                ADMIN_COLLECTION,
+                user.uid
+            );
+
+
+        const adminSnap =
             await getDoc(
                 adminRef
             );
 
 
-        setDebug(
+        debugValue(
             debugFirestore,
             "BERHASIL DIBACA",
             "ok"
         );
 
+
+        /*
+         * DOKUMEN TIDAK ADA
+         */
+
+        if(
+            !adminSnap.exists()
+        ){
+
+            debugValue(
+                debugFound,
+                "TIDAK",
+                "no"
+            );
+
+            debugValue(
+                debugRole,
+                "dokumen tidak ada",
+                "no"
+            );
+
+            debugValue(
+                debugActive,
+                "dokumen tidak ada",
+                "no"
+            );
+
+            debugValue(
+                debugAdmin,
+                "TIDAK",
+                "no"
+            );
+
+            debugValue(
+                debugTarget,
+                "dashboard.html",
+                "warn"
+            );
+
+            return {
+                isAdmin:false,
+                role:"",
+                active:false
+            };
+        }
+
+
+        /*
+         * DOKUMEN ADA
+         */
+
+        debugValue(
+            debugFound,
+            "YA",
+            "ok"
+        );
+
+
+        const data =
+            adminSnap.data();
+
+
+        console.log(
+            "ADMIN DOCUMENT DATA:",
+            data
+        );
+
+
+        /*
+         * =================================================
+         * FIELD ROLE
+         *
+         * Mendukung:
+         *
+         * role
+         * Role
+         * ROLE
+         * =================================================
+         */
+
+        const rawRoleLower =
+            data.role;
+
+        const rawRoleUpper =
+            data.Role;
+
+        const rawRoleCaps =
+            data.ROLE;
+
+
+        debugValue(
+            debugRoleLower,
+            rawRoleLower === undefined
+            ? "undefined"
+            : JSON.stringify(rawRoleLower)
+        );
+
+
+        debugValue(
+            debugRoleUpper,
+            rawRoleUpper === undefined
+            ? "undefined"
+            : JSON.stringify(rawRoleUpper)
+        );
+
+
+        let roleValue;
+
+
+        if(
+            rawRoleLower !== undefined &&
+            rawRoleLower !== null
+        ){
+
+            roleValue =
+                rawRoleLower;
+
+        }else if(
+            rawRoleUpper !== undefined &&
+            rawRoleUpper !== null
+        ){
+
+            roleValue =
+                rawRoleUpper;
+
+        }else if(
+            rawRoleCaps !== undefined &&
+            rawRoleCaps !== null
+        ){
+
+            roleValue =
+                rawRoleCaps;
+
+        }else{
+
+            roleValue =
+                "";
+        }
+
+
+        const role =
+            String(
+                roleValue
+            )
+            .trim()
+            .toLowerCase();
+
+
+        /*
+         * =================================================
+         * FIELD ACTIVE
+         *
+         * Mendukung:
+         *
+         * active
+         * Active
+         * ACTIVE
+         * =================================================
+         */
+
+        const rawActiveLower =
+            data.active;
+
+        const rawActiveUpper =
+            data.Active;
+
+        const rawActiveCaps =
+            data.ACTIVE;
+
+
+        debugValue(
+            debugActiveLower,
+            rawActiveLower === undefined
+            ? "undefined"
+            : JSON.stringify(rawActiveLower)
+        );
+
+
+        debugValue(
+            debugActiveUpper,
+            rawActiveUpper === undefined
+            ? "undefined"
+            : JSON.stringify(rawActiveUpper)
+        );
+
+
+        let activeValue;
+
+
+        if(
+            rawActiveLower !== undefined &&
+            rawActiveLower !== null
+        ){
+
+            activeValue =
+                rawActiveLower;
+
+        }else if(
+            rawActiveUpper !== undefined &&
+            rawActiveUpper !== null
+        ){
+
+            activeValue =
+                rawActiveUpper;
+
+        }else if(
+            rawActiveCaps !== undefined &&
+            rawActiveCaps !== null
+        ){
+
+            activeValue =
+                rawActiveCaps;
+
+        }else{
+
+            activeValue =
+                false;
+        }
+
+
+        /*
+         * Firebase boolean normal
+         */
+
+        let active =
+            activeValue === true;
+
+
+        /*
+         * Toleransi jika value tersimpan
+         * sebagai string "true".
+         */
+
+        if(
+            typeof activeValue === "string"
+        ){
+
+            active =
+                activeValue
+                .trim()
+                .toLowerCase() === "true";
+        }
+
+
+        debugValue(
+            debugRole,
+            role || "(kosong)",
+            role === "admin"
+            ? "ok"
+            : "no"
+        );
+
+
+        debugValue(
+            debugActive,
+            String(active),
+            active
+            ? "ok"
+            : "no"
+        );
+
+
+        /*
+         * HASIL AKHIR
+         */
+
+        const isAdmin =
+            uidMatch &&
+            role === "admin" &&
+            active === true;
+
+
+        console.log(
+            "UID MATCH:",
+            uidMatch
+        );
+
+        console.log(
+            "ROLE:",
+            role
+        );
+
+        console.log(
+            "ACTIVE:",
+            active
+        );
+
+        console.log(
+            "IS ADMIN:",
+            isAdmin
+        );
+
+
+        if(
+            isAdmin
+        ){
+
+            debugValue(
+                debugAdmin,
+                "YA",
+                "ok"
+            );
+
+            debugValue(
+                debugTarget,
+                "admin.html",
+                "ok"
+            );
+
+        }else{
+
+            debugValue(
+                debugAdmin,
+                "TIDAK",
+                "no"
+            );
+
+            debugValue(
+                debugTarget,
+                "dashboard.html",
+                "warn"
+            );
+        }
+
+
+        return {
+            isAdmin,
+            role,
+            active
+        };
+
     }catch(error){
 
         console.error(
-            "FIRESTORE ERROR:",
+            "ADMIN CHECK ERROR:",
             error
         );
 
 
-        setDebug(
+        debugValue(
             debugFirestore,
             "GAGAL",
             "no"
         );
 
 
-        setDebug(
-            debugFound,
-            "TIDAK BISA DIPERIKSA",
-            "warning"
-        );
-
-
-        setDebug(
-            debugRole,
-            "READ ERROR",
-            "no"
-        );
-
-
-        setDebug(
-            debugActive,
-            "READ ERROR",
-            "no"
-        );
-
-
-        setDebug(
+        debugValue(
             debugAdmin,
-            "TIDAK",
+            "TIDAK DAPAT DIPERIKSA",
             "no"
         );
 
 
-        setDebug(
+        debugValue(
             debugTarget,
             "TIDAK ADA REDIRECT",
-            "warning"
-        );
-
-
-        showResult(
-            "❌ FIRESTORE GAGAL DIBACA",
-            "Kode error: " +
-            (error.code || "unknown") +
-            " | " +
-            (error.message || "Tidak diketahui") +
-            ". Periksa Firestore Rules dan pastikan halaman ini menggunakan project Firebase multibooster-media."
-        );
-
-
-        throw error;
-
-    }
-
-
-    /*
-       CEK DOKUMEN
-    */
-
-    if(
-        !adminSnap.exists()
-    ){
-
-        setDebug(
-            debugFound,
-            "TIDAK",
-            "no"
-        );
-
-
-        setDebug(
-            debugRole,
-            "DOKUMEN TIDAK ADA",
-            "no"
-        );
-
-
-        setDebug(
-            debugActive,
-            "DOKUMEN TIDAK ADA",
-            "no"
-        );
-
-
-        setDebug(
-            debugAdmin,
-            "TIDAK",
-            "no"
-        );
-
-
-        setDebug(
-            debugTarget,
-            "dashboard.html",
-            "warning"
-        );
-
-
-        showResult(
-            "⚠️ DOKUMEN ADMIN TIDAK DITEMUKAN",
-            "Firestore berhasil dibaca, tetapi dokumen admins/" +
-            documentId +
-            " tidak ditemukan."
-        );
-
-
-        return {
-
-            isAdmin:false,
-
-            role:"",
-
-            active:false,
-
-            found:false
-
-        };
-
-    }
-
-
-    /*
-       DOKUMEN DITEMUKAN
-    */
-
-    setDebug(
-        debugFound,
-        "YA",
-        "ok"
-    );
-
-
-    const data =
-        adminSnap.data();
-
-
-    console.log(
-        "ADMIN DATA:",
-        data
-    );
-
-
-    /*
-       ROLE
-    */
-
-    const role =
-        String(
-            data.role ?? ""
-        )
-        .trim()
-        .toLowerCase();
-
-
-    /*
-       ACTIVE
-    */
-
-    const active =
-        data.active === true;
-
-
-    /*
-       ADMIN VALID
-    */
-
-    const isAdmin =
-        role === "admin" &&
-        active === true;
-
-
-    setDebug(
-        debugRole,
-        role || "(kosong)",
-        role === "admin"
-        ? "ok"
-        : "no"
-    );
-
-
-    setDebug(
-        debugActive,
-        String(
-            data.active
-        ) +
-        " [" +
-        typeof data.active +
-        "]",
-        active
-        ? "ok"
-        : "no"
-    );
-
-
-    setDebug(
-        debugAdmin,
-        isAdmin
-        ? "YA"
-        : "TIDAK",
-        isAdmin
-        ? "ok"
-        : "no"
-    );
-
-
-    currentTarget =
-        isAdmin
-        ? "admin.html"
-        : "dashboard.html";
-
-
-    setDebug(
-        debugTarget,
-        currentTarget,
-        isAdmin
-        ? "ok"
-        : "warning"
-    );
-
-
-    if(
-        isAdmin
-    ){
-
-        showResult(
-            "✅ ADMIN TERDETEKSI",
-            "UID login cocok dengan document ID admins. Field role = admin dan active = true. Akun ini seharusnya membuka admin.html."
-        );
-
-        showMessage(
-            "Admin terdeteksi. Pemeriksaan selesai. Tidak ada redirect otomatis.",
-            "success"
-        );
-
-
-        continueBtn.textContent =
-            "Buka Admin Panel →";
-
-
-        continueBtn.style.display =
-            "block";
-
-
-    }else{
-
-        showResult(
-            "⚠️ BUKAN ADMIN",
-            "Dokumen admin ditemukan, tetapi role harus bernilai admin dan active harus bernilai true."
+            "warn"
         );
 
 
         showMessage(
-            "Dokumen ditemukan tetapi akun tidak memenuhi syarat admin.",
+            "Gagal membaca data admin: " +
+            error.message,
             "error"
         );
 
 
-        continueBtn.textContent =
-            "Buka Dashboard →";
+        /*
+         * JANGAN REDIRECT KE DASHBOARD
+         * jika pemeriksaan Firestore gagal.
+         */
 
+        throw error;
 
-        continueBtn.style.display =
-            "block";
+    }finally{
 
+        checking =
+            false;
     }
-
-
-    return {
-
-        isAdmin,
-
-        role,
-
-        active,
-
-        found:true
-
-    };
-
 }
 
 
 /* =====================================================
-   CEK USER
+   CHECK USER
 ===================================================== */
 
 async function checkUser(
@@ -2032,13 +1574,9 @@ async function checkUser(
     ){
 
         return {
-
             exists:false,
-
             blocked:false
-
         };
-
     }
 
 
@@ -2052,41 +1590,62 @@ async function checkUser(
 
         blocked:
             data.isBlocked === true
-
     };
-
 }
 
 
 /* =====================================================
-   PEMERIKSAAN LOGIN
+   REDIRECT
 ===================================================== */
 
-async function inspectAccount(
+function goTo(
+    page
+){
+
+    if(
+        redirectStarted
+    ){
+
+        return;
+    }
+
+
+    redirectStarted =
+        true;
+
+
+    setLoading(
+        true,
+        "Membuka " + page + "..."
+    );
+
+
+    /*
+     * Jangan pakai timeout panjang.
+     * Langsung pindah setelah hasil valid.
+     */
+
+    window.location.replace(
+        page
+    );
+}
+
+
+/* =====================================================
+   PROCESS LOGIN USER
+===================================================== */
+
+async function processUser(
     user
 ){
 
     if(
-        !user
+        !user ||
+        redirectStarted
     ){
 
         return;
     }
-
-
-    if(
-        checkingAccount
-    ){
-
-        return;
-    }
-
-
-    checkingAccount =
-        true;
-
-
-    openDebug();
 
 
     setLoading(
@@ -2096,7 +1655,7 @@ async function inspectAccount(
 
 
     showMessage(
-        "Sedang memeriksa UID dan data admin...",
+        "Memeriksa akun dan hak akses...",
         "info"
     );
 
@@ -2104,8 +1663,8 @@ async function inspectAccount(
     try{
 
         /*
-           ADMIN CHECK
-        */
+         * ADMIN SELALU DICEK DULU
+         */
 
         const admin =
             await checkAdmin(
@@ -2114,84 +1673,48 @@ async function inspectAccount(
 
 
         /*
-           Jika admin,
-           STOP DI SINI.
-
-           Tidak ada dashboard otomatis.
-        */
+         * ADMIN
+         */
 
         if(
+            admin &&
             admin.isAdmin
         ){
 
-            setLoading(
-                false
-            );
-
-            checkingAccount =
-                false;
-
-            return;
-        }
-
-
-        /*
-           Jika bukan admin,
-           cek apakah user diblokir.
-        */
-
-        let userData;
-
-        try{
-
-            userData =
-                await checkUser(
-                    user
-                );
-
-        }catch(error){
-
-            console.error(
-                "USER CHECK ERROR:",
-                error
-            );
-
-
-            setDebug(
-                debugTarget,
-                "TIDAK ADA REDIRECT",
-                "warning"
-            );
-
-
             showMessage(
-                "Admin tidak terdeteksi dan data user gagal dibaca.",
-                "error"
+                "Admin terdeteksi. Membuka panel admin...",
+                "success"
             );
 
 
-            showResult(
-                "❌ PEMERIKSAAN USER GAGAL",
-                error.message ||
-                "Gagal membaca users/" +
-                user.uid
+            /*
+             * Sedikit jeda agar pesan
+             * terlihat tetapi debug
+             * tetap ada.
+             */
+
+            setTimeout(
+                ()=>{
+                    goTo(
+                        "admin.html"
+                    );
+                },
+                800
             );
-
-
-            setLoading(
-                false
-            );
-
-            checkingAccount =
-                false;
 
             return;
         }
 
 
         /*
-           BLOCKED
-        */
+         * USER BIASA
+         */
+
+        const userData =
+            await checkUser(
+                user
+            );
+
 
         if(
             userData.blocked
@@ -2202,13 +1725,13 @@ async function inspectAccount(
             );
 
 
+            redirectStarted =
+                false;
+
+
             setLoading(
                 false
             );
-
-
-            checkingAccount =
-                false;
 
 
             showMessage(
@@ -2217,176 +1740,74 @@ async function inspectAccount(
             );
 
 
-            setDebug(
+            debugValue(
                 debugTarget,
                 "AKUN DIBLOKIR",
                 "no"
             );
 
 
-            continueBtn.style.display =
-                "none";
-
-
             return;
         }
 
 
         /*
-           USER BIASA
-        */
-
-        setDebug(
-            debugTarget,
-            "dashboard.html",
-            "warning"
-        );
-
-
-        showResult(
-            "ℹ️ AKUN USER",
-            "Akun ini bukan admin. Jika ingin membuka dashboard, tekan tombol di bawah."
-        );
-
+         * USER NORMAL
+         */
 
         showMessage(
-            "Akun user terdeteksi. Tidak ada redirect otomatis.",
-            "info"
+            "Login berhasil. Membuka dashboard...",
+            "success"
         );
 
 
-        continueBtn.textContent =
-            "Buka Dashboard →";
-
-
-        continueBtn.style.display =
-            "block";
-
-
-        setLoading(
-            false
+        debugValue(
+            debugTarget,
+            "dashboard.html",
+            "warn"
         );
 
 
-        checkingAccount =
-            false;
-
+        setTimeout(
+            ()=>{
+                goTo(
+                    "dashboard.html"
+                );
+            },
+            800
+        );
 
     }catch(error){
 
         console.error(
-            "INSPECTION ERROR:",
+            "PROCESS USER ERROR:",
             error
         );
 
 
-        setLoading(
-            false
-        );
-
-
-        checkingAccount =
+        redirectStarted =
             false;
 
 
-        showMessage(
-            "Pemeriksaan gagal. Lihat kotak debug.",
-            "error"
+        setLoading(
+            false
         );
-
-
-        setDebug(
-            debugTarget,
-            "TIDAK ADA REDIRECT",
-            "warning"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   CONTINUE BUTTON
-===================================================== */
-
-continueBtn.addEventListener(
-    "click",
-    ()=>{
-
-        if(
-            !currentTarget
-        ){
-
-            return;
-        }
 
 
         /*
-           Hanya redirect setelah user
-           melihat hasil debug dan
-           menekan tombol sendiri.
-        */
+         * SANGAT PENTING:
+         *
+         * Jangan membuka dashboard jika
+         * pemeriksaan admin gagal.
+         */
 
-        window.location.replace(
-            currentTarget
+        debugValue(
+            debugTarget,
+            "TIDAK ADA REDIRECT",
+            "warn"
         );
-
     }
-);
-
-
-/* =====================================================
-   LOGOUT / RESET
-===================================================== */
-
-logoutBtn.addEventListener(
-    "click",
-    async()=>{
-
-        try{
-
-            await signOut(
-                auth
-            );
-
-        }catch(error){
-
-            console.error(
-                "LOGOUT ERROR:",
-                error
-            );
-
-        }
-
-
-        checkingAccount =
-            false;
-
-
-        currentTarget =
-            "";
-
-
-        continueBtn.style.display =
-            "none";
-
-
-        resetDebug();
-
-
-        setLoading(
-            false
-        );
-
-
-        showMessage(
-            "Session Firebase sudah di-reset. Silakan login kembali.",
-            "info"
-        );
-
-    }
-);
+}
 
 
 /* =====================================================
@@ -2400,17 +1821,12 @@ try{
         browserLocalPersistence
     );
 
-    console.log(
-        "Firebase persistence: AKTIF"
-    );
-
 }catch(error){
 
     console.error(
-        "Persistence error:",
+        "PERSISTENCE ERROR:",
         error
     );
-
 }
 
 
@@ -2423,55 +1839,27 @@ onAuthStateChanged(
     async(user)=>{
 
         console.log(
-            "================================"
-        );
-
-        console.log(
-            "AUTH STATE"
-        );
-
-        console.log(
-            "USER:",
+            "AUTH STATE:",
             user
             ? user.email
             : "BELUM LOGIN"
         );
 
-        console.log(
-            "UID:",
-            user
-            ? user.uid
-            : "-"
-        );
 
+        /*
+         * Jika sudah login sebelumnya,
+         * tetap periksa admin.
+         */
 
         if(
-            user
+            user &&
+            !redirectStarted
         ){
 
-            /*
-               Jika sudah login,
-               PERIKSA tetapi jangan redirect.
-            */
-
-            await inspectAccount(
+            await processUser(
                 user
             );
-
-        }else{
-
-            setLoading(
-                false
-            );
-
-            checkingAccount =
-                false;
-
-            currentTarget =
-                "";
-
         }
-
     }
 );
 
@@ -2488,7 +1876,7 @@ form.addEventListener(
 
 
         if(
-            checkingAccount
+            redirectStarted
         ){
 
             return;
@@ -2497,7 +1885,6 @@ form.addEventListener(
 
         const email =
             emailInput.value.trim();
-
 
         const password =
             passwordInput.value;
@@ -2537,22 +1924,11 @@ form.addEventListener(
         );
 
 
-        showMessage(
-            registerMode
-            ? "Mendaftarkan akun..."
-            : "Login ke Firebase...",
-            "info"
-        );
-
-
-        resetDebug();
-
-
         try{
 
-            /* ==========================================
-               REGISTER
-            ========================================== */
+            /*
+             * REGISTER
+             */
 
             if(
                 registerMode
@@ -2560,7 +1936,6 @@ form.addEventListener(
 
                 const name =
                     nameInput.value.trim();
-
 
                 const phone =
                     phoneInput.value.trim();
@@ -2573,7 +1948,6 @@ form.addEventListener(
                     throw new Error(
                         "Nama wajib diisi."
                     );
-
                 }
 
 
@@ -2584,7 +1958,6 @@ form.addEventListener(
                     throw new Error(
                         "Nomor WhatsApp wajib diisi."
                     );
-
                 }
 
 
@@ -2600,18 +1973,12 @@ form.addEventListener(
                     credential.user;
 
 
-                /*
-                   USER BARU SELALU ROLE USER.
-                */
-
                 await setDoc(
-
                     doc(
                         db,
                         "users",
                         user.uid
                     ),
-
                     {
 
                         uid:
@@ -2637,20 +2004,27 @@ form.addEventListener(
 
                         createdAt:
                             serverTimestamp()
-
                     }
-
                 );
 
 
+                redirectStarted =
+                    true;
+
+
                 showMessage(
-                    "Akun berhasil dibuat. Anda terdaftar sebagai user.",
+                    "Pendaftaran berhasil. Membuka dashboard...",
                     "success"
                 );
 
 
-                setLoading(
-                    false
+                setTimeout(
+                    ()=>{
+                        window.location.replace(
+                            "dashboard.html"
+                        );
+                    },
+                    800
                 );
 
 
@@ -2658,34 +2032,54 @@ form.addEventListener(
             }
 
 
-            /* ==========================================
-               LOGIN
-            ========================================== */
-
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-
             /*
-               onAuthStateChanged akan
-               melakukan pemeriksaan.
-            */
+             * LOGIN
+             */
 
             showMessage(
-                "Login berhasil. Menunggu pemeriksaan akun...",
+                "Memeriksa email dan password...",
                 "info"
             );
 
 
+            const credential =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            const user =
+                credential.user;
+
+
+            console.log(
+                "LOGIN BERHASIL:",
+                user.uid
+            );
+
+
+            /*
+             * JANGAN LANGSUNG DASHBOARD.
+             *
+             * Cek admin dahulu.
+             */
+
+            await processUser(
+                user
+            );
+
         }catch(error){
 
             console.error(
-                "AUTH ERROR:",
+                "LOGIN ERROR:",
                 error
             );
+
+
+            redirectStarted =
+                false;
 
 
             setLoading(
@@ -2701,77 +2095,45 @@ form.addEventListener(
                 error.code
             ){
 
-                case
-                "auth/invalid-credential":
-
+                case "auth/invalid-credential":
                     text =
                         "Email atau password salah.";
-
                     break;
 
-
-                case
-                "auth/user-not-found":
-
+                case "auth/user-not-found":
                     text =
                         "Akun tidak ditemukan.";
-
                     break;
 
-
-                case
-                "auth/wrong-password":
-
+                case "auth/wrong-password":
                     text =
                         "Password salah.";
-
                     break;
 
-
-                case
-                "auth/invalid-email":
-
+                case "auth/invalid-email":
                     text =
                         "Format email tidak valid.";
-
                     break;
 
-
-                case
-                "auth/email-already-in-use":
-
+                case "auth/email-already-in-use":
                     text =
                         "Email sudah terdaftar.";
-
                     break;
 
-
-                case
-                "auth/weak-password":
-
+                case "auth/weak-password":
                     text =
                         "Password minimal 6 karakter.";
-
                     break;
 
-
-                case
-                "auth/too-many-requests":
-
+                case "auth/too-many-requests":
                     text =
                         "Terlalu banyak percobaan. Coba lagi nanti.";
-
                     break;
 
-
-                case
-                "permission-denied":
-
+                case "permission-denied":
                     text =
                         "Firestore Rules menolak akses.";
-
                     break;
-
 
                 default:
 
@@ -2781,9 +2143,7 @@ form.addEventListener(
 
                         text =
                             error.message;
-
                     }
-
             }
 
 
@@ -2793,22 +2153,23 @@ form.addEventListener(
             );
 
 
-            openDebug();
-
-
-            showResult(
-                "❌ AUTH ERROR",
-                text
+            debugBox.classList.add(
+                "show"
             );
 
-        }
 
+            debugValue(
+                debugTarget,
+                "TIDAK ADA REDIRECT",
+                "warn"
+            );
+        }
     }
 );
 
 
 /* =====================================================
-   LOGIN / REGISTER SWITCH
+   SWITCH LOGIN / REGISTER
 ===================================================== */
 
 switchText.addEventListener(
@@ -2826,83 +2187,104 @@ switchText.addEventListener(
             title.textContent =
                 "Daftar Akun";
 
-
             registerFields.classList.add(
                 "show"
             );
 
-
             submitBtn.textContent =
                 "Daftar";
-
 
             switchText.textContent =
                 "Sudah punya akun? Login";
 
-
             passwordInput.autocomplete =
                 "new-password";
-
 
         }else{
 
             title.textContent =
                 "Login";
 
-
             registerFields.classList.remove(
                 "show"
             );
 
-
             submitBtn.textContent =
                 "Login";
-
 
             switchText.textContent =
                 "Belum punya akun? Daftar";
 
-
             passwordInput.autocomplete =
                 "current-password";
-
         }
-
-
-        message.classList.remove(
-            "show"
-        );
-
     }
 );
 
 
 /* =====================================================
-   GLOBAL ERROR
+   REFRESH CHECK
 ===================================================== */
 
-window.addEventListener(
-    "error",
-    (event)=>{
+refreshCheck.addEventListener(
+    "click",
+    async()=>{
 
-        console.error(
-            "GLOBAL ERROR:",
-            event.error
+        const user =
+            auth.currentUser;
+
+
+        if(
+            !user
+        ){
+
+            resetDebug();
+
+            showMessage(
+                "Belum ada akun yang login.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        redirectStarted =
+            false;
+
+
+        setLoading(
+            true,
+            "Memeriksa ulang..."
         );
 
-    }
-);
 
+        try{
 
-window.addEventListener(
-    "unhandledrejection",
-    (event)=>{
+            await checkAdmin(
+                user
+            );
 
-        console.error(
-            "PROMISE ERROR:",
-            event.reason
-        );
+            setLoading(
+                false
+            );
 
+            showMessage(
+                "Pemeriksaan selesai. Panel debug tetap ditampilkan.",
+                "success"
+            );
+
+        }catch(error){
+
+            setLoading(
+                false
+            );
+
+            showMessage(
+                "Pemeriksaan gagal.",
+                "error"
+            );
+        }
     }
 );
 
@@ -2911,12 +2293,27 @@ window.addEventListener(
    STARTUP
 ===================================================== */
 
+resetDebug();
+
+debugValue(
+    debugFirestore,
+    "MENUNGGU LOGIN",
+    "warn"
+);
+
+debugValue(
+    debugTarget,
+    "auth.html",
+    "warn"
+);
+
+
 console.log(
-    "=========================================="
+    "======================================"
 );
 
 console.log(
-    "MULTIBOOSTER MEDIA AUTH DEBUG"
+    "MULTIBOOSTER MEDIA AUTH FINAL"
 );
 
 console.log(
@@ -2924,26 +2321,29 @@ console.log(
 );
 
 console.log(
-    "COLLECTION ADMIN: admins"
+    "ADMIN COLLECTION:",
+    ADMIN_COLLECTION
 );
 
 console.log(
     "ADMIN UID:",
-    EXPECTED_ADMIN_UID
+    ADMIN_UID
 );
 
 console.log(
-    "ADMIN PATH:",
-    "admins/" +
-    EXPECTED_ADMIN_UID
+    "ADMIN CHECK: admins/{UID LOGIN}"
 );
 
 console.log(
-    "AUTO REDIRECT: NONAKTIF"
+    "ROLE: role / Role"
 );
 
 console.log(
-    "=========================================="
+    "ACTIVE: active / Active"
+);
+
+console.log(
+    "======================================"
 );
 
 </script>
