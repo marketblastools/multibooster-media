@@ -250,6 +250,15 @@ button{
 
         0 12px 35px
         rgba(108,80,255,.30);
+
+    transition:
+        transform .15s ease,
+        opacity .15s ease;
+}
+
+button:active{
+
+    transform:scale(.98);
 }
 
 button:disabled{
@@ -257,6 +266,8 @@ button:disabled{
     opacity:.55;
 
     cursor:not-allowed;
+
+    transform:none;
 }
 
 
@@ -432,26 +443,34 @@ button:disabled{
         MB
     </div>
 
+
     <h1 id="title">
         Login
     </h1>
 
+
     <div class="subtitle">
         MultiBooster Media
     </div>
+
 
     <div
         id="message"
         class="message">
     </div>
 
+
     <form id="authForm">
 
-        <!-- REGISTER -->
+
+        <!-- =========================================
+             REGISTER FIELDS
+        ========================================== -->
 
         <div
             id="registerFields"
             class="register-fields">
+
 
             <div class="form-group">
 
@@ -467,6 +486,7 @@ button:disabled{
 
             </div>
 
+
             <div class="form-group">
 
                 <label>
@@ -481,10 +501,13 @@ button:disabled{
 
             </div>
 
+
         </div>
 
 
-        <!-- EMAIL -->
+        <!-- =========================================
+             EMAIL
+        ========================================== -->
 
         <div class="form-group">
 
@@ -502,7 +525,9 @@ button:disabled{
         </div>
 
 
-        <!-- PASSWORD -->
+        <!-- =========================================
+             PASSWORD
+        ========================================== -->
 
         <div class="form-group">
 
@@ -528,6 +553,7 @@ button:disabled{
 
         </button>
 
+
     </form>
 
 
@@ -552,6 +578,7 @@ button:disabled{
 
 
 <script type="module">
+
 
 /* =====================================================
    FIREBASE
@@ -618,7 +645,7 @@ const firebaseConfig = {
 
 
 /* =====================================================
-   INITIALIZE
+   INITIALIZE FIREBASE
 ===================================================== */
 
 const app =
@@ -626,8 +653,10 @@ const app =
         firebaseConfig
     );
 
+
 const auth =
     getAuth(app);
+
 
 const db =
     getFirestore(app);
@@ -642,50 +671,60 @@ const form =
         "authForm"
     );
 
+
 const emailInput =
     document.getElementById(
         "email"
     );
+
 
 const passwordInput =
     document.getElementById(
         "password"
     );
 
+
 const nameInput =
     document.getElementById(
         "name"
     );
+
 
 const phoneInput =
     document.getElementById(
         "phone"
     );
 
+
 const registerFields =
     document.getElementById(
         "registerFields"
     );
+
 
 const submitBtn =
     document.getElementById(
         "submitBtn"
     );
 
+
 const switchText =
     document.getElementById(
         "switchText"
     );
+
 
 const title =
     document.getElementById(
         "title"
     );
 
+
 const message =
     document.getElementById(
         "message"
     );
+
 
 const loading =
     document.getElementById(
@@ -694,7 +733,7 @@ const loading =
 
 
 /* =====================================================
-   ADMIN
+   ADMIN CONFIG
 ===================================================== */
 
 const ADMIN_UID =
@@ -705,11 +744,14 @@ const ADMIN_UID =
    STATE
 ===================================================== */
 
-let registerMode = false;
+let registerMode =
+    false;
 
-let redirectStarted = false;
+let redirectStarted =
+    false;
 
-let authStateHandled = false;
+let authStateHandled =
+    false;
 
 
 /* =====================================================
@@ -767,6 +809,10 @@ async function isAdmin(user){
     }
 
 
+    /*
+     * UID harus sesuai dengan admin.
+     */
+
     if(
         user.uid !== ADMIN_UID
     ){
@@ -774,6 +820,12 @@ async function isAdmin(user){
         return false;
     }
 
+
+    /*
+     * Ambil:
+     *
+     * admins/{ADMIN_UID}
+     */
 
     const adminRef =
         doc(
@@ -800,6 +852,13 @@ async function isAdmin(user){
     const data =
         adminSnap.data();
 
+
+    /*
+     * Field admin:
+     *
+     * Role
+     * Active
+     */
 
     const role =
         String(
@@ -832,8 +891,11 @@ async function checkUser(user){
     ){
 
         return {
+
             exists:false,
+
             blocked:false
+
         };
     }
 
@@ -857,8 +919,11 @@ async function checkUser(user){
     ){
 
         return {
+
             exists:false,
+
             blocked:false
+
         };
     }
 
@@ -873,7 +938,85 @@ async function checkUser(user){
 
         blocked:
             data.isBlocked === true
+
     };
+}
+
+
+/* =====================================================
+   CREATE USER PROFILE
+===================================================== */
+
+async function createUserProfile(
+    user,
+    name = "",
+    phone = ""
+){
+
+    if(
+        !user ||
+        !user.uid
+    ){
+
+        throw new Error(
+            "Data akun tidak valid."
+        );
+    }
+
+
+    const userRef =
+        doc(
+            db,
+            "users",
+            user.uid
+        );
+
+
+    /*
+     * Buat dokumen users/{UID}
+     */
+
+    await setDoc(
+
+        userRef,
+
+        {
+
+            uid:
+                user.uid,
+
+            name:
+                name ||
+                user.displayName ||
+                "User",
+
+            phone:
+                phone || "",
+
+            email:
+                user.email || "",
+
+            balance:
+                0,
+
+            isBlocked:
+                false,
+
+            photoURL:
+                user.photoURL || "",
+
+            createdAt:
+                serverTimestamp()
+
+        },
+
+        {
+
+            merge:true
+
+        }
+
+    );
 }
 
 
@@ -940,7 +1083,9 @@ async function processAuthUser(user){
             );
 
 
-        if(admin){
+        if(
+            admin
+        ){
 
             showMessage(
                 "Login berhasil. Membuka panel admin...",
@@ -968,105 +1113,31 @@ async function processAuthUser(user){
            USER
         ============================================= */
 
-        const userData =
+        let userData =
             await checkUser(
                 user
             );
 
 
-        /* =============================================
-           USER TIDAK MEMILIKI PROFIL
-        ============================================= */
+        /*
+         * Jika akun Authentication sudah ada
+         * tetapi users/{UID} belum ada,
+         * otomatis buat profilnya.
+         */
 
         if(
             !userData.exists
         ){
 
-            /*
-             * Untuk akun lama yang sudah ada
-             * di Authentication tetapi belum memiliki
-             * dokumen users, buat profil otomatis.
-             *
-             * Data nama dan nomor tidak diketahui
-             * sehingga menggunakan nilai default.
-             */
-
-            await setDoc(
-
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                ),
-
-                {
-
-                    uid:
-                        user.uid,
-
-                    name:
-                        user.displayName ||
-                        "User",
-
-                    phone:
-                        "",
-
-                    email:
-                        user.email || "",
-
-                    balance:
-                        0,
-
-                    isBlocked:
-                        false,
-
-                    photoURL:
-                        user.photoURL || "",
-
-                    createdAt:
-                        serverTimestamp()
-
-                },
-
-                {
-                    merge:true
-                }
-
+            await createUserProfile(
+                user
             );
 
 
-            /*
-             * Cek kembali profil setelah dibuat.
-             */
-
-            const newUserData =
+            userData =
                 await checkUser(
                     user
                 );
-
-
-            if(
-                newUserData.blocked
-            ){
-
-                await signOut(
-                    auth
-                );
-
-
-                setLoading(
-                    false
-                );
-
-
-                showMessage(
-                    "Akun Anda telah diblokir oleh admin.",
-                    "error"
-                );
-
-
-                return;
-            }
         }
 
 
@@ -1074,14 +1145,8 @@ async function processAuthUser(user){
            BLOKIR USER
         ============================================= */
 
-        const finalUserData =
-            await checkUser(
-                user
-            );
-
-
         if(
-            finalUserData.blocked
+            userData.blocked
         ){
 
             await signOut(
@@ -1181,6 +1246,10 @@ onAuthStateChanged(
 
     async(user)=>{
 
+        /*
+         * Belum login.
+         */
+
         if(
             !user
         ){
@@ -1192,6 +1261,10 @@ onAuthStateChanged(
             return;
         }
 
+
+        /*
+         * Jangan proses berulang.
+         */
 
         if(
             authStateHandled ||
@@ -1243,6 +1316,10 @@ form.addEventListener(
         const password =
             passwordInput.value;
 
+
+        /* =============================================
+           VALIDASI
+        ============================================= */
 
         if(
             !email
@@ -1320,15 +1397,22 @@ form.addEventListener(
 
 
                 /*
-                 * Buat akun Firebase Authentication
+                 * Buat akun Firebase Authentication.
+                 *
+                 * Firebase otomatis login setelah
+                 * proses ini berhasil.
                  */
 
                 const credential =
                     await
                     createUserWithEmailAndPassword(
+
                         auth,
+
                         email,
+
                         password
+
                     );
 
 
@@ -1337,75 +1421,96 @@ form.addEventListener(
 
 
                 /*
-                 * Buat dokumen users/{UID}
-                 *
-                 * Struktur dibuat sama dengan
-                 * dokumen users yang sekarang.
+                 * Buat profil Firestore.
                  */
 
-                await setDoc(
+                await createUserProfile(
 
-                    doc(
-                        db,
-                        "users",
-                        user.uid
-                    ),
+                    user,
 
-                    {
+                    name,
 
-                        uid:
-                            user.uid,
-
-                        name:
-                            name,
-
-                        phone:
-                            phone,
-
-                        email:
-                            user.email || email,
-
-                        balance:
-                            0,
-
-                        isBlocked:
-                            false,
-
-                        photoURL:
-                            user.photoURL || "",
-
-                        createdAt:
-                            serverTimestamp()
-
-                    }
+                    phone
 
                 );
 
 
                 /*
-                 * Berhasil.
+                 * =====================================
+                 * PENTING:
+                 *
+                 * Jangan langsung ke dashboard.
+                 *
+                 * Logout terlebih dahulu.
+                 * User harus login manual.
+                 * =====================================
                  */
 
+                await signOut(
+                    auth
+                );
+
+
+                /*
+                 * Kembali ke mode LOGIN.
+                 */
+
+                registerMode =
+                    false;
+
+
+                authStateHandled =
+                    false;
+
+
                 redirectStarted =
-                    true;
+                    false;
+
+
+                title.textContent =
+                    "Login";
+
+
+                registerFields.classList.remove(
+                    "show"
+                );
+
+
+                submitBtn.textContent =
+                    "Login";
+
+
+                switchText.textContent =
+                    "Belum punya akun? Daftar";
+
+
+                passwordInput.value =
+                    "";
+
+
+                emailInput.value =
+                    email;
+
+
+                passwordInput.autocomplete =
+                    "current-password";
+
+
+                setLoading(
+                    false
+                );
 
 
                 showMessage(
-                    "Pendaftaran berhasil. Membuka dashboard...",
+
+                    "Pendaftaran berhasil! Silakan login menggunakan email dan password Anda.",
+
                     "success"
+
                 );
 
 
-                setTimeout(
-                    ()=>{
-
-                        window.location.replace(
-                            "dashboard.html"
-                        );
-
-                    },
-                    400
-                );
+                emailInput.focus();
 
 
                 return;
@@ -1416,13 +1521,30 @@ form.addEventListener(
                LOGIN
             ========================================= */
 
+            /*
+             * Login menggunakan Firebase Authentication.
+             */
+
             await
             signInWithEmailAndPassword(
+
                 auth,
+
                 email,
+
                 password
+
             );
 
+
+            /*
+             * Tidak melakukan redirect di sini.
+             *
+             * onAuthStateChanged akan menangani:
+             *
+             * Admin → admin.html
+             * User  → dashboard.html
+             */
 
         }catch(error){
 
@@ -1555,6 +1677,10 @@ switchText.addEventListener(
             !registerMode;
 
 
+        /* =============================================
+           REGISTER MODE
+        ============================================= */
+
         if(
             registerMode
         ){
@@ -1586,6 +1712,10 @@ switchText.addEventListener(
             return;
         }
 
+
+        /* =============================================
+           LOGIN MODE
+        ============================================= */
 
         title.textContent =
             "Login";
