@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport"
-   content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
 <meta name="theme-color"
-   content="#6855ff">
+      content="#6855ff">
 
 <meta name="description"
-   content="Login dan pendaftaran akun MultiBooster Media">
+      content="Login dan pendaftaran akun MultiBooster Media">
 
 <title>Login - MultiBooster Media</title>
 
@@ -429,141 +428,130 @@ button:disabled{
 
 <div class="login-box">
 
-```
-<div class="logo">
-    MB
-</div>
+    <div class="logo">
+        MB
+    </div>
 
+    <h1 id="title">
+        Login
+    </h1>
 
-<h1 id="title">
-    Login
-</h1>
-
-
-<div class="subtitle">
-    MultiBooster Media
-</div>
-
-
-<div
-    id="message"
-    class="message">
-</div>
-
-
-<form id="authForm">
-
-
-    <!-- REGISTER -->
+    <div class="subtitle">
+        MultiBooster Media
+    </div>
 
     <div
-        id="registerFields"
-        class="register-fields">
+        id="message"
+        class="message">
+    </div>
 
+    <form id="authForm">
 
-        <div class="form-group">
+        <!-- REGISTER -->
 
-            <label>
-                Nama
-            </label>
+        <div
+            id="registerFields"
+            class="register-fields">
 
-            <input
-                id="name"
-                type="text"
-                placeholder="Nama lengkap"
-                autocomplete="name">
+            <div class="form-group">
+
+                <label>
+                    Nama
+                </label>
+
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="Nama lengkap"
+                    autocomplete="name">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Nomor WhatsApp
+                </label>
+
+                <input
+                    id="phone"
+                    type="tel"
+                    placeholder="08xxxxxxxxxx"
+                    autocomplete="tel">
+
+            </div>
 
         </div>
 
 
+        <!-- EMAIL -->
+
         <div class="form-group">
 
             <label>
-                Nomor WhatsApp
+                Email
             </label>
 
             <input
-                id="phone"
-                type="tel"
-                placeholder="08xxxxxxxxxx"
-                autocomplete="tel">
+                id="email"
+                type="email"
+                placeholder="email@gmail.com"
+                autocomplete="email"
+                required>
 
         </div>
 
 
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                autocomplete="current-password"
+                required>
+
+        </div>
+
+
+        <button
+            id="submitBtn"
+            type="submit">
+
+            Login
+
+        </button>
+
+    </form>
+
+
+    <div
+        id="loading"
+        class="loading">
+
+        Memproses...
+
     </div>
 
 
-    <!-- EMAIL -->
+    <div class="switch">
 
-    <div class="form-group">
-
-        <label>
-            Email
-        </label>
-
-        <input
-            id="email"
-            type="email"
-            placeholder="email@gmail.com"
-            autocomplete="email"
-            required>
+        <span id="switchText">
+            Belum punya akun? Daftar
+        </span>
 
     </div>
 
-
-    <!-- PASSWORD -->
-
-    <div class="form-group">
-
-        <label>
-            Password
-        </label>
-
-        <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            autocomplete="current-password"
-            required>
-
-    </div>
-
-
-    <button
-        id="submitBtn"
-        type="submit">
-
-        Login
-
-    </button>
-
-
-</form>
-
-
-<div
-    id="loading"
-    class="loading">
-
-    Memproses...
-
 </div>
 
-
-<div class="switch">
-
-    <span id="switchText">
-        Belum punya akun? Daftar
-    </span>
-
-</div>
-```
-
-</div>
 
 <script type="module">
-
 
 /* =====================================================
    FIREBASE
@@ -638,10 +626,8 @@ const app =
         firebaseConfig
     );
 
-
 const auth =
     getAuth(app);
-
 
 const db =
     getFirestore(app);
@@ -656,60 +642,50 @@ const form =
         "authForm"
     );
 
-
 const emailInput =
     document.getElementById(
         "email"
     );
-
 
 const passwordInput =
     document.getElementById(
         "password"
     );
 
-
 const nameInput =
     document.getElementById(
         "name"
     );
-
 
 const phoneInput =
     document.getElementById(
         "phone"
     );
 
-
 const registerFields =
     document.getElementById(
         "registerFields"
     );
-
 
 const submitBtn =
     document.getElementById(
         "submitBtn"
     );
 
-
 const switchText =
     document.getElementById(
         "switchText"
     );
-
 
 const title =
     document.getElementById(
         "title"
     );
 
-
 const message =
     document.getElementById(
         "message"
     );
-
 
 const loading =
     document.getElementById(
@@ -718,7 +694,7 @@ const loading =
 
 
 /* =====================================================
-   ADMIN CONFIG
+   ADMIN
 ===================================================== */
 
 const ADMIN_UID =
@@ -729,14 +705,11 @@ const ADMIN_UID =
    STATE
 ===================================================== */
 
-let registerMode =
-    false;
+let registerMode = false;
 
-let redirectStarted =
-    false;
+let redirectStarted = false;
 
-let authStateHandled =
-    false;
+let authStateHandled = false;
 
 
 /* =====================================================
@@ -783,9 +756,7 @@ function setLoading(
    CHECK ADMIN
 ===================================================== */
 
-async function isAdmin(
-    user
-){
+async function isAdmin(user){
 
     if(
         !user ||
@@ -796,10 +767,6 @@ async function isAdmin(
     }
 
 
-    /*
-     * UID harus sama dengan UID admin
-     */
-
     if(
         user.uid !== ADMIN_UID
     ){
@@ -807,12 +774,6 @@ async function isAdmin(
         return false;
     }
 
-
-    /*
-     * Ambil dokumen:
-     *
-     * admins/{ADMIN_UID}
-     */
 
     const adminRef =
         doc(
@@ -840,13 +801,6 @@ async function isAdmin(
         adminSnap.data();
 
 
-    /*
-     * Field Firebase yang digunakan:
-     *
-     * Role
-     * Active
-     */
-
     const role =
         String(
             data.Role ?? ""
@@ -870,9 +824,7 @@ async function isAdmin(
    CHECK USER
 ===================================================== */
 
-async function checkUser(
-    user
-){
+async function checkUser(user){
 
     if(
         !user ||
@@ -929,9 +881,7 @@ async function checkUser(
    REDIRECT
 ===================================================== */
 
-function goTo(
-    page
-){
+function goTo(page){
 
     if(
         redirectStarted
@@ -961,9 +911,7 @@ function goTo(
    PROCESS AUTH USER
 ===================================================== */
 
-async function processAuthUser(
-    user
-){
+async function processAuthUser(user){
 
     if(
         !user ||
@@ -982,11 +930,9 @@ async function processAuthUser(
         );
 
 
-        /*
-         * ==============================================
-         * ADMIN
-         * ==============================================
-         */
+        /* =============================================
+           ADMIN
+        ============================================= */
 
         const admin =
             await isAdmin(
@@ -994,9 +940,7 @@ async function processAuthUser(
             );
 
 
-        if(
-            admin
-        ){
+        if(admin){
 
             showMessage(
                 "Login berhasil. Membuka panel admin...",
@@ -1020,11 +964,9 @@ async function processAuthUser(
         }
 
 
-        /*
-         * ==============================================
-         * USER
-         * ==============================================
-         */
+        /* =============================================
+           USER
+        ============================================= */
 
         const userData =
             await checkUser(
@@ -1032,14 +974,114 @@ async function processAuthUser(
             );
 
 
-        /*
-         * ==============================================
-         * BLOKIR USER
-         * ==============================================
-         */
+        /* =============================================
+           USER TIDAK MEMILIKI PROFIL
+        ============================================= */
 
         if(
-            userData.blocked
+            !userData.exists
+        ){
+
+            /*
+             * Untuk akun lama yang sudah ada
+             * di Authentication tetapi belum memiliki
+             * dokumen users, buat profil otomatis.
+             *
+             * Data nama dan nomor tidak diketahui
+             * sehingga menggunakan nilai default.
+             */
+
+            await setDoc(
+
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                ),
+
+                {
+
+                    uid:
+                        user.uid,
+
+                    name:
+                        user.displayName ||
+                        "User",
+
+                    phone:
+                        "",
+
+                    email:
+                        user.email || "",
+
+                    balance:
+                        0,
+
+                    isBlocked:
+                        false,
+
+                    photoURL:
+                        user.photoURL || "",
+
+                    createdAt:
+                        serverTimestamp()
+
+                },
+
+                {
+                    merge:true
+                }
+
+            );
+
+
+            /*
+             * Cek kembali profil setelah dibuat.
+             */
+
+            const newUserData =
+                await checkUser(
+                    user
+                );
+
+
+            if(
+                newUserData.blocked
+            ){
+
+                await signOut(
+                    auth
+                );
+
+
+                setLoading(
+                    false
+                );
+
+
+                showMessage(
+                    "Akun Anda telah diblokir oleh admin.",
+                    "error"
+                );
+
+
+                return;
+            }
+        }
+
+
+        /* =============================================
+           BLOKIR USER
+        ============================================= */
+
+        const finalUserData =
+            await checkUser(
+                user
+            );
+
+
+        if(
+            finalUserData.blocked
         ){
 
             await signOut(
@@ -1062,11 +1104,9 @@ async function processAuthUser(
         }
 
 
-        /*
-         * ==============================================
-         * USER NORMAL
-         * ==============================================
-         */
+        /* =============================================
+           USER NORMAL
+        ============================================= */
 
         showMessage(
             "Login berhasil. Membuka dashboard...",
@@ -1103,11 +1143,6 @@ async function processAuthUser(
         );
 
 
-        /*
-         * Jika Firestore gagal,
-         * jangan asal mengarahkan user.
-         */
-
         showMessage(
             "Tidak dapat memeriksa akun. Silakan coba lagi.",
             "error"
@@ -1141,14 +1176,10 @@ try{
 ===================================================== */
 
 onAuthStateChanged(
-    auth,
-    async(user)=>{
 
-        /*
-         * Tidak ada user.
-         *
-         * Biarkan halaman login normal.
-         */
+    auth,
+
+    async(user)=>{
 
         if(
             !user
@@ -1161,11 +1192,6 @@ onAuthStateChanged(
             return;
         }
 
-
-        /*
-         * Jika sudah ada user login,
-         * proses hanya sekali.
-         */
 
         if(
             authStateHandled ||
@@ -1185,6 +1211,7 @@ onAuthStateChanged(
         );
 
     }
+
 );
 
 
@@ -1193,7 +1220,9 @@ onAuthStateChanged(
 ===================================================== */
 
 form.addEventListener(
+
     "submit",
+
     async(event)=>{
 
         event.preventDefault();
@@ -1242,11 +1271,13 @@ form.addEventListener(
 
 
         setLoading(
+
             true,
 
             registerMode
                 ? "Membuat akun..."
                 : "Login..."
+
         );
 
 
@@ -1288,6 +1319,10 @@ form.addEventListener(
                 }
 
 
+                /*
+                 * Buat akun Firebase Authentication
+                 */
+
                 const credential =
                     await
                     createUserWithEmailAndPassword(
@@ -1302,7 +1337,10 @@ form.addEventListener(
 
 
                 /*
-                 * Buat profil user
+                 * Buat dokumen users/{UID}
+                 *
+                 * Struktur dibuat sama dengan
+                 * dokumen users yang sekarang.
                  */
 
                 await setDoc(
@@ -1325,7 +1363,7 @@ form.addEventListener(
                             phone,
 
                         email:
-                            user.email,
+                            user.email || email,
 
                         balance:
                             0,
@@ -1333,19 +1371,19 @@ form.addEventListener(
                         isBlocked:
                             false,
 
-                        role:
-                            "user",
+                        photoURL:
+                            user.photoURL || "",
 
                         createdAt:
                             serverTimestamp()
 
                     }
+
                 );
 
 
                 /*
-                 * Setelah register,
-                 * langsung ke dashboard.
+                 * Berhasil.
                  */
 
                 redirectStarted =
@@ -1385,13 +1423,6 @@ form.addEventListener(
                 password
             );
 
-
-            /*
-             * Jangan redirect di sini.
-             *
-             * onAuthStateChanged akan menangani
-             * pemeriksaan admin/user.
-             */
 
         }catch(error){
 
@@ -1506,6 +1537,7 @@ form.addEventListener(
         }
 
     }
+
 );
 
 
@@ -1514,16 +1546,14 @@ form.addEventListener(
 ===================================================== */
 
 switchText.addEventListener(
+
     "click",
+
     ()=>{
 
         registerMode =
             !registerMode;
 
-
-        /*
-         * REGISTER
-         */
 
         if(
             registerMode
@@ -1550,15 +1580,12 @@ switchText.addEventListener(
                 "new-password";
 
 
-            emailInput.focus();
+            nameInput.focus();
+
 
             return;
         }
 
-
-        /*
-         * LOGIN
-         */
 
         title.textContent =
             "Login";
@@ -1584,6 +1611,7 @@ switchText.addEventListener(
         emailInput.focus();
 
     }
+
 );
 
 </script>
