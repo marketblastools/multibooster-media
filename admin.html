@@ -1,5103 +1,3777 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Admin Panel - MultiBooster Media</title>
 
+<meta name="theme-color" content="#111827">
+<meta name="description" content="Admin Panel MultiBooster Media">
+
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
-
-:root{
-  --bg:#050812;
-  --card:#0c1425;
-  --card2:#101b31;
-  --border:rgba(255,255,255,.09);
-  --text:#f5f7ff;
-  --muted:#8d9ab3;
-  --blue:#00d9ff;
-  --purple:#785cff;
-  --green:#27e98a;
-  --red:#ff5364;
-  --orange:#ffb84d;
-}
-
-
-/* =====================================================
-   BODY
-===================================================== */
 
 body{
-
-  min-height:100vh;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  color:var(--text);
-
-  background:
-
-    radial-gradient(
-      circle at 10% 5%,
-      rgba(0,217,255,.12),
-      transparent 27%
-    ),
-
-    radial-gradient(
-      circle at 90% 15%,
-      rgba(120,92,255,.15),
-      transparent 30%
-    ),
-
-    radial-gradient(
-      circle at 50% 100%,
-      rgba(190,50,180,.08),
-      transparent 30%
-    ),
-
-    linear-gradient(
-      135deg,
-      #040711,
-      #0a1020,
-      #050812
-    );
-
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f3f4f6;
+    color:#111827;
+    min-height:100vh;
 }
 
-
-/* motif */
-
-body::before{
-
-  content:"";
-
-  position:fixed;
-
-  inset:0;
-
-  pointer-events:none;
-
-  opacity:.035;
-
-  background-image:
-
-    linear-gradient(
-      rgba(255,255,255,.5) 1px,
-      transparent 1px
-    ),
-
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.5) 1px,
-      transparent 1px
-    );
-
-  background-size:32px 32px;
-
+button,
+input,
+select{
+    font-family:inherit;
 }
 
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-#loading{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:99999;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  background:#040711;
-
+button{
+    cursor:pointer;
 }
 
-.loader{
+.hidden{
+    display:none!important;
+}
 
-  text-align:center;
+/* LOADING */
 
-  padding:25px;
-
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:#111827;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:15px;
 }
 
 .spinner{
-
-  width:52px;
-
-  height:52px;
-
-  margin:
-    0 auto 16px;
-
-  border:
-    4px solid
-    rgba(255,255,255,.08);
-
-  border-top-color:
-    var(--blue);
-
-  border-right-color:
-    var(--purple);
-
-  border-radius:50%;
-
-  animation:
-    spin .8s linear infinite;
-
+    width:45px;
+    height:45px;
+    border:4px solid rgba(255,255,255,.2);
+    border-top-color:white;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
 }
 
 @keyframes spin{
-
-  to{
-    transform:rotate(360deg);
-  }
-
+    to{transform:rotate(360deg)}
 }
 
-.loader-text{
+/* LOGIN BLOCK */
 
-  color:#cbd4e8;
-
-  font-size:13px;
-
+#accessDenied{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:#f3f4f6;
 }
 
+.denied-box{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:20px;
+    padding:30px 20px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.12);
+}
 
-/* =====================================================
-   HEADER
-===================================================== */
+.denied-icon{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background:#fee2e2;
+    color:#dc2626;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    margin:0 auto 15px;
+}
+
+.denied-box h2{
+    margin-bottom:10px;
+}
+
+.denied-box p{
+    color:#6b7280;
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.btn{
+    border:none;
+    border-radius:10px;
+    padding:11px 16px;
+    font-weight:bold;
+    font-size:14px;
+    transition:.2s;
+}
+
+.btn:active{
+    transform:scale(.97);
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:white;
+}
+
+.btn-success{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-danger{
+    background:#dc2626;
+    color:white;
+}
+
+.btn-warning{
+    background:#f59e0b;
+    color:white;
+}
+
+.btn-secondary{
+    background:#6b7280;
+    color:white;
+}
+
+.btn-dark{
+    background:#111827;
+    color:white;
+}
+
+.btn-light{
+    background:#e5e7eb;
+    color:#111827;
+}
+
+.btn-sm{
+    padding:8px 10px;
+    font-size:12px;
+}
+
+/* APP */
+
+#app{
+    display:none;
+}
+
+/* HEADER */
 
 .header{
-
-  position:sticky;
-
-  top:0;
-
-  z-index:1000;
-
-  min-height:68px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:15px;
-
-  padding:
-    0 20px;
-
-  background:
-    rgba(5,8,18,.90);
-
-  backdrop-filter:
-    blur(18px);
-
-  -webkit-backdrop-filter:
-    blur(18px);
-
-  border-bottom:
-    1px solid
-    var(--border);
-
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:#111827;
+    color:white;
+    padding:14px 16px;
+    box-shadow:0 3px 15px rgba(0,0,0,.15);
 }
 
-.logo{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:11px;
-
+.header-inner{
+    max-width:1400px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
 
-.logo-icon{
-
-  width:42px;
-
-  height:42px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  border-radius:12px;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--purple)
-    );
-
-  font-weight:900;
-
-  box-shadow:
-    0 10px 30px
-    rgba(0,217,255,.18);
-
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.logo h1{
-
-  font-size:16px;
-
+.brand-logo{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:17px;
 }
 
-.logo small{
+.brand h1{
+    font-size:17px;
+}
 
-  display:block;
-
-  margin-top:3px;
-
-  color:var(--muted);
-
-  font-size:9px;
-
+.brand small{
+    color:#9ca3af;
+    font-size:11px;
 }
 
 .admin-info{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.online{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:6px;
-
-  color:var(--green);
-
-  font-size:10px;
-
+.admin-email{
+    font-size:12px;
+    color:#d1d5db;
+    max-width:220px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
-.online-dot{
-
-  width:8px;
-
-  height:8px;
-
-  border-radius:50%;
-
-  background:var(--green);
-
-  box-shadow:
-    0 0 12px
-    var(--green);
-
+.logout-btn{
+    background:#dc2626;
+    color:white;
+    border:none;
+    border-radius:9px;
+    padding:9px 12px;
+    font-weight:bold;
 }
 
-.logout{
-
-  border:
-    1px solid
-    rgba(255,83,100,.25);
-
-  background:
-    rgba(255,83,100,.08);
-
-  color:#ff7b88;
-
-  padding:
-    8px 12px;
-
-  border-radius:8px;
-
-  cursor:pointer;
-
-  font-size:11px;
-
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
+/* CONTENT */
 
 .container{
-
-  width:min(1200px,94%);
-
-  margin:
-    25px auto 60px;
-
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:20px 15px 50px;
 }
 
-.welcome{
-
-  margin-bottom:20px;
-
+.page-title{
+    margin-bottom:20px;
 }
 
-.welcome h2{
-
-  font-size:24px;
-
-  margin-bottom:6px;
-
+.page-title h2{
+    font-size:24px;
+    margin-bottom:5px;
 }
 
-.welcome p{
-
-  color:var(--muted);
-
-  font-size:13px;
-
+.page-title p{
+    color:#6b7280;
+    font-size:14px;
 }
 
-
-/* =====================================================
-   STATS
-===================================================== */
+/* STATS */
 
 .stats{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:14px;
-
-  margin-bottom:22px;
-
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
 }
 
 .stat{
-
-  position:relative;
-
-  overflow:hidden;
-
-  padding:18px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:15px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(17,27,48,.96),
-      rgba(8,14,27,.96)
-    );
-
+    background:white;
+    border-radius:15px;
+    padding:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+    border:1px solid #e5e7eb;
 }
 
-.stat::after{
-
-  content:"";
-
-  position:absolute;
-
-  width:80px;
-
-  height:80px;
-
-  right:-30px;
-
-  top:-30px;
-
-  border-radius:50%;
-
-  background:
-    rgba(0,217,255,.06);
-
-}
-
-.stat-title{
-
-  color:var(--muted);
-
-  font-size:10px;
-
-  margin-bottom:10px;
-
-}
-
-.stat-value{
-
-  font-size:22px;
-
-  font-weight:800;
-
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
 .stat-icon{
-
-  margin-top:8px;
-
-  color:var(--blue);
-
-  font-size:10px;
-
+    width:42px;
+    height:42px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
 }
 
-
-/* =====================================================
-   NAV
-===================================================== */
-
-.nav{
-
-  display:flex;
-
-  gap:8px;
-
-  overflow-x:auto;
-
-  padding-bottom:4px;
-
-  margin-bottom:18px;
-
+.stat:nth-child(1) .stat-icon{
+    background:#dbeafe;
 }
 
-.nav button{
-
-  flex:
-    0 0 auto;
-
-  border:
-    1px solid
-    var(--border);
-
-  background:
-    rgba(13,20,36,.85);
-
-  color:var(--muted);
-
-  padding:
-    11px 16px;
-
-  border-radius:9px;
-
-  cursor:pointer;
-
-  font-size:12px;
-
+.stat:nth-child(2) .stat-icon{
+    background:#dcfce7;
 }
 
-.nav button.active,
-.nav button:hover{
-
-  color:white;
-
-  border-color:
-    rgba(0,217,255,.35);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(0,217,255,.13),
-      rgba(120,92,255,.13)
-    );
-
+.stat:nth-child(3) .stat-icon{
+    background:#fef3c7;
 }
 
+.stat:nth-child(4) .stat-icon{
+    background:#fee2e2;
+}
 
-/* =====================================================
-   PANELS
-===================================================== */
+.stat h3{
+    font-size:25px;
+    margin-top:12px;
+}
+
+.stat p{
+    color:#6b7280;
+    font-size:13px;
+    margin-top:4px;
+}
+
+/* TABS */
+
+.tabs{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:8px;
+    margin-bottom:15px;
+}
+
+.tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.tab{
+    flex:0 0 auto;
+    border:none;
+    background:white;
+    color:#374151;
+    border-radius:10px;
+    padding:11px 15px;
+    font-weight:bold;
+    border:1px solid #e5e7eb;
+}
+
+.tab.active{
+    background:#111827;
+    color:white;
+}
+
+/* PANELS */
 
 .panel{
-
-  display:none;
-
-  overflow:hidden;
-
-  background:
-    rgba(13,20,36,.92);
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:16px;
-
-  box-shadow:
-    0 20px 55px
-    rgba(0,0,0,.18);
-
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,.04);
+    margin-bottom:20px;
 }
 
-.panel.active{
-
-  display:block;
-
+.panel-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:15px;
 }
 
-.panel-head{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  padding:18px;
-
-  border-bottom:
-    1px solid
-    var(--border);
-
+.panel-header h3{
+    font-size:17px;
 }
 
-.panel-head h3{
-
-  font-size:15px;
-
+.panel-header p{
+    font-size:12px;
+    color:#6b7280;
+    margin-top:3px;
 }
 
-.panel-head span{
-
-  color:var(--muted);
-
-  font-size:10px;
-
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
+/* SEARCH */
 
 .search-box{
-
-  padding:14px 18px;
-
-  border-bottom:
-    1px solid
-    var(--border);
-
+    margin-bottom:15px;
 }
 
 .search-box input{
-
-  width:100%;
-
-  padding:11px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:9px;
-
-  outline:none;
-
-  background:#070d19;
-
-  color:white;
-
+    width:100%;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    padding:12px 14px;
+    outline:none;
+    font-size:14px;
 }
 
-.search-box input:focus{
-
-  border-color:
-    var(--blue);
-
+.search-box input:focus,
+.form-group input:focus,
+.form-group select:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px rgba(37,99,235,.1);
 }
 
-
-/* =====================================================
-   TABLE
-===================================================== */
+/* TABLE */
 
 .table-wrap{
-
-  overflow-x:auto;
-
+    width:100%;
+    overflow-x:auto;
 }
 
 table{
-
-  width:100%;
-
-  min-width:760px;
-
-  border-collapse:collapse;
-
+    width:100%;
+    border-collapse:collapse;
+    min-width:760px;
 }
 
 th,
 td{
-
-  padding:
-    13px 15px;
-
-  text-align:left;
-
-  border-bottom:
-    1px solid
-    rgba(255,255,255,.05);
-
-  font-size:11px;
-
+    padding:12px 10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+    font-size:13px;
+    vertical-align:middle;
 }
 
 th{
-
-  color:var(--muted);
-
-  font-weight:600;
-
-  background:
-    rgba(255,255,255,.015);
-
+    background:#f9fafb;
+    color:#374151;
+    font-size:12px;
 }
 
-td{
-
-  color:#e8edfa;
-
+.user-name{
+    font-weight:bold;
 }
 
+.user-email{
+    color:#6b7280;
+    font-size:11px;
+    margin-top:3px;
+}
 
-/* =====================================================
-   BADGES
-===================================================== */
+.balance{
+    font-weight:bold;
+    color:#16a34a;
+}
 
 .badge{
-
-  display:inline-block;
-
-  padding:
-    5px 8px;
-
-  border-radius:20px;
-
-  font-size:9px;
-
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    border-radius:999px;
+    padding:5px 9px;
+    font-size:11px;
+    font-weight:bold;
 }
 
-.badge.green{
-
-  background:
-    rgba(39,233,138,.10);
-
-  color:var(--green);
-
+.badge-green{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.badge.red{
-
-  background:
-    rgba(255,83,100,.10);
-
-  color:#ff7180;
-
+.badge-red{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
-.badge.orange{
-
-  background:
-    rgba(255,184,77,.10);
-
-  color:var(--orange);
-
+.badge-yellow{
+    background:#fef3c7;
+    color:#92400e;
 }
 
-
-/* =====================================================
-   ACTION
-===================================================== */
-
-.action{
-
-  border:0;
-
-  padding:
-    7px 9px;
-
-  margin:2px;
-
-  border-radius:7px;
-
-  cursor:pointer;
-
-  font-size:10px;
-
+.badge-gray{
+    background:#e5e7eb;
+    color:#374151;
 }
 
-.btn-green{
-
-  background:
-    rgba(39,233,138,.12);
-
-  color:var(--green);
-
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
 }
 
-.btn-red{
+/* TOPUP CARDS */
 
-  background:
-    rgba(255,83,100,.12);
-
-  color:#ff7180;
-
+.topup-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
-
-.btn-blue{
-
-  background:
-    rgba(0,217,255,.12);
-
-  color:var(--blue);
-
-}
-
-.btn-orange{
-
-  background:
-    rgba(255,184,77,.12);
-
-  color:var(--orange);
-
-}
-
-
-/* =====================================================
-   TOPUP
-===================================================== */
 
 .topup-card{
-
-  margin:16px;
-
-  padding:17px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:13px;
-
-  background:#080f1d;
-
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:15px;
+    background:#fff;
 }
 
-.topup-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap:10px;
-
+.topup-card.pending{
+    border-left:4px solid #f59e0b;
 }
 
-.info{
-
-  padding:10px;
-
-  border-radius:8px;
-
-  background:
-    rgba(255,255,255,.025);
-
+.topup-head{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:12px;
 }
 
-.info label{
-
-  display:block;
-
-  margin-bottom:5px;
-
-  color:var(--muted);
-
-  font-size:9px;
-
+.topup-user{
+    font-weight:bold;
 }
 
-.info strong{
-
-  font-size:12px;
-
-  word-break:break-word;
-
+.topup-email{
+    color:#6b7280;
+    font-size:11px;
+    margin-top:3px;
 }
 
-
-/* =====================================================
-   PAYMENT
-===================================================== */
-
-.payment-method{
-
-  margin:15px;
-
-  padding:17px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:13px;
-
-  background:#080f1d;
-
+.topup-amount{
+    font-size:21px;
+    font-weight:900;
+    color:#16a34a;
+    margin:10px 0;
 }
 
-.payment-form{
+.topup-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    border-bottom:1px solid #f3f4f6;
+    padding:8px 0;
+    font-size:12px;
+}
 
-  display:grid;
+.topup-row span:first-child{
+    color:#6b7280;
+}
 
-  grid-template-columns:
-    repeat(2,1fr);
+.topup-proof{
+    margin:12px 0;
+}
 
-  gap:12px;
+.topup-proof img{
+    width:100%;
+    max-height:300px;
+    object-fit:contain;
+    background:#f9fafb;
+    border-radius:10px;
+    border:1px solid #e5e7eb;
+}
 
+.topup-proof a{
+    display:inline-block;
+    margin-top:8px;
+    font-size:12px;
+    color:#2563eb;
+}
+
+/* PAYMENT */
+
+.payment-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.payment-card{
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    padding:15px;
+}
+
+.payment-type{
+    color:#2563eb;
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+.payment-name{
+    font-size:17px;
+    font-weight:bold;
+    margin:6px 0;
+}
+
+.payment-number{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.payment-owner{
+    color:#6b7280;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.payment-qr{
+    margin-top:12px;
+}
+
+.payment-qr img{
+    width:100%;
+    max-height:200px;
+    object-fit:contain;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+}
+
+.payment-status{
+    margin:12px 0;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:rgba(0,0,0,.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    max-height:92vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.modal-head h3{
+    font-size:18px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border:none;
+    border-radius:50%;
+    background:#f3f4f6;
+    font-size:20px;
+}
+
+.form-group{
+    margin-bottom:14px;
 }
 
 .form-group label{
-
-  display:block;
-
-  margin-bottom:6px;
-
-  color:var(--muted);
-
-  font-size:10px;
-
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:6px;
 }
 
 .form-group input,
 .form-group select{
-
-  width:100%;
-
-  padding:10px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:8px;
-
-  outline:none;
-
-  background:#050b15;
-
-  color:white;
-
+    width:100%;
+    padding:12px;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
 }
 
-.form-group input:focus,
-.form-group select:focus{
-
-  border-color:
-    var(--blue);
-
+.form-actions{
+    display:flex;
+    gap:8px;
+    justify-content:flex-end;
+    margin-top:18px;
 }
 
-.full{
-
-  grid-column:
-    1/-1;
-
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
 }
 
-.qr-preview{
-
-  margin-top:10px;
-
-  text-align:center;
-
+.checkbox input{
+    width:18px;
+    height:18px;
 }
 
-.qr-preview img{
+/* TOAST */
 
-  width:180px;
-
-  max-width:100%;
-
-  max-height:180px;
-
-  object-fit:contain;
-
-  padding:7px;
-
-  border-radius:10px;
-
-  background:white;
-
+#toastContainer{
+    position:fixed;
+    z-index:999999;
+    right:15px;
+    bottom:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    width:min(350px,calc(100% - 30px));
 }
 
-.save-btn{
-
-  width:100%;
-
-  padding:11px;
-
-  border:0;
-
-  border-radius:8px;
-
-  cursor:pointer;
-
-  color:white;
-
-  font-weight:bold;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      var(--purple)
-    );
-
+.toast{
+    background:#111827;
+    color:white;
+    border-radius:12px;
+    padding:13px 15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+    font-size:13px;
+    animation:toastIn .25s ease;
 }
 
+.toast.success{
+    background:#166534;
+}
 
-/* =====================================================
-   EMPTY
-===================================================== */
+.toast.error{
+    background:#991b1b;
+}
+
+.toast.warning{
+    background:#92400e;
+}
+
+@keyframes toastIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* EMPTY */
 
 .empty{
-
-  padding:40px 20px;
-
-  text-align:center;
-
-  color:var(--muted);
-
-  font-size:12px;
-
+    text-align:center;
+    padding:35px 15px;
+    color:#6b7280;
+    font-size:14px;
 }
 
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:5000;
-
-  display:none;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:15px;
-
-  background:
-    rgba(0,0,0,.78);
-
-  backdrop-filter:
-    blur(7px);
-
+.empty-icon{
+    font-size:35px;
+    margin-bottom:10px;
 }
 
-.modal.show{
+/* RESPONSIVE */
 
-  display:flex;
+@media(max-width:1000px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
+    .payment-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .topup-list{
+        grid-template-columns:1fr;
+    }
 }
 
-.modal-box{
+@media(max-width:650px){
 
-  width:min(520px,100%);
+    .header{
+        padding:12px;
+    }
 
-  max-height:90vh;
+    .header-inner{
+        align-items:flex-start;
+    }
 
-  overflow:auto;
+    .brand h1{
+        font-size:14px;
+    }
 
-  padding:20px;
+    .admin-email{
+        display:none;
+    }
 
-  border:
-    1px solid
-    var(--border);
+    .logout-btn{
+        padding:8px 10px;
+        font-size:11px;
+    }
 
-  border-radius:15px;
+    .container{
+        padding:15px 10px 40px;
+    }
 
-  background:#0d1424;
+    .page-title h2{
+        font-size:20px;
+    }
 
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+    }
+
+    .stat{
+        padding:13px;
+    }
+
+    .stat h3{
+        font-size:19px;
+    }
+
+    .stat p{
+        font-size:11px;
+    }
+
+    .stat-icon{
+        width:35px;
+        height:35px;
+        font-size:16px;
+    }
+
+    .panel{
+        padding:13px;
+        border-radius:13px;
+    }
+
+    .panel-header{
+        align-items:flex-start;
+    }
+
+    .payment-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-actions{
+        flex-direction:column;
+    }
+
+    .form-actions .btn{
+        width:100%;
+    }
 }
-
-.modal-head{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  margin-bottom:15px;
-
-}
-
-.modal-head h3{
-
-  font-size:15px;
-
-}
-
-.close{
-
-  border:0;
-
-  background:none;
-
-  color:var(--muted);
-
-  font-size:23px;
-
-  cursor:pointer;
-
-}
-
-.proof{
-
-  display:block;
-
-  width:100%;
-
-  max-height:450px;
-
-  object-fit:contain;
-
-  border-radius:10px;
-
-  background:#050811;
-
-}
-
-.modal-actions{
-
-  display:flex;
-
-  gap:8px;
-
-  margin-top:15px;
-
-}
-
-.modal-actions button{
-
-  flex:1;
-
-  padding:10px;
-
-  border:0;
-
-  border-radius:8px;
-
-  cursor:pointer;
-
-  font-weight:bold;
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-#toast{
-
-  position:fixed;
-
-  left:50%;
-
-  bottom:20px;
-
-  z-index:9000;
-
-  transform:
-    translate(-50%,20px);
-
-  opacity:0;
-
-  pointer-events:none;
-
-  padding:
-    11px 16px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:10px;
-
-  background:#111b30;
-
-  font-size:11px;
-
-  transition:.25s;
-
-}
-
-#toast.show{
-
-  opacity:1;
-
-  transform:
-    translate(-50%,0);
-
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:800px){
-
-  .stats{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-  .payment-form,
-  .topup-grid{
-
-    grid-template-columns:1fr;
-
-  }
-
-  .full{
-
-    grid-column:auto;
-
-  }
-
-}
-
-@media(max-width:500px){
-
-  .header{
-
-    min-height:62px;
-
-    padding:0 12px;
-
-  }
-
-  .logo-icon{
-
-    width:36px;
-
-    height:36px;
-
-  }
-
-  .logo h1{
-
-    font-size:13px;
-
-  }
-
-  .logo small{
-
-    font-size:8px;
-
-  }
-
-  .admin-info .online{
-
-    display:none;
-
-  }
-
-  .container{
-
-    width:94%;
-
-    margin-top:18px;
-
-  }
-
-  .welcome h2{
-
-    font-size:19px;
-
-  }
-
-  .stats{
-
-    gap:9px;
-
-  }
-
-  .stat{
-
-    padding:13px;
-
-  }
-
-  .stat-value{
-
-    font-size:17px;
-
-  }
-
-  .panel-head{
-
-    padding:14px;
-
-  }
-
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     LOADING
-===================================================== -->
-
-<div id="loading">
-
-  <div class="loader">
-
+<!-- LOADING -->
+<div id="loadingScreen">
     <div class="spinner"></div>
-
-    <div
-      id="loadingText"
-      class="loader-text">
-
-      Memeriksa akses admin...
-
-    </div>
-
-  </div>
-
+    <strong>Memeriksa akses admin...</strong>
+    <small id="loadingText">Menghubungkan ke Firebase</small>
 </div>
 
+<!-- ACCESS DENIED -->
+<div id="accessDenied">
+    <div class="denied-box">
+        <div class="denied-icon">🔒</div>
+        <h2>Akses Ditolak</h2>
+        <p id="deniedMessage">
+            Akun Anda tidak mempunyai akses administrator.
+        </p>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header class="header">
-
-  <div class="logo">
-
-    <div class="logo-icon">
-      M
+        <button class="btn btn-primary" onclick="goAuth()">
+            Kembali ke Login
+        </button>
     </div>
-
-    <div>
-
-      <h1>
-        MultiBooster Media
-      </h1>
-
-      <small>
-        ADMIN CONTROL PANEL
-      </small>
-
-    </div>
-
-  </div>
-
-
-  <div class="admin-info">
-
-    <div class="online">
-
-      <span class="online-dot"></span>
-
-      ADMIN ONLINE
-
-    </div>
-
-
-    <button
-      class="logout"
-      onclick="logoutAdmin()">
-
-      Keluar
-
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="container">
-
-
-  <section class="welcome">
-
-    <h2>
-      Dashboard Administrator
-    </h2>
-
-    <p>
-      Kelola user, saldo, top-up dan metode pembayaran.
-    </p>
-
-  </section>
-
-
-  <!-- ===================================================
-       STATS
-  ==================================================== -->
-
-  <section class="stats">
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        TOTAL USER
-      </div>
-
-      <div
-        class="stat-value"
-        id="totalUsers">
-        0
-      </div>
-
-      <div class="stat-icon">
-        ● Registered users
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        TOPUP PENDING
-      </div>
-
-      <div
-        class="stat-value"
-        id="pendingTopup">
-        0
-      </div>
-
-      <div class="stat-icon">
-        ● Menunggu verifikasi
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        TOTAL SALDO USER
-      </div>
-
-      <div
-        class="stat-value"
-        id="totalBalance">
-        Rp 0
-      </div>
-
-      <div class="stat-icon">
-        ● Saldo tersimpan
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        METODE AKTIF
-      </div>
-
-      <div
-        class="stat-value"
-        id="activeMethods">
-        0
-      </div>
-
-      <div class="stat-icon">
-        ● Payment methods
-      </div>
-
-    </div>
-
-
-  </section>
-
-
-  <!-- ===================================================
-       NAV
-  ==================================================== -->
-
-  <nav class="nav">
-
-    <button
-      class="active"
-      onclick="openPanel('users',this)">
-
-      👥 USER
-
-    </button>
-
-
-    <button
-      onclick="openPanel('topups',this)">
-
-      💰 TOP UP
-
-    </button>
-
-
-    <button
-      onclick="openPanel('payments',this)">
-
-      🏦 PAYMENT
-
-    </button>
-
-  </nav>
-
-
-  <!-- ===================================================
-       USER PANEL
-  ==================================================== -->
-
-  <section
-    id="users"
-    class="panel active">
-
-
-    <div class="panel-head">
-
-      <h3>
-        Manajemen User
-      </h3>
-
-      <span id="userCountText">
-        0 user
-      </span>
-
-    </div>
-
-
-    <div class="search-box">
-
-      <input
-        type="search"
-        id="userSearch"
-        placeholder="Cari nama atau email..."
-        oninput="filterUsers()"
-      >
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              USER
-            </th>
-
-            <th>
-              EMAIL
-            </th>
-
-            <th>
-              SALDO
-            </th>
-
-            <th>
-              STATUS
-            </th>
-
-            <th>
-              ROLE
-            </th>
-
-            <th>
-              AKSI
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody id="usersTable">
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-  </section>
-
-
-  <!-- ===================================================
-       TOPUP PANEL
-  ==================================================== -->
-
-  <section
-    id="topups"
-    class="panel">
-
-
-    <div class="panel-head">
-
-      <h3>
-        Permintaan Top Up
-      </h3>
-
-      <span>
-        Verifikasi pembayaran manual
-      </span>
-
-    </div>
-
-
-    <div id="topupsContainer">
-
-    </div>
-
-
-  </section>
-
-
-  <!-- ===================================================
-       PAYMENT PANEL
-  ==================================================== -->
-
-  <section
-    id="payments"
-    class="panel">
-
-
-    <div class="panel-head">
-
-      <h3>
-        Metode Pembayaran
-      </h3>
-
-      <span>
-        Data disimpan di Firestore
-      </span>
-
-    </div>
-
-
-    <div class="payment-method">
-
-
-      <div class="payment-form">
-
-
-        <div class="form-group">
-
-          <label>
-            NAMA PROVIDER
-          </label>
-
-          <input
-            id="pmName"
-            placeholder="Contoh: BCA"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            TIPE
-          </label>
-
-          <select id="pmType">
-
-            <option value="bank">
-              Bank
-            </option>
-
-            <option value="ewallet">
-              E-Wallet
-            </option>
-
-            <option value="qr">
-              QR Code
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            NOMOR REKENING / NOMOR TUJUAN
-          </label>
-
-          <input
-            id="pmNumber"
-            placeholder="Nomor rekening / e-wallet"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            NAMA PEMILIK
-          </label>
-
-          <input
-            id="pmOwner"
-            placeholder="Nama pemilik rekening"
-          >
-
-        </div>
-
-
-        <div class="form-group full">
-
-          <label>
-            URL QR CODE
-          </label>
-
-          <input
-            id="pmQr"
-            placeholder="https://..."
-            oninput="previewQR()"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            STATUS
-          </label>
-
-          <select id="pmStatus">
-
-            <option value="true">
-              Aktif
-            </option>
-
-            <option value="false">
-              Nonaktif
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            URUTAN
-          </label>
-
-          <input
-            id="pmOrder"
-            type="number"
-            value="1"
-          >
-
-        </div>
-
-
-        <div
-          class="full qr-preview"
-          id="qrPreview">
-
-        </div>
-
-
-        <div class="full">
-
-          <button
-            class="save-btn"
-            onclick="savePaymentMethod()">
-
-            + Simpan Metode Pembayaran
-
-          </button>
-
-        </div>
-
-
-      </div>
-
-    </div>
-
-
-    <div id="paymentMethodsContainer">
-
-    </div>
-
-
-  </section>
-
-
-</main>
-
-
-<!-- =====================================================
-     USER MODAL
-===================================================== -->
-
-<div
-  class="modal"
-  id="userModal">
-
-
-  <div class="modal-box">
-
-
-    <div class="modal-head">
-
-      <h3>
-        Kelola Saldo User
-      </h3>
-
-      <button
-        class="close"
-        onclick="closeModal('userModal')">
-
-        ×
-
-      </button>
-
-    </div>
-
-
-    <div
-      id="userModalContent">
-
-    </div>
-
-
-  </div>
-
 </div>
 
-
-<!-- =====================================================
-     TOPUP MODAL
-===================================================== -->
-
-<div
-  class="modal"
-  id="topupModal">
-
-
-  <div class="modal-box">
-
-
-    <div class="modal-head">
-
-      <h3>
-        Bukti Transfer
-      </h3>
-
-      <button
-        class="close"
-        onclick="closeModal('topupModal')">
-
-        ×
-
-      </button>
-
-    </div>
-
-
-    <div
-      id="topupModalContent">
-
-    </div>
-
-
-  </div>
-
-</div>
-
-
-<div id="toast"></div>
-
-
-
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
-
-<script type="module">
-
-
-/* =====================================================
-   FIREBASE SDK
-===================================================== */
-
-import {
-  initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-
-
-import {
-  getAuth,
-  onAuthStateChanged,
-  signOut
-}
-from
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  updateDoc,
-  addDoc,
-  deleteDoc,
-  onSnapshot,
-  serverTimestamp
-}
-from
-"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-
-
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
-
-const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
-
-  authDomain:
-    "multibooster-media.firebaseapp.com",
-
-  projectId:
-    "multibooster-media",
-
-  storageBucket:
-    "multibooster-media.firebasestorage.app",
-
-  messagingSenderId:
-    "455058483621",
-
-  appId:
-    "1:455058483621:web:7a969f17fdae000588204c",
-
-  measurementId:
-    "G-Z9S252K9C5"
-
-};
-
-
-
-/* =====================================================
-   ADMIN UID
-===================================================== */
-
-const ADMIN_UID =
-  "WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
-
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-const app =
-  initializeApp(
-    firebaseConfig
-  );
-
-
-const auth =
-  getAuth(app);
-
-
-const db =
-  getFirestore(app);
-
-
-
-/* =====================================================
-   DATA
-===================================================== */
-
-let allUsers = [];
-
-let currentTopup = null;
-
-let topupUnsubscribe = null;
-
-let paymentUnsubscribe = null;
-
-let adminVerified = false;
-
-
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function setLoading(
-  show,
-  text
-){
-
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-  const loadingText =
-    document.getElementById(
-      "loadingText"
-    );
-
-
-  if(
-    loadingText &&
-    text
-  ){
-
-    loadingText.textContent =
-      text;
-
-  }
-
-
-  loading.style.display =
-    show
-    ? "flex"
-    : "none";
-
-}
-
-
-
-function showToast(
-  text
-){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  toast.textContent =
-    text;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  setTimeout(
-    ()=>{
-      toast.classList.remove(
-        "show"
-      );
-    },
-    3000
-  );
-
-}
-
-
-
-function escapeHTML(
-  value
-){
-
-  return String(
-    value ?? ""
-  )
-
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-
-  .replace(
-    /</g,
-    "&lt;"
-  )
-
-  .replace(
-    />/g,
-    "&gt;"
-  )
-
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-
-
-function escapeAttribute(
-  value
-){
-
-  return String(
-    value ?? ""
-  )
-
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-
-  .replace(
-    /</g,
-    "&lt;"
-  )
-
-  .replace(
-    />/g,
-    "&gt;"
-  );
-
-}
-
-
-
-function getTime(
-  value
-){
-
-  if(!value){
-
-    return 0;
-
-  }
-
-
-  if(
-    typeof value.toMillis ===
-    "function"
-  ){
-
-    return value.toMillis();
-
-  }
-
-
-  if(
-    value.seconds
-  ){
-
-    return (
-      value.seconds * 1000
-    );
-
-  }
-
-
-  return (
-    new Date(value).getTime()
-    || 0
-  );
-
-}
-
-
-
-/* =====================================================
-   CHECK ADMIN FIRESTORE
-===================================================== */
-
-async function verifyAdmin(
-  user
-){
-
-  if(!user){
-
-    return false;
-
-  }
-
-
-  console.log(
-    "================================"
-  );
-
-  console.log(
-    "VERIFY ADMIN"
-  );
-
-  console.log(
-    "UID:",
-    user.uid
-  );
-
-
-  /*
-     Ambil:
-
-     admins/{UID}
-  */
-
-  const adminRef =
-    doc(
-      db,
-      "admins",
-      user.uid
-    );
-
-
-  const adminSnap =
-    await getDoc(
-      adminRef
-    );
-
-
-  console.log(
-    "ADMIN EXISTS:",
-    adminSnap.exists()
-  );
-
-
-  if(
-    !adminSnap.exists()
-  ){
-
-    /*
-       Fallback hanya untuk UID admin
-       yang sudah ditentukan.
-
-       Tetapi tetap mencoba membaca
-       Firestore terlebih dahulu.
-    */
-
-    if(
-      user.uid === ADMIN_UID
-    ){
-
-      console.warn(
-        "Admin UID cocok, tetapi dokumen admins tidak ditemukan."
-      );
-
-      return true;
-
-    }
-
-
-    return false;
-
-  }
-
-
-  const data =
-    adminSnap.data();
-
-
-  console.log(
-    "ADMIN DATA:",
-    data
-  );
-
-
-  const role =
-    String(
-      data.role || ""
-    )
-    .trim()
-    .toLowerCase();
-
-
-  const active =
-    data.active === true;
-
-
-  console.log(
-    "ROLE:",
-    role
-  );
-
-
-  console.log(
-    "ACTIVE:",
-    active
-  );
-
-
-  /*
-     Admin wajib:
-
-     role = admin
-     active = true
-  */
-
-  return (
-    role === "admin" &&
-    active === true
-  );
-
-}
-
-
-
-/* =====================================================
-   AUTH STATE
-===================================================== */
-
-onAuthStateChanged(
-  auth,
-  async(user)=>{
-
-    try{
-
-      /*
-         BELUM LOGIN
-      */
-
-      if(!user){
-
-        setLoading(
-          true,
-          "Anda belum login. Membuka login..."
-        );
-
-
-        window.location.replace(
-          "auth.html"
-        );
-
-
-        return;
-
-      }
-
-
-      console.log(
-        "LOGIN USER:",
-        user.email
-      );
-
-
-      console.log(
-        "LOGIN UID:",
-        user.uid
-      );
-
-
-      setLoading(
-        true,
-        "Memverifikasi administrator..."
-      );
-
-
-      /*
-         CEK ADMIN
-      */
-
-      const isAdmin =
-        await verifyAdmin(
-          user
-        );
-
-
-      if(
-        !isAdmin
-      ){
-
-        alert(
-          "Akses ditolak.\n\n" +
-          "Akun ini bukan administrator."
-        );
-
-
-        await signOut(
-          auth
-        );
-
-
-        window.location.replace(
-          "auth.html"
-        );
-
-
-        return;
-
-      }
-
-
-      /*
-         ADMIN VALID
-      */
-
-      adminVerified =
-        true;
-
-
-      console.log(
-        "================================"
-      );
-
-      console.log(
-        "ADMIN VERIFIED"
-      );
-
-      console.log(
-        "PANEL ADMIN DIBUKA"
-      );
-
-
-      setLoading(
-        false
-      );
-
-
-      /*
-         Load semua data
-      */
-
-      await loadUsers();
-
-      listenTopups();
-
-      listenPaymentMethods();
-
-
-    }catch(error){
-
-      console.error(
-        "ADMIN AUTH ERROR:",
-        error
-      );
-
-
-      setLoading(
-        true,
-        "Gagal memverifikasi admin."
-      );
-
-
-      alert(
-        "Gagal memverifikasi akses admin.\n\n" +
-        error.message
-      );
-
-
-      /*
-         Jangan lempar ke dashboard.
-
-         Jika terjadi error akses,
-         kembali ke auth.
-      */
-
-      try{
-
-        await signOut(
-          auth
-        );
-
-      }catch(e){}
-
-
-      window.location.replace(
-        "auth.html"
-      );
-
-    }
-
-  }
-);
-
-
-
-/* =====================================================
-   LOAD USERS
-===================================================== */
-
-async function loadUsers(){
-
-  if(!adminVerified){
-
-    return;
-
-  }
-
-
-  try{
-
-    const snap =
-      await getDocs(
-        collection(
-          db,
-          "users"
-        )
-      );
-
-
-    allUsers = [];
-
-
-    let totalBalance = 0;
-
-
-    snap.forEach(
-      item=>{
-
-        const data =
-          item.data();
-
-
-        const balance =
-          Number(
-            data.balance || 0
-          );
-
-
-        totalBalance +=
-          balance;
-
-
-        allUsers.push({
-
-          id:item.id,
-
-          ...data
-
-        });
-
-      }
-    );
-
-
-    document
-      .getElementById(
-        "totalUsers"
-      )
-      .innerText =
-      allUsers.length;
-
-
-    document
-      .getElementById(
-        "userCountText"
-      )
-      .innerText =
-      allUsers.length +
-      " user";
-
-
-    document
-      .getElementById(
-        "totalBalance"
-      )
-      .innerText =
-      "Rp " +
-      totalBalance
-        .toLocaleString(
-          "id-ID"
-        );
-
-
-    renderUsers(
-      allUsers
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "LOAD USERS ERROR:",
-      error
-    );
-
-
-    showToast(
-      "Gagal mengambil data user: " +
-      error.message
-    );
-
-  }
-
-}
-
-
-
-/* =====================================================
-   RENDER USERS
-===================================================== */
-
-function renderUsers(
-  users
-){
-
-  const tbody =
-    document.getElementById(
-      "usersTable"
-    );
-
-
-  tbody.innerHTML =
-    "";
-
-
-  if(
-    !users.length
-  ){
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td colspan="6">
-
-          <div class="empty">
-
-            Tidak ada user.
-
-          </div>
-
-        </td>
-
-      </tr>
-
-    `;
-
-    return;
-
-  }
-
-
-  users.forEach(
-    user=>{
-
-      const tr =
-        document.createElement(
-          "tr"
-        );
-
-
-      const blocked =
-        user.isBlocked === true;
-
-
-      const role =
-        String(
-          user.role || "user"
-        )
-        .toLowerCase();
-
-
-      tr.innerHTML = `
-
-        <td>
-
-          <strong>
-            ${escapeHTML(
-              user.name || "User"
-            )}
-          </strong>
-
-        </td>
-
-
-        <td>
-
-          ${escapeHTML(
-            user.email || "-"
-          )}
-
-        </td>
-
-
-        <td>
-
-          <strong>
-
-            Rp ${
-              Number(
-                user.balance || 0
-              )
-              .toLocaleString(
-                "id-ID"
-              )
-            }
-
-          </strong>
-
-        </td>
-
-
-        <td>
-
-          ${
-            blocked
-
-            ?
-
-            '<span class="badge red">BLOCKED</span>'
-
-            :
-
-            '<span class="badge green">AKTIF</span>'
-          }
-
-        </td>
-
-
-        <td>
-
-          ${
-            role === "admin"
-
-            ?
-
-            '<span class="badge orange">ADMIN</span>'
-
-            :
-
-            '<span class="badge green">USER</span>'
-          }
-
-        </td>
-
-
-        <td>
-
-          <button
-            class="action btn-blue"
-            onclick="openUser('${user.id}')">
-
-            Saldo
-
-          </button>
-
-
-          ${
-            user.id !== ADMIN_UID
-
-            ?
-
-            `
-
-            <button
-              class="action ${
-                blocked
-                ? "btn-green"
-                : "btn-red"
-              }"
-              onclick="
-                toggleBlock(
-                  '${user.id}',
-                  ${blocked}
-                )
-              ">
-
-              ${
-                blocked
-                ? "Buka"
-                : "Blokir"
-              }
-
+<!-- APP -->
+<div id="app">
+
+    <header class="header">
+        <div class="header-inner">
+
+            <div class="brand">
+                <div class="brand-logo">MB</div>
+
+                <div>
+                    <h1>MultiBooster Media</h1>
+                    <small>ADMIN PANEL</small>
+                </div>
+            </div>
+
+            <div class="admin-info">
+                <div class="admin-email" id="adminEmail">
+                    -
+                </div>
+
+                <button class="logout-btn" onclick="logout()">
+                    Logout
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="page-title">
+            <h2>Dashboard Admin</h2>
+            <p>Kelola pengguna, saldo, top up dan metode pembayaran.</p>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-top">
+                    <div>
+                        <p>Total User</p>
+                        <h3 id="totalUsers">0</h3>
+                    </div>
+
+                    <div class="stat-icon">👥</div>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-top">
+                    <div>
+                        <p>Total Saldo</p>
+                        <h3 id="totalBalance">Rp 0</h3>
+                    </div>
+
+                    <div class="stat-icon">💰</div>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-top">
+                    <div>
+                        <p>Top Up Pending</p>
+                        <h3 id="pendingCount">0</h3>
+                    </div>
+
+                    <div class="stat-icon">⏳</div>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-top">
+                    <div>
+                        <p>User Diblokir</p>
+                        <h3 id="blockedUsers">0</h3>
+                    </div>
+
+                    <div class="stat-icon">🚫</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+
+            <button class="tab active" onclick="showTab('users',this)">
+                👥 User
             </button>
 
-            `
-
-            :
-
-            '<span style="color:#8d9ab3;font-size:10px">ADMIN</span>'
-          }
-
-        </td>
-
-      `;
-
-
-      tbody.appendChild(
-        tr
-      );
-
-    }
-  );
-
-}
-
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-window.filterUsers =
-function(){
-
-  const keyword =
-    document
-      .getElementById(
-        "userSearch"
-      )
-      .value
-      .toLowerCase();
-
-
-  const result =
-    allUsers.filter(
-      user=>{
-
-        return (
-
-          String(
-            user.name || ""
-          )
-          .toLowerCase()
-          .includes(
-            keyword
-          )
-
-          ||
-
-          String(
-            user.email || ""
-          )
-          .toLowerCase()
-          .includes(
-            keyword
-          )
-
-        );
-
-      }
-    );
-
-
-  renderUsers(
-    result
-  );
-
-};
-
-
-
-/* =====================================================
-   OPEN USER
-===================================================== */
-
-window.openUser =
-async function(uid){
-
-  const user =
-    allUsers.find(
-      x =>
-      x.id === uid
-    );
-
-
-  if(!user){
-
-    showToast(
-      "User tidak ditemukan"
-    );
-
-    return;
-
-  }
-
-
-  const modal =
-    document.getElementById(
-      "userModal"
-    );
-
-
-  const content =
-    document.getElementById(
-      "userModalContent"
-    );
-
-
-  content.innerHTML = `
-
-    <div class="topup-grid">
-
-
-      <div class="info">
-
-        <label>
-          NAMA
-        </label>
-
-        <strong>
-          ${escapeHTML(
-            user.name || "-"
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="info">
-
-        <label>
-          EMAIL
-        </label>
-
-        <strong>
-          ${escapeHTML(
-            user.email || "-"
-          )}
-        </strong>
-
-      </div>
-
-
-      <div class="info">
-
-        <label>
-          SALDO SAAT INI
-        </label>
-
-        <strong>
-
-          Rp ${
-            Number(
-              user.balance || 0
-            )
-            .toLocaleString(
-              "id-ID"
-            )
-          }
-
-        </strong>
-
-      </div>
-
-
-      <div class="info">
-
-        <label>
-          UID
-        </label>
-
-        <strong
-          style="
-            font-size:9px;
-            word-break:break-all;
-          ">
-
-          ${escapeHTML(uid)}
-
-        </strong>
-
-      </div>
-
-
-    </div>
-
-
-    <br>
-
-
-    <div class="form-group">
-
-      <label>
-        JUMLAH SALDO
-      </label>
-
-      <input
-        id="balanceAmount"
-        type="number"
-        min="1"
-        placeholder="Contoh: 50000"
-      >
-
-    </div>
-
-
-    <br>
-
-
-    <div class="modal-actions">
-
-
-      <button
-        style="
-          background:rgba(39,233,138,.12);
-          color:#27e98a;
-        "
-        onclick="
-          changeBalance(
-            '${uid}',
-            'add'
-          )
-        ">
-
-        + Tambah Saldo
-
-      </button>
-
-
-      <button
-        style="
-          background:rgba(255,83,100,.12);
-          color:#ff7180;
-        "
-        onclick="
-          changeBalance(
-            '${uid}',
-            'subtract'
-          )
-        ">
-
-        − Kurangi Saldo
-
-      </button>
-
-
-    </div>
-
-  `;
-
-
-  modal.classList.add(
-    "show"
-  );
-
-};
-
-
-
-/* =====================================================
-   CHANGE BALANCE
-===================================================== */
-
-window.changeBalance =
-async function(
-  uid,
-  type
-){
-
-  const input =
-    document.getElementById(
-      "balanceAmount"
-    );
-
-
-  const amount =
-    Number(
-      input.value
-    );
-
-
-  if(
-    !amount ||
-    amount <= 0
-  ){
-
-    showToast(
-      "Masukkan nominal yang benar"
-    );
-
-    return;
-
-  }
-
-
-  const action =
-    type === "add"
-    ? "Tambah"
-    : "Kurangi";
-
-
-  if(
-    !confirm(
-      action +
-      " saldo Rp " +
-      amount.toLocaleString(
-        "id-ID"
-      ) +
-      "?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    const userRef =
-      doc(
-        db,
-        "users",
-        uid
-      );
-
-
-    const snap =
-      await getDoc(
-        userRef
-      );
-
-
-    if(
-      !snap.exists()
-    ){
-
-      throw new Error(
-        "Data user tidak ditemukan."
-      );
-
-    }
-
-
-    const current =
-      Number(
-        snap.data().balance || 0
-      );
-
-
-    let newBalance;
-
-
-    if(
-      type === "add"
-    ){
-
-      newBalance =
-        current + amount;
-
-    }else{
-
-      newBalance =
-        Math.max(
-          0,
-          current - amount
-        );
-
-    }
-
-
-    await updateDoc(
-      userRef,
-      {
-        balance:
-          newBalance
-      }
-    );
-
-
-    showToast(
-      "Saldo berhasil diperbarui."
-    );
-
-
-    closeModal(
-      "userModal"
-    );
-
-
-    await loadUsers();
-
-
-  }catch(error){
-
-    console.error(
-      "CHANGE BALANCE ERROR:",
-      error
-    );
-
-
-    showToast(
-      "Gagal memperbarui saldo: " +
-      error.message
-    );
-
-  }
-
-};
-
-
-
-/* =====================================================
-   BLOCK
-===================================================== */
-
-window.toggleBlock =
-async function(
-  uid,
-  current
-){
-
-  if(
-    uid === ADMIN_UID
-  ){
-
-    showToast(
-      "Akun admin tidak dapat diblokir."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    await updateDoc(
-
-      doc(
-        db,
-        "users",
-        uid
-      ),
-
-      {
-
-        isBlocked:
-          !current
-
-      }
-
-    );
-
-
-    showToast(
-
-      current
-      ? "User dibuka."
-      : "User diblokir."
-
-    );
-
-
-    await loadUsers();
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    showToast(
-      "Gagal mengubah status user."
-    );
-
-  }
-
-};
-
-
-
-/* =====================================================
-   TOPUP REALTIME
-===================================================== */
-
-function listenTopups(){
-
-  if(
-    topupUnsubscribe
-  ){
-
-    topupUnsubscribe();
-
-  }
-
-
-  topupUnsubscribe =
-    onSnapshot(
-
-      collection(
-        db,
-        "topupRequests"
-      ),
-
-      snapshot=>{
-
-        const requests = [];
-
-
-        snapshot.forEach(
-          item=>{
-
-            requests.push({
-
-              id:item.id,
-
-              ...item.data()
-
-            });
-
-          }
-        );
-
-
-        requests.sort(
-          (a,b)=>
-
-            getTime(
-              b.createdAt
-            )
-
-            -
-
-            getTime(
-              a.createdAt
-            )
-
-        );
-
-
-        const pending =
-          requests.filter(
-            x =>
-
-            String(
-              x.status || ""
-            )
-            .toLowerCase()
-
-            ===
-
-            "pending"
-
-          ).length;
-
-
-        document
-          .getElementById(
-            "pendingTopup"
-          )
-          .innerText =
-          pending;
-
-
-        renderTopups(
-          requests
-        );
-
-      },
-
-      error=>{
-
-        console.error(
-          "TOPUP ERROR:",
-          error
-        );
-
-
-        showToast(
-          "Gagal membaca topup: " +
-          error.message
-        );
-
-      }
-
-    );
-
-}
-
-
-
-/* =====================================================
-   RENDER TOPUP
-===================================================== */
-
-function renderTopups(
-  requests
-){
-
-  const container =
-    document.getElementById(
-      "topupsContainer"
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  if(
-    !requests.length
-  ){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Belum ada permintaan topup.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  requests.forEach(
-    item=>{
-
-      const status =
-        String(
-          item.status ||
-          "Pending"
-        );
-
-
-      const lowerStatus =
-        status.toLowerCase();
-
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "topup-card";
-
-
-      card.innerHTML = `
-
-        <div class="topup-grid">
-
-
-          <div class="info">
-
-            <label>
-              USER
-            </label>
-
-            <strong>
-              ${escapeHTML(
-                item.userName || "-"
-              )}
-            </strong>
-
-          </div>
-
-
-          <div class="info">
-
-            <label>
-              EMAIL
-            </label>
-
-            <strong>
-              ${escapeHTML(
-                item.userEmail || "-"
-              )}
-            </strong>
-
-          </div>
-
-
-          <div class="info">
-
-            <label>
-              NOMINAL
-            </label>
-
-            <strong
-              style="color:#27e98a">
-
-              Rp ${
-                Number(
-                  item.amount || 0
-                )
-                .toLocaleString(
-                  "id-ID"
-                )
-              }
-
-            </strong>
-
-          </div>
-
-
-          <div class="info">
-
-            <label>
-              STATUS
-            </label>
-
-
-            ${
-              lowerStatus === "pending"
-
-              ?
-
-              '<span class="badge orange">PENDING</span>'
-
-              :
-
-              lowerStatus === "approved"
-
-              ?
-
-              '<span class="badge green">DITERIMA</span>'
-
-              :
-
-              '<span class="badge red">DITOLAK</span>'
-            }
-
-
-          </div>
-
-
-        </div>
-
-
-        <div style="margin-top:12px">
-
-
-          <button
-            class="action btn-blue"
-            onclick="
-              viewTopup(
-                '${item.id}'
-              )
-            ">
-
-            Lihat Bukti
-
-          </button>
-
-
-          ${
-            lowerStatus === "pending"
-
-            ?
-
-            `
-
-            <button
-              class="action btn-green"
-              onclick="
-                approveTopup(
-                  '${item.id}'
-                )
-              ">
-
-              ✓ Terima
-
+            <button class="tab" onclick="showTab('topups',this)">
+                💳 Top Up
             </button>
 
-
-            <button
-              class="action btn-red"
-              onclick="
-                rejectTopup(
-                  '${item.id}'
-                )
-              ">
-
-              ✕ Tolak
-
+            <button class="tab" onclick="showTab('payments',this)">
+                🏦 Payment Method
             </button>
 
-            `
-
-            :
-
-            ""
-
-          }
-
-
         </div>
 
-      `;
-
-
-      container.appendChild(
-        card
-      );
-
-    }
-  );
-
-}
-
-
-
-/* =====================================================
-   VIEW TOPUP
-===================================================== */
-
-window.viewTopup =
-async function(id){
-
-  try{
-
-    const snap =
-      await getDoc(
-
-        doc(
-          db,
-          "topupRequests",
-          id
-        )
-
-      );
-
-
-    if(
-      !snap.exists()
-    ){
-
-      showToast(
-        "Data topup tidak ditemukan."
-      );
-
-      return;
-
-    }
-
-
-    currentTopup = {
-
-      id,
-
-      ...snap.data()
-
-    };
-
-
-    const data =
-      currentTopup;
-
-
-    const proof =
-      data.proofUrl ||
-      data.proofImage ||
-      data.buktiTransfer ||
-      "";
-
-
-    const content =
-      document.getElementById(
-        "topupModalContent"
-      );
-
-
-    content.innerHTML = `
-
-      <div class="topup-grid">
-
-
-        <div class="info">
-
-          <label>
-            USER
-          </label>
-
-          <strong>
-            ${escapeHTML(
-              data.userName || "-"
-            )}
-          </strong>
-
-        </div>
-
-
-        <div class="info">
-
-          <label>
-            NOMINAL
-          </label>
-
-          <strong
-            style="color:#27e98a">
-
-            Rp ${
-              Number(
-                data.amount || 0
-              )
-              .toLocaleString(
-                "id-ID"
-              )
-            }
-
-          </strong>
-
-        </div>
-
-
-        <div class="info">
-
-          <label>
-            EMAIL
-          </label>
-
-          <strong>
-            ${escapeHTML(
-              data.userEmail || "-"
-            )}
-          </strong>
-
-        </div>
-
-
-        <div class="info">
-
-          <label>
-            STATUS
-          </label>
-
-          <strong>
-            ${escapeHTML(
-              data.status ||
-              "Pending"
-            )}
-          </strong>
-
-        </div>
-
-
-      </div>
-
-
-      <br>
-
-
-      ${
-        proof
-
-        ?
-
-        `
-
-        <img
-          class="proof"
-          src="${escapeAttribute(proof)}"
-          alt="Bukti Transfer"
-          onerror="
-            this.outerHTML=
-            '<div class=&quot;empty&quot;>Bukti transfer gagal dimuat.</div>'
-          "
-        >
-
-        `
-
-        :
-
-        `
-
-        <div class="empty">
-
-          User belum mengupload
-          bukti transfer.
-
-        </div>
-
-        `
-
-      }
-
-
-      ${
-        String(
-          data.status || ""
-        )
-        .toLowerCase()
-        ===
-        "pending"
-
-        ?
-
-        `
-
-        <div class="modal-actions">
-
-
-          <button
-            style="
-              background:rgba(39,233,138,.12);
-              color:#27e98a;
-            "
-            onclick="
-              approveTopup(
-                '${id}'
-              );
-              closeModal(
-                'topupModal'
-              );
-            ">
-
-            ✓ Terima & Tambah Saldo
-
-          </button>
-
-
-          <button
-            style="
-              background:rgba(255,83,100,.12);
-              color:#ff7180;
-            "
-            onclick="
-              rejectTopup(
-                '${id}'
-              );
-              closeModal(
-                'topupModal'
-              );
-            ">
-
-            ✕ Tolak
-
-          </button>
-
-
-        </div>
-
-        `
-
-        :
-
-        ""
-
-      }
-
-    `;
-
-
-    document
-      .getElementById(
-        "topupModal"
-      )
-      .classList.add(
-        "show"
-      );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    showToast(
-      "Gagal membuka topup."
-    );
-
-  }
-
-};
-
-
-
-/* =====================================================
-   APPROVE TOPUP
-===================================================== */
-
-window.approveTopup =
-async function(id){
-
-  try{
-
-    const topupRef =
-      doc(
-        db,
-        "topupRequests",
-        id
-      );
-
-
-    const snap =
-      await getDoc(
-        topupRef
-      );
-
-
-    if(
-      !snap.exists()
-    ){
-
-      showToast(
-        "Topup tidak ditemukan."
-      );
-
-      return;
-
-    }
-
-
-    const data =
-      snap.data();
-
-
-    if(
-      String(
-        data.status || ""
-      )
-      .toLowerCase()
-      !==
-      "pending"
-    ){
-
-      showToast(
-        "Topup sudah diproses."
-      );
-
-      return;
-
-    }
-
-
-    const amount =
-      Number(
-        data.amount || 0
-      );
-
-
-    if(
-      amount <= 0
-    ){
-
-      showToast(
-        "Nominal topup tidak valid."
-      );
-
-      return;
-
-    }
-
-
-    if(
-      !data.userEmail &&
-      !data.userId &&
-      !data.uid
-    ){
-
-      showToast(
-        "UID/email user tidak tersedia."
-      );
-
-      return;
-
-    }
-
-
-    if(
-      !confirm(
-
-        "Terima topup Rp " +
-
-        amount.toLocaleString(
-          "id-ID"
-        ) +
-
-        " dan tambahkan ke saldo user?"
-
-      )
-    ){
-
-      return;
-
-    }
-
-
-    /*
-       Prioritas UID.
-
-       Topup baru sebaiknya menyimpan:
-
-       userId / uid
-
-       Jika tidak ada,
-       fallback menggunakan email.
-    */
-
-    let userDoc = null;
-
-
-    const targetUid =
-      data.userId ||
-      data.uid ||
-      "";
-
-
-    if(
-      targetUid
-    ){
-
-      const userRef =
-        doc(
-          db,
-          "users",
-          targetUid
-        );
-
-
-      const userSnap =
-        await getDoc(
-          userRef
-        );
-
-
-      if(
-        userSnap.exists()
-      ){
-
-        userDoc =
-          userSnap;
-
-      }
-
-    }
-
-
-    /*
-       Fallback email untuk data lama.
-    */
-
-    if(
-      !userDoc &&
-      data.userEmail
-    ){
-
-      const usersSnap =
-        await getDocs(
-          collection(
-            db,
-            "users"
-          )
-        );
-
-
-      usersSnap.forEach(
-        item=>{
-
-          const u =
-            item.data();
-
-
-          if(
-
-            String(
-              u.email || ""
-            )
-            .toLowerCase()
-
-            ===
-
-            String(
-              data.userEmail || ""
-            )
-            .toLowerCase()
-
-          ){
-
-            userDoc =
-              item;
-
-          }
-
-        }
-      );
-
-    }
-
-
-    if(
-      !userDoc
-    ){
-
-      showToast(
-        "User penerima tidak ditemukan."
-      );
-
-      return;
-
-    }
-
-
-    const current =
-      Number(
-        userDoc.data().balance ||
-        0
-      );
-
-
-    const newBalance =
-      current + amount;
-
-
-    /*
-       Tambahkan saldo.
-    */
-
-    await updateDoc(
-
-      doc(
-        db,
-        "users",
-        userDoc.id
-      ),
-
-      {
-
-        balance:
-          newBalance
-
-      }
-
-    );
-
-
-    /*
-       Tandai Approved.
-    */
-
-    await updateDoc(
-
-      topupRef,
-
-      {
-
-        status:
-          "Approved",
-
-        approvedAt:
-          serverTimestamp(),
-
-        approvedBy:
-          auth.currentUser.uid
-
-      }
-
-    );
-
-
-    showToast(
-      "Topup diterima. Saldo berhasil ditambahkan."
-    );
-
-
-    await loadUsers();
-
-
-  }catch(error){
-
-    console.error(
-      "APPROVE TOPUP ERROR:",
-      error
-    );
-
-
-    showToast(
-      "Gagal memproses topup: " +
-      error.message
-    );
-
-  }
-
-};
-
-
-
-/* =====================================================
-   REJECT TOPUP
-===================================================== */
-
-window.rejectTopup =
-async function(id){
-
-  if(
-    !confirm(
-      "Tolak permintaan topup ini?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    await updateDoc(
-
-      doc(
-        db,
-        "topupRequests",
-        id
-      ),
-
-      {
-
-        status:
-          "Rejected",
-
-        rejectedAt:
-          serverTimestamp(),
-
-        rejectedBy:
-          auth.currentUser.uid
-
-      }
-
-    );
-
-
-    showToast(
-      "Topup ditolak."
-    );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    showToast(
-      "Gagal menolak topup."
-    );
-
-  }
-
-};
-
-
-
-/* =====================================================
-   PAYMENT METHODS REALTIME
-===================================================== */
-
-function listenPaymentMethods(){
-
-  if(
-    paymentUnsubscribe
-  ){
-
-    paymentUnsubscribe();
-
-  }
-
-
-  paymentUnsubscribe =
-    onSnapshot(
-
-      collection(
-        db,
-        "paymentMethods"
-      ),
-
-      snapshot=>{
-
-        const methods = [];
-
-
-        snapshot.forEach(
-          item=>{
-
-            methods.push({
-
-              id:item.id,
-
-              ...item.data()
-
-            });
-
-          }
-        );
-
-
-        methods.sort(
-          (a,b)=>
-
-            Number(
-              a.order || 0
-            )
-
-            -
-
-            Number(
-              b.order || 0
-            )
-
-        );
-
-
-        const active =
-          methods.filter(
-            x =>
-            x.active === true
-          ).length;
-
-
-        document
-          .getElementById(
-            "activeMethods"
-          )
-          .innerText =
-          active;
-
-
-        renderPaymentMethods(
-          methods
-        );
-
-      },
-
-      error=>{
-
-        console.error(
-          "PAYMENT METHODS ERROR:",
-          error
-        );
-
-
-        showToast(
-          "Gagal membaca metode pembayaran: " +
-          error.message
-        );
-
-      }
-
-    );
-
-}
-
-
-
-/* =====================================================
-   RENDER PAYMENT
-===================================================== */
-
-function renderPaymentMethods(
-  methods
-){
-
-  const container =
-    document.getElementById(
-      "paymentMethodsContainer"
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  if(
-    !methods.length
-  ){
-
-    container.innerHTML = `
-
-      <div class="empty">
-
-        Belum ada metode pembayaran.
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  methods.forEach(
-    method=>{
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "payment-method";
-
-
-      card.innerHTML = `
-
-        <div
-          style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:10px;
-          "
-        >
-
-
-          <div>
-
-            <strong
-              style="font-size:14px">
-
-              ${escapeHTML(
-                method.name || "-"
-              )}
-
-            </strong>
-
-
-            <div
-              style="
-                color:#8d9ab3;
-                font-size:10px;
-                margin-top:5px;
-              "
-            >
-
-              ${escapeHTML(
-                method.type || "-"
-              )}
+        <!-- USERS -->
+        <section id="tab-users">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Manajemen User</h3>
+                        <p>Kelola saldo dan status akun pengguna.</p>
+                    </div>
+                </div>
+
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="userSearch"
+                        placeholder="Cari nama, email atau UID..."
+                        oninput="renderUsers()"
+                    >
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>UID</th>
+                                <th>Saldo</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="usersTable"></tbody>
+
+                    </table>
+
+                </div>
+
+                <div id="usersEmpty" class="empty hidden">
+                    <div class="empty-icon">👥</div>
+                    Tidak ada user ditemukan.
+                </div>
 
             </div>
 
-          </div>
+        </section>
 
+        <!-- TOPUPS -->
+        <section id="tab-topups" class="hidden">
 
-          ${
-            method.active === true
+            <div class="panel">
 
-            ?
+                <div class="panel-header">
+                    <div>
+                        <h3>Permintaan Top Up</h3>
+                        <p>Periksa bukti transfer sebelum menyetujui.</p>
+                    </div>
 
-            '<span class="badge green">AKTIF</span>'
+                    <button class="btn btn-light btn-sm" onclick="loadTopups()">
+                        🔄 Refresh
+                    </button>
+                </div>
 
-            :
+                <div class="topup-list" id="topupList"></div>
 
-            '<span class="badge red">NONAKTIF</span>'
-          }
+                <div id="topupEmpty" class="empty hidden">
+                    <div class="empty-icon">💳</div>
+                    Tidak ada permintaan top up.
+                </div>
 
+            </div>
 
+        </section>
+
+        <!-- PAYMENT METHODS -->
+        <section id="tab-payments" class="hidden">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h3>Payment Method</h3>
+                        <p>Collection Firebase: <b>PaymentMethod</b></p>
+                    </div>
+
+                    <button class="btn btn-primary btn-sm" onclick="openPaymentModal()">
+                        + Tambah
+                    </button>
+
+                </div>
+
+                <div class="payment-grid" id="paymentList"></div>
+
+                <div id="paymentEmpty" class="empty hidden">
+                    <div class="empty-icon">🏦</div>
+                    Belum ada metode pembayaran.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- USER BALANCE MODAL -->
+<div class="modal" id="balanceModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h3 id="balanceModalTitle">Ubah Saldo</h3>
+
+            <button class="close" onclick="closeModal('balanceModal')">
+                ×
+            </button>
         </div>
 
+        <div class="form-group">
 
-        <div
-          class="topup-grid"
-          style="margin-top:12px"
-        >
+            <label>User</label>
 
-
-          <div class="info">
-
-            <label>
-              NOMOR
-            </label>
-
-            <strong>
-              ${escapeHTML(
-                method.number || "-"
-              )}
-            </strong>
-
-          </div>
-
-
-          <div class="info">
-
-            <label>
-              PEMILIK
-            </label>
-
-            <strong>
-              ${escapeHTML(
-                method.owner || "-"
-              )}
-            </strong>
-
-          </div>
-
-
-        </div>
-
-
-        ${
-          method.qrUrl
-
-          ?
-
-          `
-
-          <div class="qr-preview">
-
-            <img
-              src="${escapeAttribute(
-                method.qrUrl
-              )}"
-              alt="QR"
+            <input
+                type="text"
+                id="balanceUserName"
+                readonly
             >
 
-          </div>
+        </div>
 
-          `
+        <div class="form-group">
 
-          :
+            <label>Nominal</label>
 
-          ""
-
-        }
-
-
-        <div
-          style="margin-top:12px"
-        >
-
-
-          <button
-            class="
-              action
-              ${
-                method.active === true
-                ? "btn-red"
-                : "btn-green"
-              }
-            "
-            onclick="
-              togglePayment(
-                '${method.id}',
-                ${method.active === true}
-              )
-            "
-          >
-
-            ${
-              method.active === true
-              ? "Nonaktifkan"
-              : "Aktifkan"
-            }
-
-          </button>
-
-
-          <button
-            class="action btn-red"
-            onclick="
-              deletePayment(
-                '${method.id}'
-              )
-            "
-          >
-
-            Hapus
-
-          </button>
-
+            <input
+                type="number"
+                id="balanceAmount"
+                min="0"
+                placeholder="Contoh: 10000"
+            >
 
         </div>
 
-      `;
+        <div class="form-group">
+
+            <label>Keterangan</label>
+
+            <input
+                type="text"
+                id="balanceNote"
+                placeholder="Contoh: Koreksi saldo"
+            >
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal('balanceModal')"
+            >
+                Batal
+            </button>
+
+            <button
+                class="btn btn-success"
+                onclick="saveBalance()"
+            >
+                Simpan Saldo
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal" id="paymentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3 id="paymentModalTitle">
+                Tambah Payment Method
+            </h3>
+
+            <button class="close" onclick="closeModal('paymentModal')">
+                ×
+            </button>
+
+        </div>
+
+        <input type="hidden" id="paymentId">
+
+        <div class="form-group">
+            <label>Jenis</label>
+
+            <select id="paymentType">
+                <option value="bank">Bank</option>
+                <option value="ewallet">E-Wallet</option>
+                <option value="qris">QRIS</option>
+                <option value="other">Lainnya</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+
+            <label>Nama Payment</label>
+
+            <input
+                type="text"
+                id="paymentName"
+                placeholder="Contoh: BCA"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Nomor Rekening / Nomor Akun</label>
+
+            <input
+                type="text"
+                id="paymentNumber"
+                placeholder="Contoh: 1234567890"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Nama Pemilik</label>
+
+            <input
+                type="text"
+                id="paymentOwner"
+                placeholder="Nama pemilik rekening"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>URL QR Code</label>
+
+            <input
+                type="text"
+                id="paymentQr"
+                placeholder="https://..."
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Urutan</label>
+
+            <input
+                type="number"
+                id="paymentOrder"
+                value="1"
+                min="0"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="checkbox">
+
+                <input
+                    type="checkbox"
+                    id="paymentActive"
+                    checked
+                >
+
+                Payment Method Aktif
+
+            </label>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="btn btn-light"
+                onclick="closeModal('paymentModal')"
+            >
+                Batal
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="savePaymentMethod()"
+            >
+                Simpan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toastContainer"></div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp,
+    runTransaction
+}
+from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-      container.appendChild(
-        card
-      );
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
 
-    }
-  );
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
+
+    authDomain:
+        "multibooster-media.firebaseapp.com",
+
+    projectId:
+        "multibooster-media",
+
+    storageBucket:
+        "multibooster-media.firebasestorage.app",
+
+    messagingSenderId:
+        "455058483621",
+
+    appId:
+        "1:455058483621:web:7a969f17fdae000588204c",
+
+    measurementId:
+        "G-Z9S252K9C5"
+};
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* =========================================================
+   ADMIN CONFIG
+========================================================= */
+
+const ADMIN_UID =
+    "WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentAdmin = null;
+
+let usersData = [];
+
+let topupsData = [];
+
+let paymentsData = [];
+
+let selectedUser = null;
+
+let balanceMode = "add";
+
+let unsubscribeTopups = null;
+
+let unsubscribePayments = null;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function rupiah(value){
+
+    const number =
+        Number(value) || 0;
+
+    return "Rp " +
+        number.toLocaleString("id-ID");
 
 }
 
 
+function escapeHtml(value){
 
-/* =====================================================
-   SAVE PAYMENT METHOD
-===================================================== */
+    if(value === null ||
+       value === undefined){
+
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function getDate(value){
+
+    if(!value){
+        return "-";
+    }
+
+    try{
+
+        let date;
+
+        if(
+            value &&
+            typeof value.toDate === "function"
+        ){
+
+            date = value.toDate();
+
+        }else if(
+            value instanceof Date
+        ){
+
+            date = value;
+
+        }else{
+
+            date = new Date(value);
+        }
+
+        if(isNaN(date.getTime())){
+            return "-";
+        }
+
+        return date.toLocaleString(
+            "id-ID",
+            {
+                dateStyle:"medium",
+                timeStyle:"short"
+            }
+        );
+
+    }catch(e){
+
+        return "-";
+    }
+}
+
+
+function toast(
+    message,
+    type="",
+    duration=3000
+){
+
+    const container =
+        document.getElementById(
+            "toastContainer"
+        );
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "toast " + type;
+
+    div.textContent =
+        message;
+
+    container.appendChild(div);
+
+    setTimeout(()=>{
+
+        div.remove();
+
+    },duration);
+}
+
+
+window.toast = toast;
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+onAuthStateChanged(
+    auth,
+    async(user)=>{
+
+        if(!user){
+
+            showDenied(
+                "Anda belum login. Silakan login terlebih dahulu."
+            );
+
+            return;
+        }
+
+        try{
+
+            document.getElementById(
+                "loadingText"
+            ).textContent =
+                "Memeriksa akun administrator...";
+
+            await verifyAdmin(user);
+
+            currentAdmin = user;
+
+            document.getElementById(
+                "adminEmail"
+            ).textContent =
+                user.email || "Admin";
+
+            document.getElementById(
+                "loadingScreen"
+            ).style.display =
+                "none";
+
+            document.getElementById(
+                "app"
+            ).style.display =
+                "block";
+
+            await loadUsers();
+
+            startRealtimeListeners();
+
+        }catch(error){
+
+            console.error(error);
+
+            showDenied(
+                error.message ||
+                "Akun tidak memiliki akses admin."
+            );
+        }
+
+    }
+);
+
+
+/* =========================================================
+   VERIFY ADMIN
+========================================================= */
+
+async function verifyAdmin(user){
+
+    const adminRef =
+        doc(
+            db,
+            "admins",
+            user.uid
+        );
+
+    const adminSnap =
+        await getDoc(adminRef);
+
+    if(!adminSnap.exists()){
+
+        throw new Error(
+            "Akun admin belum terdaftar di collection admins."
+        );
+    }
+
+    const adminData =
+        adminSnap.data();
+
+    if(
+        adminData.role !== "admin" ||
+        adminData.active !== true
+    ){
+
+        throw new Error(
+            "Akun tidak memiliki akses administrator."
+        );
+    }
+
+}
+
+
+function showDenied(message){
+
+    document.getElementById(
+        "loadingScreen"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "accessDenied"
+    ).style.display =
+        "flex";
+
+    document.getElementById(
+        "deniedMessage"
+    ).textContent =
+        message;
+}
+
+
+window.goAuth =
+function(){
+
+    window.location.href =
+        "auth.html";
+};
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+window.logout =
+async function(){
+
+    if(
+        !confirm(
+            "Yakin ingin logout dari admin?"
+        )
+    ){
+
+        return;
+    }
+
+    try{
+
+        await signOut(auth);
+
+        window.location.href =
+            "auth.html";
+
+    }catch(error){
+
+        toast(
+            error.message,
+            "error"
+        );
+    }
+
+};
+
+
+/* =========================================================
+   LOAD USERS
+========================================================= */
+
+async function loadUsers(){
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "users"
+                )
+            );
+
+        usersData =
+            snap.docs.map(
+                item=>({
+
+                    id:item.id,
+
+                    ...item.data()
+
+                })
+            );
+
+        renderUsers();
+
+        updateStats();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Gagal memuat user: " +
+            error.message,
+            "error"
+        );
+    }
+
+}
+
+
+/* =========================================================
+   RENDER USERS
+========================================================= */
+
+window.renderUsers =
+function(){
+
+    const tbody =
+        document.getElementById(
+            "usersTable"
+        );
+
+    const empty =
+        document.getElementById(
+            "usersEmpty"
+        );
+
+    const search =
+        (
+            document.getElementById(
+                "userSearch"
+            ).value || ""
+        )
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+        usersData.filter(user=>{
+
+            const name =
+                user.name ||
+                user.displayName ||
+                "";
+
+            const email =
+                user.email ||
+                "";
+
+            const uid =
+                user.id ||
+                "";
+
+            return (
+                name.toLowerCase()
+                .includes(search)
+                ||
+                email.toLowerCase()
+                .includes(search)
+                ||
+                uid.toLowerCase()
+                .includes(search)
+            );
+
+        });
+
+    tbody.innerHTML = "";
+
+    if(filtered.length === 0){
+
+        empty.classList.remove(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+    empty.classList.add(
+        "hidden"
+    );
+
+    filtered.forEach(user=>{
+
+        const name =
+            user.name ||
+            user.displayName ||
+            "Tanpa Nama";
+
+        const email =
+            user.email ||
+            "-";
+
+        const balance =
+            Number(
+                user.balance
+            ) || 0;
+
+        const blocked =
+            user.isBlocked === true;
+
+        const tr =
+            document.createElement(
+                "tr"
+            );
+
+        tr.innerHTML = `
+
+            <td>
+
+                <div class="user-name">
+                    ${escapeHtml(name)}
+                </div>
+
+                <div class="user-email">
+                    ${escapeHtml(email)}
+                </div>
+
+            </td>
+
+            <td>
+                <small>
+                    ${escapeHtml(user.id)}
+                </small>
+            </td>
+
+            <td>
+                <span class="balance">
+                    ${rupiah(balance)}
+                </span>
+            </td>
+
+            <td>
+
+                ${
+                    blocked
+
+                    ?
+
+                    `<span class="badge badge-red">
+                        🚫 Blocked
+                    </span>`
+
+                    :
+
+                    `<span class="badge badge-green">
+                        ● Aktif
+                    </span>`
+                }
+
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    <button
+                        class="btn btn-success btn-sm"
+                        onclick="openBalanceModal('${escapeHtml(user.id)}','add')"
+                    >
+                        + Saldo
+                    </button>
+
+                    <button
+                        class="btn btn-warning btn-sm"
+                        onclick="openBalanceModal('${escapeHtml(user.id)}','subtract')"
+                    >
+                        − Saldo
+                    </button>
+
+                    <button
+                        class="btn ${
+                            blocked
+                            ? "btn-primary"
+                            : "btn-danger"
+                        } btn-sm"
+                        onclick="toggleBlock('${escapeHtml(user.id)}')"
+                    >
+                        ${
+                            blocked
+                            ? "Buka"
+                            : "Block"
+                        }
+                    </button>
+
+                </div>
+
+            </td>
+
+        `;
+
+        tbody.appendChild(tr);
+
+    });
+
+};
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+    const total =
+        usersData.length;
+
+    const blocked =
+        usersData.filter(
+            user=>user.isBlocked === true
+        ).length;
+
+    const balance =
+        usersData.reduce(
+            (sum,user)=>
+                sum +
+                (
+                    Number(
+                        user.balance
+                    ) || 0
+                ),
+            0
+        );
+
+    const pending =
+        topupsData.filter(
+            item=>
+                String(
+                    item.status || ""
+                ).toLowerCase()
+                ===
+                "pending"
+        ).length;
+
+    document.getElementById(
+        "totalUsers"
+    ).textContent =
+        total.toLocaleString(
+            "id-ID"
+        );
+
+    document.getElementById(
+        "blockedUsers"
+    ).textContent =
+        blocked.toLocaleString(
+            "id-ID"
+        );
+
+    document.getElementById(
+        "totalBalance"
+    ).textContent =
+        rupiah(balance);
+
+    document.getElementById(
+        "pendingCount"
+    ).textContent =
+        pending.toLocaleString(
+            "id-ID"
+        );
+}
+
+
+/* =========================================================
+   BALANCE MODAL
+========================================================= */
+
+window.openBalanceModal =
+function(userId,mode){
+
+    const user =
+        usersData.find(
+            item=>item.id === userId
+        );
+
+    if(!user){
+
+        toast(
+            "User tidak ditemukan.",
+            "error"
+        );
+
+        return;
+    }
+
+    selectedUser =
+        user;
+
+    balanceMode =
+        mode;
+
+    document.getElementById(
+        "balanceModalTitle"
+    ).textContent =
+        mode === "add"
+        ? "Tambah Saldo"
+        : "Kurangi Saldo";
+
+    document.getElementById(
+        "balanceUserName"
+    ).value =
+        (
+            user.name ||
+            user.displayName ||
+            user.email ||
+            user.id
+        );
+
+    document.getElementById(
+        "balanceAmount"
+    ).value =
+        "";
+
+    document.getElementById(
+        "balanceNote"
+    ).value =
+        "";
+
+    document.getElementById(
+        "balanceModal"
+    ).classList.add(
+        "show"
+    );
+};
+
+
+window.saveBalance =
+async function(){
+
+    if(!selectedUser){
+
+        return;
+    }
+
+    const amount =
+        Number(
+            document.getElementById(
+                "balanceAmount"
+            ).value
+        );
+
+    const note =
+        document.getElementById(
+            "balanceNote"
+        ).value.trim();
+
+    if(
+        !amount ||
+        amount <= 0
+    ){
+
+        toast(
+            "Masukkan nominal yang valid.",
+            "warning"
+        );
+
+        return;
+    }
+
+    const userRef =
+        doc(
+            db,
+            "users",
+            selectedUser.id
+        );
+
+    try{
+
+        await runTransaction(
+            db,
+            async(transaction)=>{
+
+                const snap =
+                    await transaction.get(
+                        userRef
+                    );
+
+                if(!snap.exists()){
+
+                    throw new Error(
+                        "User tidak ditemukan."
+                    );
+                }
+
+                const data =
+                    snap.data();
+
+                const current =
+                    Number(
+                        data.balance
+                    ) || 0;
+
+                let newBalance;
+
+                if(
+                    balanceMode === "add"
+                ){
+
+                    newBalance =
+                        current + amount;
+
+                }else{
+
+                    newBalance =
+                        current - amount;
+
+                    if(newBalance < 0){
+
+                        newBalance = 0;
+                    }
+                }
+
+                transaction.update(
+                    userRef,
+                    {
+                        balance:
+                            newBalance,
+
+                        balanceUpdatedAt:
+                            serverTimestamp(),
+
+                        balanceUpdatedBy:
+                            currentAdmin.uid,
+
+                        balanceNote:
+                            note ||
+                            (
+                                balanceMode === "add"
+                                ? "Saldo ditambahkan admin"
+                                : "Saldo dikurangi admin"
+                            )
+                    }
+                );
+
+            }
+        );
+
+        toast(
+            balanceMode === "add"
+            ? "Saldo berhasil ditambahkan."
+            : "Saldo berhasil dikurangi.",
+            "success"
+        );
+
+        closeModal(
+            "balanceModal"
+        );
+
+        await loadUsers();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Gagal mengubah saldo: " +
+            error.message,
+            "error"
+        );
+    }
+
+};
+
+
+/* =========================================================
+   BLOCK USER
+========================================================= */
+
+window.toggleBlock =
+async function(userId){
+
+    const user =
+        usersData.find(
+            item=>item.id === userId
+        );
+
+    if(!user){
+
+        return;
+    }
+
+    const current =
+        user.isBlocked === true;
+
+    const action =
+        current
+        ? "membuka blokir"
+        : "memblokir";
+
+    if(
+        !confirm(
+            `Yakin ingin ${action} user ini?`
+        )
+    ){
+
+        return;
+    }
+
+    try{
+
+        await updateDoc(
+            doc(
+                db,
+                "users",
+                userId
+            ),
+            {
+                isBlocked:
+                    !current,
+
+                updatedAt:
+                    serverTimestamp(),
+
+                updatedBy:
+                    currentAdmin.uid
+            }
+        );
+
+        toast(
+            current
+            ? "User berhasil dibuka."
+            : "User berhasil diblokir.",
+            "success"
+        );
+
+        await loadUsers();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Gagal mengubah status user: " +
+            error.message,
+            "error"
+        );
+    }
+
+};
+
+
+/* =========================================================
+   TOPUP REALTIME
+========================================================= */
+
+function startRealtimeListeners(){
+
+    if(unsubscribeTopups){
+        unsubscribeTopups();
+    }
+
+    if(unsubscribePayments){
+        unsubscribePayments();
+    }
+
+
+    /* TOPUP */
+
+    try{
+
+        const q =
+            query(
+                collection(
+                    db,
+                    "topupRequests"
+                ),
+                orderBy(
+                    "createdAt",
+                    "desc"
+                )
+            );
+
+        unsubscribeTopups =
+            onSnapshot(
+                q,
+                snap=>{
+
+                    topupsData =
+                        snap.docs.map(
+                            item=>({
+
+                                id:item.id,
+
+                                ...item.data()
+
+                            })
+                        );
+
+                    renderTopups();
+
+                    updateStats();
+
+                },
+                error=>{
+
+                    console.warn(
+                        "Query topup orderBy gagal:",
+                        error
+                    );
+
+                    fallbackTopups();
+
+                }
+            );
+
+    }catch(error){
+
+        fallbackTopups();
+    }
+
+
+    /* PAYMENT */
+
+    try{
+
+        const q =
+            query(
+                collection(
+                    db,
+                    "PaymentMethod"
+                ),
+                orderBy(
+                    "order",
+                    "asc"
+                )
+            );
+
+        unsubscribePayments =
+            onSnapshot(
+                q,
+                snap=>{
+
+                    paymentsData =
+                        snap.docs.map(
+                            item=>({
+
+                                id:item.id,
+
+                                ...item.data()
+
+                            })
+                        );
+
+                    renderPayments();
+
+                },
+                error=>{
+
+                    console.warn(
+                        "Query PaymentMethod order gagal.",
+                        error
+                    );
+
+                    fallbackPayments();
+
+                }
+            );
+
+    }catch(error){
+
+        fallbackPayments();
+    }
+
+}
+
+
+/* =========================================================
+   FALLBACK TOPUPS
+========================================================= */
+
+async function fallbackTopups(){
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "topupRequests"
+                )
+            );
+
+        topupsData =
+            snap.docs.map(
+                item=>({
+
+                    id:item.id,
+
+                    ...item.data()
+
+                })
+            );
+
+        topupsData.sort(
+            (a,b)=>{
+
+                const da =
+                    a.createdAt?.toMillis
+                    ? a.createdAt.toMillis()
+                    : 0;
+
+                const dbb =
+                    b.createdAt?.toMillis
+                    ? b.createdAt.toMillis()
+                    : 0;
+
+                return dbb - da;
+
+            }
+        );
+
+        renderTopups();
+
+        updateStats();
+
+    }catch(error){
+
+        toast(
+            "Gagal memuat topup: " +
+            error.message,
+            "error"
+        );
+    }
+
+}
+
+
+window.loadTopups =
+async function(){
+
+    await fallbackTopups();
+
+};
+
+
+/* =========================================================
+   RENDER TOPUPS
+========================================================= */
+
+function renderTopups(){
+
+    const container =
+        document.getElementById(
+            "topupList"
+        );
+
+    const empty =
+        document.getElementById(
+            "topupEmpty"
+        );
+
+    container.innerHTML = "";
+
+    const pending =
+        topupsData.filter(
+            item=>
+                String(
+                    item.status || "pending"
+                ).toLowerCase()
+                ===
+                "pending"
+        );
+
+    if(pending.length === 0){
+
+        empty.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+    empty.classList.add(
+        "hidden"
+    );
+
+    pending.forEach(item=>{
+
+        const userName =
+            item.userName ||
+            item.name ||
+            "-";
+
+        const email =
+            item.email ||
+            item.userEmail ||
+            "-";
+
+        const amount =
+            Number(
+                item.amount ||
+                item.nominal ||
+                0
+            );
+
+        const method =
+            item.methodName ||
+            item.method ||
+            "-";
+
+        const proof =
+            item.proofUrl ||
+            item.proof ||
+            item.image ||
+            item.bukti ||
+            "";
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "topup-card pending";
+
+        card.innerHTML = `
+
+            <div class="topup-head">
+
+                <div>
+
+                    <div class="topup-user">
+                        ${escapeHtml(userName)}
+                    </div>
+
+                    <div class="topup-email">
+                        ${escapeHtml(email)}
+                    </div>
+
+                </div>
+
+                <span class="badge badge-yellow">
+                    ⏳ PENDING
+                </span>
+
+            </div>
+
+            <div class="topup-amount">
+                ${rupiah(amount)}
+            </div>
+
+            <div class="topup-row">
+                <span>Metode</span>
+                <strong>
+                    ${escapeHtml(method)}
+                </strong>
+            </div>
+
+            <div class="topup-row">
+                <span>User ID</span>
+                <strong>
+                    ${escapeHtml(
+                        item.userId ||
+                        item.uid ||
+                        item.userUID ||
+                        "-"
+                    )}
+                </strong>
+            </div>
+
+            <div class="topup-row">
+                <span>Waktu</span>
+                <strong>
+                    ${getDate(
+                        item.createdAt
+                    )}
+                </strong>
+            </div>
+
+            ${
+                proof
+
+                ?
+
+                `
+                <div class="topup-proof">
+
+                    <img
+                        src="${escapeHtml(proof)}"
+                        alt="Bukti Pembayaran"
+                        onerror="this.style.display='none'"
+                    >
+
+                    <a
+                        href="${escapeHtml(proof)}"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        🔎 Buka Bukti Pembayaran
+                    </a>
+
+                </div>
+                `
+
+                :
+
+                `
+                <div class="topup-proof">
+                    <span class="badge badge-red">
+                        Tidak ada bukti
+                    </span>
+                </div>
+                `
+            }
+
+            <div class="actions">
+
+                <button
+                    class="btn btn-success"
+                    style="flex:1"
+                    onclick="approveTopup('${escapeHtml(item.id)}')"
+                >
+                    ✓ APPROVE
+                </button>
+
+                <button
+                    class="btn btn-danger"
+                    style="flex:1"
+                    onclick="rejectTopup('${escapeHtml(item.id)}')"
+                >
+                    ✕ REJECT
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(
+            card
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   FIND USER FOR TOPUP
+========================================================= */
+
+async function findUserRef(topup){
+
+    const possibleIds = [
+
+        topup.userId,
+
+        topup.uid,
+
+        topup.userUID
+
+    ].filter(Boolean);
+
+    for(
+        const id of possibleIds
+    ){
+
+        const ref =
+            doc(
+                db,
+                "users",
+                id
+            );
+
+        const snap =
+            await getDoc(ref);
+
+        if(snap.exists()){
+
+            return ref;
+        }
+    }
+
+
+    const email =
+        topup.email ||
+        topup.userEmail;
+
+    if(email){
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "users"
+                )
+            );
+
+        const found =
+            snap.docs.find(
+                item=>
+                    String(
+                        item.data().email || ""
+                    ).toLowerCase()
+                    ===
+                    String(
+                        email
+                    ).toLowerCase()
+            );
+
+        if(found){
+
+            return found.ref;
+        }
+    }
+
+    return null;
+}
+
+
+/* =========================================================
+   APPROVE TOPUP
+========================================================= */
+
+window.approveTopup =
+async function(topupId){
+
+    const topup =
+        topupsData.find(
+            item=>item.id === topupId
+        );
+
+    if(!topup){
+
+        toast(
+            "Data top up tidak ditemukan.",
+            "error"
+        );
+
+        return;
+    }
+
+    const amount =
+        Number(
+            topup.amount ||
+            topup.nominal ||
+            0
+        );
+
+    if(
+        amount <= 0
+    ){
+
+        toast(
+            "Nominal top up tidak valid.",
+            "error"
+        );
+
+        return;
+    }
+
+    if(
+        !confirm(
+            "Pastikan uang benar-benar sudah masuk ke rekening/e-wallet Anda.\n\n" +
+            "Nominal: " +
+            rupiah(amount) +
+            "\n\n" +
+            "Lanjut APPROVE?"
+        )
+    ){
+
+        return;
+    }
+
+    try{
+
+        const topupRef =
+            doc(
+                db,
+                "topupRequests",
+                topupId
+            );
+
+        const userRef =
+            await findUserRef(topup);
+
+        if(!userRef){
+
+            throw new Error(
+                "User tujuan top up tidak ditemukan."
+            );
+        }
+
+
+        await runTransaction(
+            db,
+            async(transaction)=>{
+
+                const topupSnap =
+                    await transaction.get(
+                        topupRef
+                    );
+
+                if(!topupSnap.exists()){
+
+                    throw new Error(
+                        "Permintaan top up sudah tidak ada."
+                    );
+                }
+
+                const freshTopup =
+                    topupSnap.data();
+
+                const status =
+                    String(
+                        freshTopup.status ||
+                        "pending"
+                    ).toLowerCase();
+
+                if(
+                    status !== "pending"
+                ){
+
+                    throw new Error(
+                        "Top up ini sudah diproses sebelumnya."
+                    );
+                }
+
+
+                const userSnap =
+                    await transaction.get(
+                        userRef
+                    );
+
+                if(!userSnap.exists()){
+
+                    throw new Error(
+                        "Data user tidak ditemukan."
+                    );
+                }
+
+                const userData =
+                    userSnap.data();
+
+                const currentBalance =
+                    Number(
+                        userData.balance
+                    ) || 0;
+
+                const freshAmount =
+                    Number(
+                        freshTopup.amount ||
+                        freshTopup.nominal ||
+                        0
+                    );
+
+                if(
+                    freshAmount <= 0
+                ){
+
+                    throw new Error(
+                        "Nominal top up tidak valid."
+                    );
+                }
+
+                const newBalance =
+                    currentBalance +
+                    freshAmount;
+
+
+                /* TAMBAH SALDO */
+
+                transaction.update(
+                    userRef,
+                    {
+                        balance:
+                            newBalance,
+
+                        balanceUpdatedAt:
+                            serverTimestamp(),
+
+                        balanceUpdatedBy:
+                            currentAdmin.uid
+                    }
+                );
+
+
+                /* UPDATE TOPUP */
+
+                transaction.update(
+                    topupRef,
+                    {
+                        status:
+                            "approved",
+
+                        approvedAt:
+                            serverTimestamp(),
+
+                        approvedBy:
+                            currentAdmin.uid,
+
+                        approvedAmount:
+                            freshAmount
+                    }
+                );
+
+            }
+        );
+
+
+        toast(
+            "Top up berhasil APPROVE dan saldo user bertambah.",
+            "success"
+        );
+
+        await loadUsers();
+
+        await fallbackTopups();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Gagal approve: " +
+            error.message,
+            "error"
+        );
+    }
+
+};
+
+
+/* =========================================================
+   REJECT TOPUP
+========================================================= */
+
+window.rejectTopup =
+async function(topupId){
+
+    const topup =
+        topupsData.find(
+            item=>item.id === topupId
+        );
+
+    if(!topup){
+
+        return;
+    }
+
+    const reason =
+        prompt(
+            "Masukkan alasan reject:"
+        );
+
+    if(reason === null){
+
+        return;
+    }
+
+    try{
+
+        const topupRef =
+            doc(
+                db,
+                "topupRequests",
+                topupId
+            );
+
+
+        await runTransaction(
+            db,
+            async(transaction)=>{
+
+                const snap =
+                    await transaction.get(
+                        topupRef
+                    );
+
+                if(!snap.exists()){
+
+                    throw new Error(
+                        "Topup tidak ditemukan."
+                    );
+                }
+
+                const data =
+                    snap.data();
+
+                const status =
+                    String(
+                        data.status ||
+                        "pending"
+                    ).toLowerCase();
+
+                if(
+                    status !== "pending"
+                ){
+
+                    throw new Error(
+                        "Topup sudah diproses."
+                    );
+                }
+
+                transaction.update(
+                    topupRef,
+                    {
+                        status:
+                            "rejected",
+
+                        rejectedAt:
+                            serverTimestamp(),
+
+                        rejectedBy:
+                            currentAdmin.uid,
+
+                        rejectReason:
+                            reason.trim() ||
+                            "Ditolak oleh admin"
+                    }
+                );
+
+            }
+        );
+
+
+        toast(
+            "Top up berhasil ditolak.",
+            "success"
+        );
+
+        await fallbackTopups();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Gagal reject: " +
+            error.message,
+            "error"
+        );
+    }
+
+};
+
+
+/* =========================================================
+   PAYMENT METHODS FALLBACK
+========================================================= */
+
+async function fallbackPayments(){
+
+    try{
+
+        const snap =
+            await getDocs(
+                collection(
+                    db,
+                    "PaymentMethod"
+                )
+            );
+
+        paymentsData =
+            snap.docs.map(
+                item=>({
+
+                    id:item.id,
+
+                    ...item.data()
+
+                })
+            );
+
+        paymentsData.sort(
+            (a,b)=>
+                (
+                    Number(a.order)||0
+                )
+                -
+                (
+                    Number(b.order)||0
+                )
+        );
+
+        renderPayments();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Gagal memuat PaymentMethod: " +
+            error.message,
+            "error"
+        );
+    }
+
+}
+
+
+/* =========================================================
+   RENDER PAYMENT METHODS
+========================================================= */
+
+function renderPayments(){
+
+    const container =
+        document.getElementById(
+            "paymentList"
+        );
+
+    const empty =
+        document.getElementById(
+            "paymentEmpty"
+        );
+
+    container.innerHTML = "";
+
+    if(
+        paymentsData.length === 0
+    ){
+
+        empty.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+    empty.classList.add(
+        "hidden"
+    );
+
+
+    paymentsData.forEach(item=>{
+
+        const active =
+            item.active !== false;
+
+        const type =
+            item.type ||
+            "other";
+
+        const name =
+            item.name ||
+            "-";
+
+        const number =
+            item.accountNumber ||
+            "";
+
+        const owner =
+            item.accountName ||
+            "";
+
+        const qr =
+            item.qrUrl ||
+            "";
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "payment-card";
+
+
+        card.innerHTML = `
+
+            <div class="payment-type">
+                ${escapeHtml(type)}
+            </div>
+
+            <div class="payment-name">
+                ${escapeHtml(name)}
+            </div>
+
+            <div class="payment-number">
+                ${escapeHtml(number || "-")}
+            </div>
+
+            <div class="payment-owner">
+                ${escapeHtml(owner || "-")}
+            </div>
+
+            <div class="payment-status">
+
+                ${
+                    active
+
+                    ?
+
+                    `<span class="badge badge-green">
+                        ● AKTIF
+                    </span>`
+
+                    :
+
+                    `<span class="badge badge-gray">
+                        NONAKTIF
+                    </span>`
+                }
+
+            </div>
+
+            ${
+                qr
+
+                ?
+
+                `
+                <div class="payment-qr">
+
+                    <img
+                        src="${escapeHtml(qr)}"
+                        alt="QR Code"
+                        onerror="this.style.display='none'"
+                    >
+
+                </div>
+                `
+
+                :
+
+                ""
+            }
+
+            <div
+                class="actions"
+                style="margin-top:12px"
+            >
+
+                <button
+                    class="btn btn-primary btn-sm"
+                    onclick="editPayment('${escapeHtml(item.id)}')"
+                >
+                    Edit
+                </button>
+
+                <button
+                    class="btn ${
+                        active
+                        ? "btn-warning"
+                        : "btn-success"
+                    } btn-sm"
+                    onclick="togglePayment('${escapeHtml(item.id)}',${active})"
+                >
+                    ${
+                        active
+                        ? "Nonaktifkan"
+                        : "Aktifkan"
+                    }
+                </button>
+
+                <button
+                    class="btn btn-danger btn-sm"
+                    onclick="deletePayment('${escapeHtml(item.id)}')"
+                >
+                    Hapus
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(
+            card
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   OPEN PAYMENT MODAL
+========================================================= */
+
+window.openPaymentModal =
+function(){
+
+    document.getElementById(
+        "paymentModalTitle"
+    ).textContent =
+        "Tambah Payment Method";
+
+    document.getElementById(
+        "paymentId"
+    ).value =
+        "";
+
+    document.getElementById(
+        "paymentType"
+    ).value =
+        "bank";
+
+    document.getElementById(
+        "paymentName"
+    ).value =
+        "";
+
+    document.getElementById(
+        "paymentNumber"
+    ).value =
+        "";
+
+    document.getElementById(
+        "paymentOwner"
+    ).value =
+        "";
+
+    document.getElementById(
+        "paymentQr"
+    ).value =
+        "";
+
+    document.getElementById(
+        "paymentOrder"
+    ).value =
+        "1";
+
+    document.getElementById(
+        "paymentActive"
+    ).checked =
+        true;
+
+    document.getElementById(
+        "paymentModal"
+    ).classList.add(
+        "show"
+    );
+
+};
+
+
+/* =========================================================
+   EDIT PAYMENT
+========================================================= */
+
+window.editPayment =
+function(id){
+
+    const item =
+        paymentsData.find(
+            payment=>payment.id === id
+        );
+
+    if(!item){
+
+        toast(
+            "Payment method tidak ditemukan.",
+            "error"
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "paymentModalTitle"
+    ).textContent =
+        "Edit Payment Method";
+
+    document.getElementById(
+        "paymentId"
+    ).value =
+        id;
+
+    document.getElementById(
+        "paymentType"
+    ).value =
+        item.type ||
+        "bank";
+
+    document.getElementById(
+        "paymentName"
+    ).value =
+        item.name ||
+        "";
+
+    document.getElementById(
+        "paymentNumber"
+    ).value =
+        item.accountNumber ||
+        "";
+
+    document.getElementById(
+        "paymentOwner"
+    ).value =
+        item.accountName ||
+        "";
+
+    document.getElementById(
+        "paymentQr"
+    ).value =
+        item.qrUrl ||
+        "";
+
+    document.getElementById(
+        "paymentOrder"
+    ).value =
+        Number(
+            item.order
+        ) || 1;
+
+    document.getElementById(
+        "paymentActive"
+    ).checked =
+        item.active !== false;
+
+    document.getElementById(
+        "paymentModal"
+    ).classList.add(
+        "show"
+    );
+
+};
+
+
+/* =========================================================
+   SAVE PAYMENT
+========================================================= */
 
 window.savePaymentMethod =
 async function(){
 
-  const name =
-    document
-      .getElementById(
-        "pmName"
-      )
-      .value
-      .trim();
+    const id =
+        document.getElementById(
+            "paymentId"
+        ).value;
+
+    const type =
+        document.getElementById(
+            "paymentType"
+        ).value;
+
+    const name =
+        document.getElementById(
+            "paymentName"
+        ).value.trim();
+
+    const number =
+        document.getElementById(
+            "paymentNumber"
+        ).value.trim();
+
+    const owner =
+        document.getElementById(
+            "paymentOwner"
+        ).value.trim();
+
+    const qr =
+        document.getElementById(
+            "paymentQr"
+        ).value.trim();
+
+    const order =
+        Number(
+            document.getElementById(
+                "paymentOrder"
+            ).value
+        ) || 0;
+
+    const active =
+        document.getElementById(
+            "paymentActive"
+        ).checked;
 
 
-  const type =
-    document
-      .getElementById(
-        "pmType"
-      )
-      .value;
+    if(!name){
+
+        toast(
+            "Nama payment wajib diisi.",
+            "warning"
+        );
+
+        return;
+    }
 
 
-  const number =
-    document
-      .getElementById(
-        "pmNumber"
-      )
-      .value
-      .trim();
+    try{
+
+        const data = {
+
+            type,
+
+            name,
+
+            accountNumber:
+                number,
+
+            accountName:
+                owner,
+
+            qrUrl:
+                qr,
+
+            active,
+
+            order,
+
+            updatedAt:
+                serverTimestamp(),
+
+            updatedBy:
+                currentAdmin.uid
+
+        };
 
 
-  const owner =
-    document
-      .getElementById(
-        "pmOwner"
-      )
-      .value
-      .trim();
+        if(id){
+
+            await updateDoc(
+                doc(
+                    db,
+                    "PaymentMethod",
+                    id
+                ),
+                data
+            );
+
+            toast(
+                "Payment method berhasil diperbarui.",
+                "success"
+            );
+
+        }else{
+
+            await addDoc(
+                collection(
+                    db,
+                    "PaymentMethod"
+                ),
+                {
+                    ...data,
+
+                    createdAt:
+                        serverTimestamp(),
+
+                    createdBy:
+                        currentAdmin.uid
+                }
+            );
+
+            toast(
+                "Payment method berhasil ditambahkan.",
+                "success"
+            );
+
+        }
 
 
-  const qrUrl =
-    document
-      .getElementById(
-        "pmQr"
-      )
-      .value
-      .trim();
+        closeModal(
+            "paymentModal"
+        );
 
+        await fallbackPayments();
 
-  const active =
-    document
-      .getElementById(
-        "pmStatus"
-      )
-      .value ===
-      "true";
+    }catch(error){
 
+        console.error(error);
 
-  const order =
-    Number(
-      document
-        .getElementById(
-          "pmOrder"
-        )
-        .value ||
-      1
-    );
-
-
-  if(
-    !name
-  ){
-
-    showToast(
-      "Nama provider wajib diisi."
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    await addDoc(
-
-      collection(
-        db,
-        "paymentMethods"
-      ),
-
-      {
-
-        name:
-          name,
-
-        type:
-          type,
-
-        number:
-          number,
-
-        owner:
-          owner,
-
-        qrUrl:
-          qrUrl,
-
-        active:
-          active,
-
-        order:
-          order,
-
-        createdAt:
-          serverTimestamp(),
-
-        updatedAt:
-          serverTimestamp()
-
-      }
-
-    );
-
-
-    document
-      .getElementById(
-        "pmName"
-      )
-      .value =
-      "";
-
-
-    document
-      .getElementById(
-        "pmNumber"
-      )
-      .value =
-      "";
-
-
-    document
-      .getElementById(
-        "pmOwner"
-      )
-      .value =
-      "";
-
-
-    document
-      .getElementById(
-        "pmQr"
-      )
-      .value =
-      "";
-
-
-    document
-      .getElementById(
-        "qrPreview"
-      )
-      .innerHTML =
-      "";
-
-
-    showToast(
-      "Metode pembayaran berhasil ditambahkan."
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "SAVE PAYMENT ERROR:",
-      error
-    );
-
-
-    showToast(
-      "Gagal menyimpan metode: " +
-      error.message
-    );
-
-  }
+        toast(
+            "Gagal menyimpan payment method: " +
+            error.message,
+            "error"
+        );
+    }
 
 };
 
 
-
-/* =====================================================
+/* =========================================================
    TOGGLE PAYMENT
-===================================================== */
+========================================================= */
 
 window.togglePayment =
-async function(
-  id,
-  current
-){
+async function(id,current){
 
-  try{
+    try{
 
-    await updateDoc(
+        await updateDoc(
+            doc(
+                db,
+                "PaymentMethod",
+                id
+            ),
+            {
+                active:
+                    !current,
 
-      doc(
-        db,
-        "paymentMethods",
-        id
-      ),
+                updatedAt:
+                    serverTimestamp(),
 
-      {
+                updatedBy:
+                    currentAdmin.uid
+            }
+        );
 
-        active:
-          !current,
+        toast(
+            current
+            ? "Payment method dinonaktifkan."
+            : "Payment method diaktifkan.",
+            "success"
+        );
 
-        updatedAt:
-          serverTimestamp()
+        await fallbackPayments();
 
-      }
+    }catch(error){
 
-    );
-
-
-    showToast(
-
-      current
-      ? "Metode dinonaktifkan."
-      : "Metode diaktifkan."
-
-    );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    showToast(
-      "Gagal mengubah metode."
-    );
-
-  }
+        toast(
+            "Gagal mengubah status: " +
+            error.message,
+            "error"
+        );
+    }
 
 };
 
 
-
-/* =====================================================
+/* =========================================================
    DELETE PAYMENT
-===================================================== */
+========================================================= */
 
 window.deletePayment =
 async function(id){
 
-  if(
-    !confirm(
-      "Hapus metode pembayaran ini?"
-    )
-  ){
+    const item =
+        paymentsData.find(
+            payment=>payment.id === id
+        );
 
-    return;
+    if(!item){
 
-  }
+        return;
+    }
 
+    if(
+        !confirm(
+            "Hapus payment method " +
+            (
+                item.name ||
+                ""
+            ) +
+            "?"
+        )
+    ){
 
-  try{
+        return;
+    }
 
-    await deleteDoc(
+    try{
 
-      doc(
-        db,
-        "paymentMethods",
-        id
-      )
+        await deleteDoc(
+            doc(
+                db,
+                "PaymentMethod",
+                id
+            )
+        );
 
-    );
+        toast(
+            "Payment method berhasil dihapus.",
+            "success"
+        );
 
+        await fallbackPayments();
 
-    showToast(
-      "Metode pembayaran dihapus."
-    );
+    }catch(error){
 
+        console.error(error);
 
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    showToast(
-      "Gagal menghapus metode."
-    );
-
-  }
+        toast(
+            "Gagal menghapus: " +
+            error.message,
+            "error"
+        );
+    }
 
 };
 
 
+/* =========================================================
+   TABS
+========================================================= */
 
-/* =====================================================
-   QR PREVIEW
-===================================================== */
+window.showTab =
+function(name,button){
 
-window.previewQR =
-function(){
-
-  const url =
     document
-      .getElementById(
-        "pmQr"
-      )
-      .value
-      .trim();
+        .querySelectorAll(
+            ".tab"
+        )
+        .forEach(
+            tab=>
+                tab.classList.remove(
+                    "active"
+                )
+        );
+
+    button.classList.add(
+        "active"
+    );
 
 
-  const preview =
     document.getElementById(
-      "qrPreview"
+        "tab-users"
+    ).classList.add(
+        "hidden"
+    );
+
+    document.getElementById(
+        "tab-topups"
+    ).classList.add(
+        "hidden"
+    );
+
+    document.getElementById(
+        "tab-payments"
+    ).classList.add(
+        "hidden"
     );
 
 
-  if(
-    !url
-  ){
-
-    preview.innerHTML =
-      "";
-
-    return;
-
-  }
-
-
-  preview.innerHTML = `
-
-    <img
-      src="${escapeAttribute(url)}"
-      alt="Preview QR"
-    >
-
-  `;
+    document.getElementById(
+        "tab-" + name
+    ).classList.remove(
+        "hidden"
+    );
 
 };
 
 
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-window.openPanel =
-function(
-  id,
-  button
-){
-
-  document
-    .querySelectorAll(
-      ".panel"
-    )
-    .forEach(
-      panel =>
-        panel.classList.remove(
-          "active"
-        )
-    );
-
-
-  document
-    .querySelectorAll(
-      ".nav button"
-    )
-    .forEach(
-      btn =>
-        btn.classList.remove(
-          "active"
-        )
-    );
-
-
-  document
-    .getElementById(
-      id
-    )
-    .classList.add(
-      "active"
-    );
-
-
-  button.classList.add(
-    "active"
-  );
-
-};
-
-
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
 
 window.closeModal =
 function(id){
 
-  document
-    .getElementById(
-      id
-    )
-    .classList.remove(
-      "show"
-    );
-
-};
-
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-window.logoutAdmin =
-async function(){
-
-  if(
-    !confirm(
-      "Keluar dari akun admin?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  try{
-
-    if(
-      topupUnsubscribe
-    ){
-
-      topupUnsubscribe();
-
-    }
-
-
-    if(
-      paymentUnsubscribe
-    ){
-
-      paymentUnsubscribe();
-
-    }
-
-
-    await signOut(
-      auth
-    );
-
-
-    window.location.replace(
-      "auth.html"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      "LOGOUT ERROR:",
-      error
-    );
-
-
-    showToast(
-      "Logout gagal."
-    );
-
-  }
-
-};
-
-
-
-/* =====================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-===================================================== */
-
-document.addEventListener(
-  "click",
-  event=>{
-
-    if(
-      event.target.classList.contains(
-        "modal"
-      )
-    ){
-
-      event.target.classList.remove(
+    document.getElementById(
+        id
+    ).classList.remove(
         "show"
-      );
+    );
 
-    }
+};
 
-  }
-);
 
+/* =========================================================
+   CLOSE MODAL WHEN OUTSIDE CLICK
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".modal"
+    )
+    .forEach(
+        modal=>{
+
+            modal.addEventListener(
+                "click",
+                event=>{
+
+                    if(
+                        event.target ===
+                        modal
+                    ){
+
+                        modal.classList.remove(
+                            "show"
+                        );
+                    }
+
+                }
+            );
+
+        }
+    );
 
 </script>
 
