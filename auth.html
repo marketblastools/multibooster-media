@@ -1,134 +1,82 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Login - MultiBooster Media</title>
 
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
-html,
-body{
+html,body{
     width:100%;
     min-height:100%;
 }
 
 body{
-
     min-height:100vh;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
+    padding:16px;
 
-    padding:20px;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family:Arial,Helvetica,sans-serif;
     color:#fff;
 
     background:
-
         radial-gradient(
             circle at 10% 10%,
             rgba(74,72,190,.45),
             transparent 35%
         ),
-
         radial-gradient(
             circle at 90% 90%,
             rgba(190,55,190,.30),
             transparent 35%
         ),
-
         linear-gradient(
             135deg,
             #050816,
             #0d1428,
             #050816
         );
-
 }
 
-
-/* =====================================================
-   LOGIN BOX
-===================================================== */
-
 .login-box{
-
     width:100%;
-
     max-width:420px;
-
     padding:30px;
 
     border-radius:26px;
 
-    background:
-        rgba(18,25,47,.92);
+    background:rgba(18,25,47,.94);
 
-    border:
-        1px solid
-        rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.12);
 
     box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.60);
+        0 30px 80px rgba(0,0,0,.60);
 
-    backdrop-filter:
-        blur(20px);
-
-    -webkit-backdrop-filter:
-        blur(20px);
-
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
 }
 
-
-/* =====================================================
-   LOGO
-===================================================== */
-
 .logo{
-
     width:76px;
-
     height:76px;
-
-    margin:
-        0 auto 16px;
+    margin:0 auto 16px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
     border-radius:22px;
 
     font-size:25px;
-
     font-weight:900;
 
     background:
@@ -139,106 +87,61 @@ body{
         );
 
     box-shadow:
-        0 15px 40px
-        rgba(110,80,255,.45);
-
+        0 15px 40px rgba(110,80,255,.45);
 }
 
-
-/* =====================================================
-   TITLE
-===================================================== */
-
 h1{
-
     text-align:center;
-
     font-size:25px;
-
     margin-bottom:7px;
-
 }
 
 .subtitle{
-
     text-align:center;
-
     color:#9da8c2;
-
     font-size:14px;
-
     margin-bottom:25px;
-
 }
 
-
-/* =====================================================
-   FORM
-===================================================== */
-
 .form-group{
-
     margin-bottom:16px;
-
 }
 
 label{
-
     display:block;
-
     margin-bottom:7px;
 
     color:#cbd2e5;
-
     font-size:13px;
-
 }
 
 input{
-
     width:100%;
-
     padding:14px 15px;
 
     border-radius:13px;
-
-    border:
-        1px solid
-        #303b59;
+    border:1px solid #303b59;
 
     outline:none;
 
     background:#0b1121;
-
     color:#fff;
 
     font-size:15px;
-
 }
 
 input:focus{
-
     border-color:#805cff;
 
     box-shadow:
-        0 0 0 3px
-        rgba(128,92,255,.13);
-
+        0 0 0 3px rgba(128,92,255,.13);
 }
 
-
-/* =====================================================
-   BUTTON
-===================================================== */
-
 button{
-
     width:100%;
-
     padding:15px;
 
     border:0;
-
     border-radius:14px;
 
     color:#fff;
@@ -251,36 +154,23 @@ button{
         );
 
     font-size:15px;
-
     font-weight:bold;
 
     cursor:pointer;
 
     box-shadow:
-        0 12px 35px
-        rgba(108,80,255,.30);
-
+        0 12px 35px rgba(108,80,255,.30);
 }
 
 button:disabled{
-
     opacity:.55;
-
     cursor:not-allowed;
-
 }
 
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
 .message{
-
     display:none;
 
     margin-bottom:15px;
-
     padding:13px;
 
     border-radius:12px;
@@ -288,63 +178,32 @@ button:disabled{
     text-align:center;
 
     font-size:13px;
-
     line-height:1.5;
-
 }
 
 .message.show{
-
     display:block;
-
 }
 
 .message.error{
-
-    background:
-        rgba(255,60,80,.12);
-
-    border:
-        1px solid
-        rgba(255,60,80,.25);
-
+    background:rgba(255,60,80,.12);
+    border:1px solid rgba(255,60,80,.25);
     color:#ff9ba6;
-
 }
 
 .message.success{
-
-    background:
-        rgba(50,220,130,.12);
-
-    border:
-        1px solid
-        rgba(50,220,130,.25);
-
+    background:rgba(50,220,130,.12);
+    border:1px solid rgba(50,220,130,.25);
     color:#79efad;
-
 }
 
 .message.info{
-
-    background:
-        rgba(80,140,255,.12);
-
-    border:
-        1px solid
-        rgba(80,140,255,.25);
-
+    background:rgba(80,140,255,.12);
+    border:1px solid rgba(80,140,255,.25);
     color:#9ec4ff;
-
 }
 
-
-/* =====================================================
-   LOADING
-===================================================== */
-
 .loading{
-
     display:none;
 
     text-align:center;
@@ -354,22 +213,13 @@ button:disabled{
     color:#aeb9d0;
 
     font-size:13px;
-
 }
 
 .loading.show{
-
     display:block;
-
 }
 
-
-/* =====================================================
-   SWITCH
-===================================================== */
-
 .switch{
-
     text-align:center;
 
     margin-top:20px;
@@ -377,162 +227,128 @@ button:disabled{
     color:#9da8c2;
 
     font-size:13px;
-
 }
 
 .switch span{
-
     color:#a88cff;
-
     font-weight:bold;
-
     cursor:pointer;
-
 }
 
-
-/* =====================================================
-   REGISTER
-===================================================== */
-
 .register-fields{
-
     display:none;
-
 }
 
 .register-fields.show{
-
     display:block;
-
 }
 
-
-/* =====================================================
-   SECURITY STATUS
-===================================================== */
+/* DEBUG ADMIN */
 
 .debug-box{
-
     display:none;
 
     margin-top:15px;
+    padding:14px;
 
-    padding:12px;
+    border-radius:13px;
 
-    border-radius:12px;
+    background:rgba(0,0,0,.30);
 
-    background:
-        rgba(0,0,0,.25);
+    border:1px solid rgba(255,255,255,.10);
 
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    color:#9da8c2;
+    color:#b8c3da;
 
     font-size:11px;
 
-    line-height:1.6;
+    line-height:1.7;
 
     word-break:break-word;
-
 }
 
 .debug-box.show{
-
     display:block;
-
 }
 
+.debug-title{
+    color:#fff;
+    font-weight:bold;
+    margin-bottom:7px;
+}
 
-/* =====================================================
-   MOBILE
-===================================================== */
+.debug-row{
+    display:flex;
+    gap:6px;
+    margin:2px 0;
+}
+
+.debug-label{
+    color:#7f8ba5;
+}
+
+.debug-value{
+    color:#dbe3f5;
+}
+
+.status-ok{
+    color:#55e39b;
+    font-weight:bold;
+}
+
+.status-no{
+    color:#ff7885;
+    font-weight:bold;
+}
+
+/* MOBILE */
 
 @media(max-width:480px){
 
     body{
-
-        padding:14px;
-
+        padding:12px;
     }
 
     .login-box{
-
         padding:25px 20px;
-
         border-radius:22px;
-
     }
 
     .logo{
-
         width:68px;
-
         height:68px;
-
         font-size:22px;
-
     }
 
     h1{
-
         font-size:23px;
-
     }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="login-box">
-
-
-    <!-- LOGO -->
 
     <div class="logo">
         MB
     </div>
 
-
-    <!-- TITLE -->
-
     <h1 id="title">
         Login
     </h1>
-
 
     <div class="subtitle">
         MultiBooster Media
     </div>
 
-
-    <!-- MESSAGE -->
-
-    <div
-        id="message"
-        class="message">
-    </div>
-
-
-    <!-- FORM -->
+    <div id="message" class="message"></div>
 
     <form id="authForm">
 
+        <!-- REGISTER FIELDS -->
 
-        <!-- REGISTER -->
-
-        <div
-            id="registerFields"
-            class="register-fields">
-
+        <div id="registerFields" class="register-fields">
 
             <div class="form-group">
 
@@ -549,7 +365,6 @@ button:disabled{
 
             </div>
 
-
             <div class="form-group">
 
                 <label>
@@ -565,9 +380,7 @@ button:disabled{
 
             </div>
 
-
         </div>
-
 
         <!-- EMAIL -->
 
@@ -587,7 +400,6 @@ button:disabled{
 
         </div>
 
-
         <!-- PASSWORD -->
 
         <div class="form-group">
@@ -606,9 +418,6 @@ button:disabled{
 
         </div>
 
-
-        <!-- BUTTON -->
-
         <button
             id="submitBtn"
             type="submit">
@@ -617,30 +426,51 @@ button:disabled{
 
         </button>
 
-
     </form>
 
-
-    <!-- LOADING -->
-
-    <div
-        id="loading"
-        class="loading">
-
+    <div id="loading" class="loading">
         Memproses...
-
     </div>
 
+    <!-- DEBUG INFO -->
 
-    <!-- DEBUG -->
+    <div id="debugBox" class="debug-box">
 
-    <div
-        id="debugBox"
-        class="debug-box">
+        <div class="debug-title">
+            Pemeriksaan Akun
+        </div>
+
+        <div class="debug-row">
+            <span class="debug-label">UID:</span>
+            <span id="debugUID" class="debug-value">-</span>
+        </div>
+
+        <div class="debug-row">
+            <span class="debug-label">Email:</span>
+            <span id="debugEmail" class="debug-value">-</span>
+        </div>
+
+        <div class="debug-row">
+            <span class="debug-label">Admin:</span>
+            <span id="debugAdmin" class="debug-value">-</span>
+        </div>
+
+        <div class="debug-row">
+            <span class="debug-label">Role:</span>
+            <span id="debugRole" class="debug-value">-</span>
+        </div>
+
+        <div class="debug-row">
+            <span class="debug-label">Active:</span>
+            <span id="debugActive" class="debug-value">-</span>
+        </div>
+
+        <div class="debug-row">
+            <span class="debug-label">Tujuan:</span>
+            <span id="debugTarget" class="debug-value">-</span>
+        </div>
+
     </div>
-
-
-    <!-- SWITCH -->
 
     <div class="switch">
 
@@ -650,69 +480,46 @@ button:disabled{
 
     </div>
 
-
 </div>
-
 
 
 <script type="module">
 
-
 /* =====================================================
-   FIREBASE SDK
+   FIREBASE IMPORT
 ===================================================== */
 
 import {
-
     initializeApp
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-
 import {
-
     getAuth,
-
     createUserWithEmailAndPassword,
-
     signInWithEmailAndPassword,
-
     onAuthStateChanged,
-
     setPersistence,
-
     browserLocalPersistence,
-
     signOut
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-
 import {
-
     getFirestore,
-
     doc,
-
     getDoc,
-
     setDoc,
-
     serverTimestamp
-
 }
 from
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-
 /* =====================================================
    FIREBASE CONFIG
-   PROJECT: multibooster-media
 ===================================================== */
 
 const firebaseConfig = {
@@ -737,9 +544,7 @@ const firebaseConfig = {
 
     measurementId:
         "G-Z9S252K9C5"
-
 };
-
 
 
 /* =====================================================
@@ -751,104 +556,89 @@ const app =
         firebaseConfig
     );
 
-
 const auth =
     getAuth(app);
-
 
 const db =
     getFirestore(app);
 
 
-
 /* =====================================================
-   ELEMENT
+   ELEMENTS
 ===================================================== */
 
 const form =
-    document.getElementById(
-        "authForm"
-    );
-
+    document.getElementById("authForm");
 
 const emailInput =
-    document.getElementById(
-        "email"
-    );
-
+    document.getElementById("email");
 
 const passwordInput =
-    document.getElementById(
-        "password"
-    );
-
+    document.getElementById("password");
 
 const nameInput =
-    document.getElementById(
-        "name"
-    );
-
+    document.getElementById("name");
 
 const phoneInput =
-    document.getElementById(
-        "phone"
-    );
-
+    document.getElementById("phone");
 
 const registerFields =
-    document.getElementById(
-        "registerFields"
-    );
-
+    document.getElementById("registerFields");
 
 const submitBtn =
-    document.getElementById(
-        "submitBtn"
-    );
-
+    document.getElementById("submitBtn");
 
 const switchText =
-    document.getElementById(
-        "switchText"
-    );
-
+    document.getElementById("switchText");
 
 const title =
-    document.getElementById(
-        "title"
-    );
-
+    document.getElementById("title");
 
 const message =
-    document.getElementById(
-        "message"
-    );
-
+    document.getElementById("message");
 
 const loading =
-    document.getElementById(
-        "loading"
-    );
-
+    document.getElementById("loading");
 
 const debugBox =
-    document.getElementById(
-        "debugBox"
-    );
+    document.getElementById("debugBox");
 
+const debugUID =
+    document.getElementById("debugUID");
+
+const debugEmail =
+    document.getElementById("debugEmail");
+
+const debugAdmin =
+    document.getElementById("debugAdmin");
+
+const debugRole =
+    document.getElementById("debugRole");
+
+const debugActive =
+    document.getElementById("debugActive");
+
+const debugTarget =
+    document.getElementById("debugTarget");
 
 
 /* =====================================================
    VARIABLES
 ===================================================== */
 
-let registerMode =
-    false;
+let registerMode = false;
+
+let redirectStarted = false;
+
+let initialAuthCheck = true;
 
 
-let redirectStarted =
-    false;
+/* =====================================================
+   ADMIN UID REFERENSI
+===================================================== */
 
+const EXPECTED_ADMIN_UID =
+    "WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
 
 
 /* =====================================================
@@ -857,7 +647,7 @@ let redirectStarted =
 
 function showMessage(
     text,
-    type="info"
+    type = "info"
 ){
 
     message.textContent =
@@ -865,9 +655,7 @@ function showMessage(
 
     message.className =
         "message show " + type;
-
 }
-
 
 
 /* =====================================================
@@ -875,43 +663,79 @@ function showMessage(
 ===================================================== */
 
 function setLoading(
-    value,
-    text="Memproses..."
+    active,
+    text = "Memproses..."
 ){
 
     submitBtn.disabled =
-        value;
+        active;
 
     loading.textContent =
         text;
 
     loading.classList.toggle(
         "show",
-        value
+        active
     );
-
 }
-
 
 
 /* =====================================================
    DEBUG
 ===================================================== */
 
-function debug(
-    text
+function showDebug(
+    user,
+    adminFound,
+    role,
+    active,
+    target
 ){
 
-    console.log(
-        "[MULTIBOOSTER]",
-        text
+    debugBox.classList.add(
+        "show"
     );
 
-    debugBox.textContent =
-        text;
+    debugUID.textContent =
+        user?.uid || "-";
 
+    debugEmail.textContent =
+        user?.email || "-";
+
+    debugAdmin.textContent =
+        adminFound
+        ? "YA"
+        : "TIDAK";
+
+    debugAdmin.className =
+        "debug-value " +
+        (
+            adminFound
+            ? "status-ok"
+            : "status-no"
+        );
+
+    debugRole.textContent =
+        role || "-";
+
+    debugActive.textContent =
+        active === true
+        ? "true"
+        : active === false
+        ? "false"
+        : "-";
+
+    debugActive.className =
+        "debug-value " +
+        (
+            active === true
+            ? "status-ok"
+            : "status-no"
+        );
+
+    debugTarget.textContent =
+        target || "-";
 }
-
 
 
 /* =====================================================
@@ -925,82 +749,76 @@ function goTo(
     if(
         redirectStarted
     ){
-
         return;
     }
-
 
     redirectStarted =
         true;
 
-
     console.log(
-        "REDIRECT:",
+        "REDIRECT →",
         page
     );
-
 
     setLoading(
         true,
         "Membuka " + page + "..."
     );
 
-
-    /*
-       replace digunakan supaya
-       halaman login tidak muncul
-       lagi ketika tombol Back ditekan.
-    */
-
     window.location.replace(
         page
     );
-
 }
 
 
-
 /* =====================================================
-   CHECK ADMIN
+   CEK ADMIN
 ===================================================== */
 
 async function checkAdmin(
     user
 ){
 
+    if(
+        !user ||
+        !user.uid
+    ){
+
+        throw new Error(
+            "Data akun Firebase tidak tersedia."
+        );
+    }
+
+
     console.log(
         "================================"
     );
 
     console.log(
-        "CHECK ADMIN"
+        "PEMERIKSAAN ADMIN"
     );
 
     console.log(
-        "UID:",
+        "UID LOGIN:",
         user.uid
     );
 
+    console.log(
+        "EMAIL:",
+        user.email
+    );
 
-    debug(
-        "Memeriksa admin untuk UID: " +
-        user.uid
+    console.log(
+        "ADMIN UID TARGET:",
+        EXPECTED_ADMIN_UID
     );
 
 
     /*
-       PENTING:
+       ADMIN SELALU DICEK BERDASARKAN
+       UID AKUN YANG BENAR-BENAR LOGIN.
 
-       Firestore:
-
-       admins
-          |
-          └── UID USER
-
-       Contoh:
-
-       admins/
-       WwWSSJ0oGlaEh0ylexszH2Z5lZN2
+       BUKAN berdasarkan email.
     */
 
     const adminRef =
@@ -1013,7 +831,6 @@ async function checkAdmin(
 
     let adminSnap;
 
-
     try{
 
         adminSnap =
@@ -1024,119 +841,119 @@ async function checkAdmin(
     }catch(error){
 
         console.error(
-            "ADMIN READ ERROR:",
+            "GAGAL MEMBACA ADMIN:",
             error
         );
 
-
-        debug(
-            "ERROR membaca admins: " +
-            error.code +
-            " | " +
-            error.message
+        showDebug(
+            user,
+            false,
+            "READ ERROR",
+            false,
+            "PEMERIKSAAN GAGAL"
         );
-
-
-        /*
-           JANGAN anggap sebagai user.
-
-           Jika Rules bermasalah,
-           hentikan proses supaya akun
-           admin tidak salah diarahkan
-           ke dashboard.
-        */
 
         throw new Error(
-            "Gagal membaca data admin. Periksa Firestore Rules."
+            "Tidak dapat membaca data admin. Pastikan Firestore Rules sudah di-Publish."
         );
-
     }
 
 
-    console.log(
-        "ADMIN DOCUMENT EXISTS:",
-        adminSnap.exists()
-    );
-
+    /*
+       DOKUMEN TIDAK ADA
+    */
 
     if(
         !adminSnap.exists()
     ){
 
-        debug(
-            "Dokumen admin tidak ditemukan untuk UID ini."
+        console.log(
+            "DOKUMEN ADMIN TIDAK ADA"
         );
 
+        showDebug(
+            user,
+            false,
+            "",
+            false,
+            "dashboard.html"
+        );
 
-        return false;
+        return {
+            isAdmin:false,
+            role:"",
+            active:false
+        };
     }
 
+
+    /*
+       DOKUMEN ADA
+    */
 
     const data =
         adminSnap.data();
 
 
-    console.log(
-        "ADMIN DATA:",
-        data
-    );
-
-
     const role =
         String(
             data.role || ""
-        ).trim().toLowerCase();
+        )
+        .trim()
+        .toLowerCase();
 
 
     const active =
         data.active === true;
 
 
+    const isAdmin =
+        role === "admin" &&
+        active === true;
+
+
+    console.log(
+        "DOKUMEN ADMIN ADA:",
+        true
+    );
+
     console.log(
         "ROLE:",
         role
     );
-
 
     console.log(
         "ACTIVE:",
         active
     );
 
-
-    debug(
-        "Admin ditemukan | " +
-        "role=" +
-        role +
-        " | active=" +
-        active
+    console.log(
+        "IS ADMIN:",
+        isAdmin
     );
 
 
-    /*
-       Harus memenuhi dua syarat:
-       
-       role = admin
-       active = true
-    */
-
-    if(
-        role === "admin" &&
-        active === true
-    ){
-
-        return true;
-    }
+    showDebug(
+        user,
+        true,
+        role,
+        active,
+        isAdmin
+        ? "admin.html"
+        : "dashboard.html"
+    );
 
 
-    return false;
-
+    return {
+        isAdmin,
+        role,
+        active
+    };
 }
 
 
-
 /* =====================================================
-   CHECK USER
+   CEK USER
 ===================================================== */
 
 async function checkUser(
@@ -1167,7 +984,6 @@ async function checkUser(
                 exists:false,
                 blocked:false
             };
-
         }
 
 
@@ -1181,7 +997,6 @@ async function checkUser(
 
             blocked:
                 data.isBlocked === true
-
         };
 
     }catch(error){
@@ -1191,19 +1006,15 @@ async function checkUser(
             error
         );
 
-
         throw new Error(
             "Gagal membaca data user. Periksa Firestore Rules."
         );
-
     }
-
 }
 
 
-
 /* =====================================================
-   REDIRECT BY ROLE
+   REDIRECT BERDASARKAN ROLE
 ===================================================== */
 
 async function redirectByRole(
@@ -1213,7 +1024,6 @@ async function redirectByRole(
     if(
         !user
     ){
-
         return;
     }
 
@@ -1221,7 +1031,6 @@ async function redirectByRole(
     if(
         redirectStarted
     ){
-
         return;
     }
 
@@ -1231,7 +1040,7 @@ async function redirectByRole(
     );
 
     console.log(
-        "MEMPROSES ROLE"
+        "MEMERIKSA AKUN LOGIN"
     );
 
     console.log(
@@ -1250,7 +1059,6 @@ async function redirectByRole(
         "Memeriksa akun..."
     );
 
-
     showMessage(
         "Memeriksa hak akses akun...",
         "info"
@@ -1261,44 +1069,40 @@ async function redirectByRole(
 
         /*
            ==========================================
-           LANGKAH 1
+           STEP 1
            CEK ADMIN
            ==========================================
         */
 
-        const isAdmin =
+        const admin =
             await checkAdmin(
                 user
             );
 
 
+        /*
+           ==========================================
+           ADMIN
+           ==========================================
+        */
+
         if(
-            isAdmin
+            admin.isAdmin
         ){
 
-            console.log(
-                "================================"
-            );
-
-            console.log(
-                "ADMIN VALID"
-            );
-
-
             showMessage(
-                "Login admin berhasil. Membuka panel admin...",
+                "Admin terdeteksi. Membuka panel admin...",
                 "success"
             );
 
-
-            debug(
-                "ADMIN TERDETEKSI → admin.html"
+            console.log(
+                "HASIL AKHIR: ADMIN"
             );
 
+            console.log(
+                "REDIRECT: admin.html"
+            );
 
-            /*
-               LANGSUNG REDIRECT
-            */
 
             setTimeout(
                 ()=>{
@@ -1306,19 +1110,17 @@ async function redirectByRole(
                         "admin.html"
                     );
                 },
-                250
+                300
             );
-
 
             return;
         }
 
 
-
         /*
            ==========================================
-           LANGKAH 2
-           CEK USER
+           STEP 2
+           CEK USER BIASA
            ==========================================
         */
 
@@ -1328,6 +1130,12 @@ async function redirectByRole(
             );
 
 
+        /*
+           ==========================================
+           BLOCKED
+           ==========================================
+        */
+
         if(
             userData.blocked
         ){
@@ -1336,30 +1144,28 @@ async function redirectByRole(
                 auth
             );
 
-
             redirectStarted =
                 false;
-
 
             setLoading(
                 false
             );
-
 
             showMessage(
                 "Akun Anda telah diblokir oleh admin.",
                 "error"
             );
 
-
-            debug(
+            showDebug(
+                user,
+                false,
+                "user",
+                false,
                 "AKUN DIBLOKIR"
             );
 
-
             return;
         }
-
 
 
         /*
@@ -1369,12 +1175,11 @@ async function redirectByRole(
         */
 
         console.log(
-            "ROLE: USER"
+            "HASIL AKHIR: USER"
         );
 
-
-        debug(
-            "USER BIASA → dashboard.html"
+        console.log(
+            "REDIRECT: dashboard.html"
         );
 
 
@@ -1384,15 +1189,23 @@ async function redirectByRole(
         );
 
 
+        showDebug(
+            user,
+            false,
+            "user",
+            true,
+            "dashboard.html"
+        );
+
+
         setTimeout(
             ()=>{
                 goTo(
                     "dashboard.html"
                 );
             },
-            250
+            300
         );
-
 
     }catch(error){
 
@@ -1401,15 +1214,12 @@ async function redirectByRole(
             error
         );
 
-
         redirectStarted =
             false;
-
 
         setLoading(
             false
         );
-
 
         showMessage(
             error.message ||
@@ -1417,19 +1227,22 @@ async function redirectByRole(
             "error"
         );
 
+        /*
+           SENGAJA TIDAK REDIRECT
+           KE DASHBOARD.
 
-        debug(
-            "ERROR: " +
-            (
-                error.message ||
-                "Unknown error"
-            )
+           Jika pemeriksaan admin gagal,
+           halaman berhenti di sini.
+        */
+
+        debugBox.classList.add(
+            "show"
         );
 
+        debugTarget.textContent =
+            "TIDAK ADA REDIRECT";
     }
-
 }
-
 
 
 /* =====================================================
@@ -1443,7 +1256,6 @@ try{
         browserLocalPersistence
     );
 
-
     console.log(
         "Firebase persistence aktif."
     );
@@ -1451,12 +1263,10 @@ try{
 }catch(error){
 
     console.error(
-        "Persistence gagal:",
+        "Persistence error:",
         error
     );
-
 }
-
 
 
 /* =====================================================
@@ -1476,10 +1286,13 @@ onAuthStateChanged(
 
 
         /*
-           Jika sudah ada session Firebase,
-           langsung periksa role.
+           Saat halaman pertama kali dibuka
+           dan Firebase masih memiliki session,
+           kita tetap cek role.
 
-           Tidak perlu klik.
+           Tetapi jika user sedang login
+           melalui form, redirectByRole()
+           juga akan dijalankan.
         */
 
         if(
@@ -1490,12 +1303,12 @@ onAuthStateChanged(
             await redirectByRole(
                 user
             );
-
         }
 
+        initialAuthCheck =
+            false;
     }
 );
-
 
 
 /* =====================================================
@@ -1512,7 +1325,6 @@ form.addEventListener(
         if(
             redirectStarted
         ){
-
             return;
         }
 
@@ -1569,7 +1381,6 @@ form.addEventListener(
 
         try{
 
-
             /* ==========================================
                REGISTER
             ========================================== */
@@ -1593,7 +1404,6 @@ form.addEventListener(
                     throw new Error(
                         "Nama wajib diisi."
                     );
-
                 }
 
 
@@ -1604,7 +1414,6 @@ form.addEventListener(
                     throw new Error(
                         "Nomor WhatsApp wajib diisi."
                     );
-
                 }
 
 
@@ -1621,13 +1430,13 @@ form.addEventListener(
 
 
                 console.log(
-                    "USER CREATED:",
+                    "USER BARU:",
                     user.uid
                 );
 
 
                 /*
-                   Simpan profile user
+                   Buat profile user.
                 */
 
                 await setDoc(
@@ -1663,11 +1472,15 @@ form.addEventListener(
 
                         createdAt:
                             serverTimestamp()
-
                     }
-
                 );
 
+
+                /*
+                   Register SELALU menjadi user biasa.
+
+                   Tidak boleh otomatis menjadi admin.
+                */
 
                 redirectStarted =
                     true;
@@ -1699,7 +1512,6 @@ form.addEventListener(
             }
 
 
-
             /* ==========================================
                LOGIN
             ========================================== */
@@ -1720,15 +1532,13 @@ form.addEventListener(
                 "LOGIN BERHASIL"
             );
 
-
             console.log(
-                "EMAIL:",
+                "EMAIL LOGIN:",
                 user.email
             );
 
-
             console.log(
-                "UID:",
+                "UID LOGIN:",
                 user.uid
             );
 
@@ -1736,16 +1546,14 @@ form.addEventListener(
             /*
                PENTING:
 
-               Kita langsung memanggil
-               redirectByRole.
+               Jangan langsung dashboard.
 
-               Tidak menunggu klik.
+               Periksa admin terlebih dahulu.
             */
 
             await redirectByRole(
                 user
             );
-
 
         }catch(error){
 
@@ -1853,7 +1661,6 @@ form.addEventListener(
                         text =
                             error.message;
                     }
-
             }
 
 
@@ -1863,20 +1670,19 @@ form.addEventListener(
             );
 
 
-            debug(
-                "AUTH ERROR: " +
-                text
+            debugBox.classList.add(
+                "show"
             );
 
+            debugTarget.textContent =
+                "TIDAK ADA REDIRECT";
         }
-
     }
 );
 
 
-
 /* =====================================================
-   SWITCH LOGIN / REGISTER
+   LOGIN / REGISTER SWITCH
 ===================================================== */
 
 switchText.addEventListener(
@@ -1912,6 +1718,16 @@ switchText.addEventListener(
                 "new-password";
 
 
+            showMessage(
+                "",
+                "info"
+            );
+
+
+            message.classList.remove(
+                "show"
+            );
+
         }else{
 
             title.textContent =
@@ -1934,15 +1750,17 @@ switchText.addEventListener(
             passwordInput.autocomplete =
                 "current-password";
 
-        }
 
+            message.classList.remove(
+                "show"
+            );
+        }
     }
 );
 
 
-
 /* =====================================================
-   GLOBAL ERROR HANDLER
+   GLOBAL ERROR
 ===================================================== */
 
 window.addEventListener(
@@ -1953,7 +1771,6 @@ window.addEventListener(
             "GLOBAL ERROR:",
             event.error
         );
-
     }
 );
 
@@ -1966,17 +1783,20 @@ window.addEventListener(
             "PROMISE ERROR:",
             event.reason
         );
-
     }
 );
 
 
+/* =====================================================
+   STARTUP LOG
+===================================================== */
+
 console.log(
-    "================================"
+    "=========================================="
 );
 
 console.log(
-    "MULTIBOOSTER AUTH AKTIF"
+    "MULTIBOOSTER AUTH FINAL"
 );
 
 console.log(
@@ -1988,13 +1808,17 @@ console.log(
 );
 
 console.log(
-    "ADMIN UID: WwWSSJ0oGlaEh0ylexszH2Z5lZN2"
+    "ADMIN UID REFERENSI:",
+    EXPECTED_ADMIN_UID
 );
 
 console.log(
-    "================================"
+    "ADMIN CHECK: admins/{UID LOGIN}"
 );
 
+console.log(
+    "=========================================="
+);
 
 </script>
 
