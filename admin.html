@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
 <title>Admin Panel - MultiBooster Media</title>
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -14,949 +24,1898 @@
 }
 
 :root{
-  --bg:#060914;
-  --card:#0d1424;
-  --card2:#111b30;
+  --bg:#050812;
+  --card:#0c1425;
+  --card2:#101b31;
   --border:rgba(255,255,255,.09);
-  --text:#f4f7ff;
+  --text:#f5f7ff;
   --muted:#8d9ab3;
   --blue:#00d9ff;
-  --purple:#7c5cff;
-  --green:#28e98a;
+  --purple:#785cff;
+  --green:#27e98a;
   --red:#ff5364;
   --orange:#ffb84d;
 }
 
+
+/* =====================================================
+   BODY
+===================================================== */
+
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at 15% 10%,rgba(0,217,255,.10),transparent 25%),
-    radial-gradient(circle at 85% 20%,rgba(124,92,255,.13),transparent 28%),
-    linear-gradient(135deg,#050811,#0a1020 50%,#050811);
-  color:var(--text);
+
   min-height:100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:var(--text);
+
+  background:
+
+    radial-gradient(
+      circle at 10% 5%,
+      rgba(0,217,255,.12),
+      transparent 27%
+    ),
+
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(120,92,255,.15),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(190,50,180,.08),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      #040711,
+      #0a1020,
+      #050812
+    );
+
 }
 
-body:before{
+
+/* motif */
+
+body::before{
+
   content:"";
+
   position:fixed;
+
   inset:0;
+
   pointer-events:none;
+
   opacity:.035;
+
   background-image:
-    linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
-  background-size:30px 30px;
+
+    linear-gradient(
+      rgba(255,255,255,.5) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.5) 1px,
+      transparent 1px
+    );
+
+  background-size:32px 32px;
+
 }
 
-/* LOADING */
+
+/* =====================================================
+   LOADING
+===================================================== */
 
 #loading{
+
   position:fixed;
+
   inset:0;
-  z-index:9999;
+
+  z-index:99999;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
-  background:#050811;
+
+  background:#040711;
+
 }
 
 .loader{
+
   text-align:center;
+
+  padding:25px;
+
 }
 
 .spinner{
-  width:50px;
-  height:50px;
-  border:4px solid rgba(255,255,255,.1);
-  border-top-color:var(--blue);
-  border-right-color:var(--purple);
+
+  width:52px;
+
+  height:52px;
+
+  margin:
+    0 auto 16px;
+
+  border:
+    4px solid
+    rgba(255,255,255,.08);
+
+  border-top-color:
+    var(--blue);
+
+  border-right-color:
+    var(--purple);
+
   border-radius:50%;
-  animation:spin .8s linear infinite;
-  margin:auto auto 15px;
+
+  animation:
+    spin .8s linear infinite;
+
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
+
+  to{
+    transform:rotate(360deg);
+  }
+
 }
 
-/* HEADER */
+.loader-text{
+
+  color:#cbd4e8;
+
+  font-size:13px;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .header{
+
   position:sticky;
+
   top:0;
+
   z-index:1000;
-  height:70px;
+
+  min-height:68px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
-  padding:0 20px;
-  background:rgba(6,9,20,.88);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--border);
+
+  gap:15px;
+
+  padding:
+    0 20px;
+
+  background:
+    rgba(5,8,18,.90);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  border-bottom:
+    1px solid
+    var(--border);
+
 }
 
 .logo{
+
   display:flex;
+
   align-items:center;
-  gap:12px;
+
+  gap:11px;
+
 }
 
 .logo-icon{
+
   width:42px;
+
   height:42px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   border-radius:12px;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      var(--purple)
+    );
+
   font-weight:900;
-  box-shadow:0 8px 25px rgba(0,217,255,.18);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0,217,255,.18);
+
 }
 
 .logo h1{
+
   font-size:16px;
+
 }
 
 .logo small{
+
   display:block;
-  color:var(--muted);
-  font-size:10px;
+
   margin-top:3px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
 }
 
 .admin-info{
+
   display:flex;
+
   align-items:center;
-  gap:10px;
+
+  gap:12px;
+
 }
 
 .online{
+
   display:flex;
+
   align-items:center;
+
   gap:6px;
+
   color:var(--green);
-  font-size:11px;
+
+  font-size:10px;
+
 }
 
 .online-dot{
+
   width:8px;
+
   height:8px;
+
   border-radius:50%;
+
   background:var(--green);
-  box-shadow:0 0 10px var(--green);
+
+  box-shadow:
+    0 0 12px
+    var(--green);
+
 }
 
 .logout{
-  border:1px solid rgba(255,83,100,.25);
-  background:rgba(255,83,100,.08);
+
+  border:
+    1px solid
+    rgba(255,83,100,.25);
+
+  background:
+    rgba(255,83,100,.08);
+
   color:#ff7b88;
-  padding:8px 12px;
+
+  padding:
+    8px 12px;
+
   border-radius:8px;
+
   cursor:pointer;
+
   font-size:11px;
+
 }
 
-/* MAIN */
+
+/* =====================================================
+   MAIN
+===================================================== */
 
 .container{
+
   width:min(1200px,94%);
-  margin:25px auto 50px;
+
+  margin:
+    25px auto 60px;
+
 }
 
 .welcome{
+
   margin-bottom:20px;
+
 }
 
 .welcome h2{
+
   font-size:24px;
+
   margin-bottom:6px;
+
 }
 
 .welcome p{
+
   color:var(--muted);
+
   font-size:13px;
+
 }
 
-/* STATS */
+
+/* =====================================================
+   STATS
+===================================================== */
 
 .stats{
+
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:14px;
+
   margin-bottom:22px;
+
 }
 
 .stat{
-  background:linear-gradient(145deg,rgba(17,27,48,.96),rgba(9,15,28,.96));
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:18px;
+
   position:relative;
+
   overflow:hidden;
+
+  padding:18px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17,27,48,.96),
+      rgba(8,14,27,.96)
+    );
+
 }
 
-.stat:after{
+.stat::after{
+
   content:"";
+
   position:absolute;
+
   width:80px;
+
   height:80px;
-  border-radius:50%;
+
   right:-30px;
+
   top:-30px;
-  background:rgba(0,217,255,.06);
+
+  border-radius:50%;
+
+  background:
+    rgba(0,217,255,.06);
+
 }
 
 .stat-title{
+
   color:var(--muted);
-  font-size:11px;
+
+  font-size:10px;
+
   margin-bottom:10px;
+
 }
 
 .stat-value{
+
   font-size:22px;
+
   font-weight:800;
+
 }
 
 .stat-icon{
+
   margin-top:8px;
-  font-size:11px;
+
   color:var(--blue);
+
+  font-size:10px;
+
 }
 
-/* NAV */
+
+/* =====================================================
+   NAV
+===================================================== */
 
 .nav{
+
   display:flex;
+
   gap:8px;
+
   overflow-x:auto;
+
+  padding-bottom:4px;
+
   margin-bottom:18px;
-  padding-bottom:3px;
+
 }
 
 .nav button{
-  flex:0 0 auto;
-  border:1px solid var(--border);
-  background:rgba(13,20,36,.8);
+
+  flex:
+    0 0 auto;
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    rgba(13,20,36,.85);
+
   color:var(--muted);
-  padding:10px 15px;
+
+  padding:
+    11px 16px;
+
   border-radius:9px;
+
   cursor:pointer;
+
   font-size:12px;
+
 }
 
 .nav button.active,
 .nav button:hover{
+
   color:white;
-  border-color:rgba(0,217,255,.35);
-  background:linear-gradient(135deg,rgba(0,217,255,.13),rgba(124,92,255,.13));
+
+  border-color:
+    rgba(0,217,255,.35);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,217,255,.13),
+      rgba(120,92,255,.13)
+    );
+
 }
 
-/* PANEL */
+
+/* =====================================================
+   PANELS
+===================================================== */
 
 .panel{
+
   display:none;
-  background:rgba(13,20,36,.9);
-  border:1px solid var(--border);
-  border-radius:16px;
+
   overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,.18);
+
+  background:
+    rgba(13,20,36,.92);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:16px;
+
+  box-shadow:
+    0 20px 55px
+    rgba(0,0,0,.18);
+
 }
 
 .panel.active{
+
   display:block;
+
 }
 
 .panel-head{
-  padding:18px;
-  border-bottom:1px solid var(--border);
+
   display:flex;
-  justify-content:space-between;
+
   align-items:center;
+
+  justify-content:space-between;
+
   gap:10px;
+
+  padding:18px;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
 }
 
 .panel-head h3{
+
   font-size:15px;
+
 }
 
 .panel-head span{
-  font-size:11px;
+
   color:var(--muted);
+
+  font-size:10px;
+
 }
 
-/* SEARCH */
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .search-box{
+
   padding:14px 18px;
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid
+    var(--border);
+
 }
 
 .search-box input{
+
   width:100%;
-  background:#070d19;
-  border:1px solid var(--border);
-  color:white;
+
   padding:11px;
+
+  border:
+    1px solid
+    var(--border);
+
   border-radius:9px;
+
   outline:none;
+
+  background:#070d19;
+
+  color:white;
+
 }
 
 .search-box input:focus{
-  border-color:var(--blue);
+
+  border-color:
+    var(--blue);
+
 }
 
-/* TABLE */
+
+/* =====================================================
+   TABLE
+===================================================== */
 
 .table-wrap{
+
   overflow-x:auto;
+
 }
 
 table{
+
   width:100%;
-  border-collapse:collapse;
+
   min-width:760px;
+
+  border-collapse:collapse;
+
 }
 
-th,td{
-  padding:13px 15px;
+th,
+td{
+
+  padding:
+    13px 15px;
+
   text-align:left;
-  border-bottom:1px solid rgba(255,255,255,.055);
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.05);
+
   font-size:11px;
+
 }
 
 th{
+
   color:var(--muted);
+
   font-weight:600;
-  background:rgba(255,255,255,.015);
+
+  background:
+    rgba(255,255,255,.015);
+
 }
 
 td{
+
   color:#e8edfa;
+
 }
 
+
+/* =====================================================
+   BADGES
+===================================================== */
+
 .badge{
+
   display:inline-block;
-  padding:5px 8px;
+
+  padding:
+    5px 8px;
+
   border-radius:20px;
-  font-size:10px;
+
+  font-size:9px;
+
 }
 
 .badge.green{
-  background:rgba(40,233,138,.1);
+
+  background:
+    rgba(39,233,138,.10);
+
   color:var(--green);
+
 }
 
 .badge.red{
-  background:rgba(255,83,100,.1);
+
+  background:
+    rgba(255,83,100,.10);
+
   color:#ff7180;
+
 }
 
 .badge.orange{
-  background:rgba(255,184,77,.1);
+
+  background:
+    rgba(255,184,77,.10);
+
   color:var(--orange);
+
 }
 
+
+/* =====================================================
+   ACTION
+===================================================== */
+
 .action{
+
   border:0;
-  padding:7px 9px;
-  border-radius:7px;
-  cursor:pointer;
-  font-size:10px;
+
+  padding:
+    7px 9px;
+
   margin:2px;
+
+  border-radius:7px;
+
+  cursor:pointer;
+
+  font-size:10px;
+
 }
 
 .btn-green{
-  background:rgba(40,233,138,.12);
+
+  background:
+    rgba(39,233,138,.12);
+
   color:var(--green);
+
 }
 
 .btn-red{
-  background:rgba(255,83,100,.12);
+
+  background:
+    rgba(255,83,100,.12);
+
   color:#ff7180;
+
 }
 
 .btn-blue{
-  background:rgba(0,217,255,.12);
+
+  background:
+    rgba(0,217,255,.12);
+
   color:var(--blue);
+
 }
 
 .btn-orange{
-  background:rgba(255,184,77,.12);
+
+  background:
+    rgba(255,184,77,.12);
+
   color:var(--orange);
+
 }
 
-/* TOPUP */
+
+/* =====================================================
+   TOPUP
+===================================================== */
 
 .topup-card{
+
   margin:16px;
+
   padding:17px;
-  border:1px solid var(--border);
-  background:#080f1d;
+
+  border:
+    1px solid
+    var(--border);
+
   border-radius:13px;
+
+  background:#080f1d;
+
 }
 
 .topup-grid{
+
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(2,1fr);
+
   gap:10px;
+
 }
 
 .info{
-  background:rgba(255,255,255,.025);
+
   padding:10px;
+
   border-radius:8px;
+
+  background:
+    rgba(255,255,255,.025);
+
 }
 
 .info label{
+
   display:block;
-  font-size:9px;
-  color:var(--muted);
+
   margin-bottom:5px;
+
+  color:var(--muted);
+
+  font-size:9px;
+
 }
 
 .info strong{
+
   font-size:12px;
+
+  word-break:break-word;
+
 }
 
-/* PAYMENT */
+
+/* =====================================================
+   PAYMENT
+===================================================== */
 
 .payment-method{
+
   margin:15px;
+
   padding:17px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid
+    var(--border);
+
   border-radius:13px;
+
   background:#080f1d;
+
 }
 
 .payment-form{
+
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(2,1fr);
+
   gap:12px;
+
 }
 
 .form-group label{
+
   display:block;
-  color:var(--muted);
-  font-size:10px;
+
   margin-bottom:6px;
+
+  color:var(--muted);
+
+  font-size:10px;
+
 }
 
 .form-group input,
 .form-group select{
+
   width:100%;
+
   padding:10px;
-  background:#050b15;
-  color:white;
-  border:1px solid var(--border);
+
+  border:
+    1px solid
+    var(--border);
+
   border-radius:8px;
+
   outline:none;
+
+  background:#050b15;
+
+  color:white;
+
 }
 
 .form-group input:focus,
 .form-group select:focus{
-  border-color:var(--blue);
+
+  border-color:
+    var(--blue);
+
 }
 
 .full{
-  grid-column:1/-1;
+
+  grid-column:
+    1/-1;
+
 }
 
 .qr-preview{
+
   margin-top:10px;
+
   text-align:center;
+
 }
 
 .qr-preview img{
-  max-width:180px;
+
+  width:180px;
+
+  max-width:100%;
+
   max-height:180px;
-  border-radius:10px;
-  background:white;
+
+  object-fit:contain;
+
   padding:7px;
+
+  border-radius:10px;
+
+  background:white;
+
 }
 
 .save-btn{
+
   width:100%;
-  border:0;
-  background:linear-gradient(135deg,var(--blue),var(--purple));
-  color:white;
+
   padding:11px;
+
+  border:0;
+
   border-radius:8px;
+
   cursor:pointer;
+
+  color:white;
+
   font-weight:bold;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue),
+      var(--purple)
+    );
+
 }
 
-/* EMPTY */
+
+/* =====================================================
+   EMPTY
+===================================================== */
 
 .empty{
+
   padding:40px 20px;
+
   text-align:center;
+
   color:var(--muted);
+
   font-size:12px;
+
 }
 
-/* MODAL */
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 .modal{
+
   position:fixed;
+
   inset:0;
+
   z-index:5000;
+
   display:none;
+
   align-items:center;
+
   justify-content:center;
+
   padding:15px;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(7px);
+
+  background:
+    rgba(0,0,0,.78);
+
+  backdrop-filter:
+    blur(7px);
+
 }
 
 .modal.show{
+
   display:flex;
+
 }
 
 .modal-box{
-  width:min(500px,100%);
+
+  width:min(520px,100%);
+
   max-height:90vh;
+
   overflow:auto;
-  background:#0d1424;
-  border:1px solid var(--border);
-  border-radius:15px;
+
   padding:20px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:15px;
+
+  background:#0d1424;
+
 }
 
 .modal-head{
+
   display:flex;
-  justify-content:space-between;
+
   align-items:center;
+
+  justify-content:space-between;
+
   margin-bottom:15px;
+
 }
 
 .modal-head h3{
+
   font-size:15px;
+
 }
 
 .close{
-  background:none;
+
   border:0;
+
+  background:none;
+
   color:var(--muted);
-  font-size:22px;
+
+  font-size:23px;
+
   cursor:pointer;
+
 }
 
 .proof{
+
+  display:block;
+
   width:100%;
+
   max-height:450px;
+
   object-fit:contain;
+
   border-radius:10px;
+
   background:#050811;
+
 }
 
 .modal-actions{
+
   display:flex;
+
   gap:8px;
+
   margin-top:15px;
+
 }
 
 .modal-actions button{
+
   flex:1;
+
   padding:10px;
+
   border:0;
+
   border-radius:8px;
+
   cursor:pointer;
+
   font-weight:bold;
+
 }
 
-/* TOAST */
+
+/* =====================================================
+   TOAST
+===================================================== */
 
 #toast{
+
   position:fixed;
-  bottom:20px;
+
   left:50%;
-  transform:translate(-50%,20px);
-  opacity:0;
+
+  bottom:20px;
+
   z-index:9000;
-  background:#111b30;
-  border:1px solid var(--border);
-  padding:11px 16px;
-  border-radius:10px;
-  font-size:11px;
-  transition:.25s;
+
+  transform:
+    translate(-50%,20px);
+
+  opacity:0;
+
   pointer-events:none;
+
+  padding:
+    11px 16px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:10px;
+
+  background:#111b30;
+
+  font-size:11px;
+
+  transition:.25s;
+
 }
 
 #toast.show{
+
   opacity:1;
-  transform:translate(-50%,0);
+
+  transform:
+    translate(-50%,0);
+
 }
 
-/* RESPONSIVE */
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media(max-width:800px){
+
   .stats{
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+      repeat(2,1fr);
+
   }
 
   .payment-form,
   .topup-grid{
+
     grid-template-columns:1fr;
+
   }
 
   .full{
+
     grid-column:auto;
+
   }
+
 }
 
 @media(max-width:500px){
+
   .header{
+
+    min-height:62px;
+
     padding:0 12px;
-    height:62px;
-  }
 
-  .logo h1{
-    font-size:13px;
-  }
-
-  .logo small{
-    font-size:8px;
   }
 
   .logo-icon{
+
     width:36px;
+
     height:36px;
+
+  }
+
+  .logo h1{
+
+    font-size:13px;
+
+  }
+
+  .logo small{
+
+    font-size:8px;
+
   }
 
   .admin-info .online{
+
     display:none;
+
   }
 
   .container{
+
     width:94%;
+
     margin-top:18px;
+
   }
 
   .welcome h2{
+
     font-size:19px;
+
   }
 
   .stats{
+
     gap:9px;
+
   }
 
   .stat{
+
     padding:13px;
+
   }
 
   .stat-value{
+
     font-size:17px;
+
   }
 
   .panel-head{
+
     padding:14px;
+
   }
+
 }
+
 </style>
 
 </head>
 
+
 <body>
 
-<!-- LOADING -->
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
 
 <div id="loading">
+
   <div class="loader">
+
     <div class="spinner"></div>
-    <div>Memeriksa akses admin...</div>
+
+    <div
+      id="loadingText"
+      class="loader-text">
+
+      Memeriksa akses admin...
+
+    </div>
+
   </div>
+
 </div>
 
-<!-- HEADER -->
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="header">
 
   <div class="logo">
-    <div class="logo-icon">M</div>
 
-```
-<div>
-  <h1>MultiBooster Media</h1>
-  <small>ADMIN CONTROL PANEL</small>
-</div>
-```
+    <div class="logo-icon">
+      M
+    </div>
+
+    <div>
+
+      <h1>
+        MultiBooster Media
+      </h1>
+
+      <small>
+        ADMIN CONTROL PANEL
+      </small>
+
+    </div>
 
   </div>
 
+
   <div class="admin-info">
 
-```
-<div class="online">
-  <span class="online-dot"></span>
-  ADMIN ONLINE
-</div>
+    <div class="online">
 
-<button class="logout" onclick="logoutAdmin()">
-  Keluar
-</button>
-```
+      <span class="online-dot"></span>
+
+      ADMIN ONLINE
+
+    </div>
+
+
+    <button
+      class="logout"
+      onclick="logoutAdmin()">
+
+      Keluar
+
+    </button>
 
   </div>
 
 </header>
 
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <main class="container">
 
+
   <section class="welcome">
-    <h2>Dashboard Administrator</h2>
-    <p>Kelola user, saldo, top-up dan metode pembayaran.</p>
+
+    <h2>
+      Dashboard Administrator
+    </h2>
+
+    <p>
+      Kelola user, saldo, top-up dan metode pembayaran.
+    </p>
+
   </section>
 
-  <!-- STATS -->
+
+  <!-- ===================================================
+       STATS
+  ==================================================== -->
 
   <section class="stats">
 
-```
-<div class="stat">
-  <div class="stat-title">TOTAL USER</div>
-  <div class="stat-value" id="totalUsers">0</div>
-  <div class="stat-icon">● Registered users</div>
-</div>
 
-<div class="stat">
-  <div class="stat-title">TOPUP PENDING</div>
-  <div class="stat-value" id="pendingTopup">0</div>
-  <div class="stat-icon">● Menunggu verifikasi</div>
-</div>
+    <div class="stat">
 
-<div class="stat">
-  <div class="stat-title">TOTAL SALDO USER</div>
-  <div class="stat-value" id="totalBalance">Rp 0</div>
-  <div class="stat-icon">● Saldo tersimpan</div>
-</div>
+      <div class="stat-title">
+        TOTAL USER
+      </div>
 
-<div class="stat">
-  <div class="stat-title">METODE AKTIF</div>
-  <div class="stat-value" id="activeMethods">0</div>
-  <div class="stat-icon">● Payment methods</div>
-</div>
-```
+      <div
+        class="stat-value"
+        id="totalUsers">
+        0
+      </div>
+
+      <div class="stat-icon">
+        ● Registered users
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        TOPUP PENDING
+      </div>
+
+      <div
+        class="stat-value"
+        id="pendingTopup">
+        0
+      </div>
+
+      <div class="stat-icon">
+        ● Menunggu verifikasi
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        TOTAL SALDO USER
+      </div>
+
+      <div
+        class="stat-value"
+        id="totalBalance">
+        Rp 0
+      </div>
+
+      <div class="stat-icon">
+        ● Saldo tersimpan
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div class="stat-title">
+        METODE AKTIF
+      </div>
+
+      <div
+        class="stat-value"
+        id="activeMethods">
+        0
+      </div>
+
+      <div class="stat-icon">
+        ● Payment methods
+      </div>
+
+    </div>
+
 
   </section>
 
-  <!-- NAV -->
+
+  <!-- ===================================================
+       NAV
+  ==================================================== -->
 
   <nav class="nav">
 
-```
-<button class="active" onclick="openPanel('users',this)">
-  👥 USER
-</button>
+    <button
+      class="active"
+      onclick="openPanel('users',this)">
 
-<button onclick="openPanel('topups',this)">
-  💰 TOP UP
-</button>
+      👥 USER
 
-<button onclick="openPanel('payments',this)">
-  🏦 PAYMENT
-</button>
-```
+    </button>
+
+
+    <button
+      onclick="openPanel('topups',this)">
+
+      💰 TOP UP
+
+    </button>
+
+
+    <button
+      onclick="openPanel('payments',this)">
+
+      🏦 PAYMENT
+
+    </button>
 
   </nav>
 
-  <!-- USER PANEL -->
 
-  <section id="users" class="panel active">
+  <!-- ===================================================
+       USER PANEL
+  ==================================================== -->
 
-```
-<div class="panel-head">
-  <h3>Manajemen User</h3>
-  <span id="userCountText">0 user</span>
-</div>
+  <section
+    id="users"
+    class="panel active">
 
-<div class="search-box">
-  <input
-    type="search"
-    id="userSearch"
-    placeholder="Cari nama atau email..."
-    oninput="filterUsers()"
-  >
-</div>
 
-<div class="table-wrap">
+    <div class="panel-head">
 
-  <table>
+      <h3>
+        Manajemen User
+      </h3>
 
-    <thead>
-      <tr>
-        <th>USER</th>
-        <th>EMAIL</th>
-        <th>SALDO</th>
-        <th>STATUS</th>
-        <th>ROLE</th>
-        <th>AKSI</th>
-      </tr>
-    </thead>
-
-    <tbody id="usersTable"></tbody>
-
-  </table>
-
-</div>
-```
-
-  </section>
-
-  <!-- TOPUP PANEL -->
-
-  <section id="topups" class="panel">
-
-```
-<div class="panel-head">
-  <h3>Permintaan Top Up</h3>
-  <span>Verifikasi pembayaran manual</span>
-</div>
-
-<div id="topupsContainer"></div>
-```
-
-  </section>
-
-  <!-- PAYMENT PANEL -->
-
-  <section id="payments" class="panel">
-
-```
-<div class="panel-head">
-  <h3>Metode Pembayaran</h3>
-  <span>Data disimpan di Firestore</span>
-</div>
-
-<div class="payment-method">
-
-  <div class="payment-form">
-
-    <div class="form-group">
-      <label>NAMA PROVIDER</label>
-      <input id="pmName" placeholder="Contoh: BCA">
-    </div>
-
-    <div class="form-group">
-      <label>TIPE</label>
-
-      <select id="pmType">
-        <option value="bank">Bank</option>
-        <option value="ewallet">E-Wallet</option>
-        <option value="qr">QR Code</option>
-      </select>
+      <span id="userCountText">
+        0 user
+      </span>
 
     </div>
 
-    <div class="form-group">
-      <label>NOMOR REKENING / NOMOR TUJUAN</label>
-      <input id="pmNumber" placeholder="Nomor rekening / e-wallet">
-    </div>
 
-    <div class="form-group">
-      <label>NAMA PEMILIK</label>
-      <input id="pmOwner" placeholder="Nama pemilik rekening">
-    </div>
+    <div class="search-box">
 
-    <div class="form-group full">
-      <label>URL QR CODE</label>
       <input
-        id="pmQr"
-        placeholder="https://..."
-        oninput="previewQR()"
+        type="search"
+        id="userSearch"
+        placeholder="Cari nama atau email..."
+        oninput="filterUsers()"
       >
-    </div>
-
-    <div class="form-group">
-      <label>STATUS</label>
-
-      <select id="pmStatus">
-        <option value="true">Aktif</option>
-        <option value="false">Nonaktif</option>
-      </select>
 
     </div>
 
-    <div class="form-group">
-      <label>URUTAN</label>
-      <input id="pmOrder" type="number" value="1">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              USER
+            </th>
+
+            <th>
+              EMAIL
+            </th>
+
+            <th>
+              SALDO
+            </th>
+
+            <th>
+              STATUS
+            </th>
+
+            <th>
+              ROLE
+            </th>
+
+            <th>
+              AKSI
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="usersTable">
+
+        </tbody>
+
+      </table>
+
     </div>
 
-    <div class="full qr-preview" id="qrPreview"></div>
-
-    <div class="full">
-      <button class="save-btn" onclick="savePaymentMethod()">
-        + Simpan Metode Pembayaran
-      </button>
-    </div>
-
-  </div>
-
-</div>
-
-<div id="paymentMethodsContainer"></div>
-```
 
   </section>
+
+
+  <!-- ===================================================
+       TOPUP PANEL
+  ==================================================== -->
+
+  <section
+    id="topups"
+    class="panel">
+
+
+    <div class="panel-head">
+
+      <h3>
+        Permintaan Top Up
+      </h3>
+
+      <span>
+        Verifikasi pembayaran manual
+      </span>
+
+    </div>
+
+
+    <div id="topupsContainer">
+
+    </div>
+
+
+  </section>
+
+
+  <!-- ===================================================
+       PAYMENT PANEL
+  ==================================================== -->
+
+  <section
+    id="payments"
+    class="panel">
+
+
+    <div class="panel-head">
+
+      <h3>
+        Metode Pembayaran
+      </h3>
+
+      <span>
+        Data disimpan di Firestore
+      </span>
+
+    </div>
+
+
+    <div class="payment-method">
+
+
+      <div class="payment-form">
+
+
+        <div class="form-group">
+
+          <label>
+            NAMA PROVIDER
+          </label>
+
+          <input
+            id="pmName"
+            placeholder="Contoh: BCA"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            TIPE
+          </label>
+
+          <select id="pmType">
+
+            <option value="bank">
+              Bank
+            </option>
+
+            <option value="ewallet">
+              E-Wallet
+            </option>
+
+            <option value="qr">
+              QR Code
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            NOMOR REKENING / NOMOR TUJUAN
+          </label>
+
+          <input
+            id="pmNumber"
+            placeholder="Nomor rekening / e-wallet"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            NAMA PEMILIK
+          </label>
+
+          <input
+            id="pmOwner"
+            placeholder="Nama pemilik rekening"
+          >
+
+        </div>
+
+
+        <div class="form-group full">
+
+          <label>
+            URL QR CODE
+          </label>
+
+          <input
+            id="pmQr"
+            placeholder="https://..."
+            oninput="previewQR()"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            STATUS
+          </label>
+
+          <select id="pmStatus">
+
+            <option value="true">
+              Aktif
+            </option>
+
+            <option value="false">
+              Nonaktif
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            URUTAN
+          </label>
+
+          <input
+            id="pmOrder"
+            type="number"
+            value="1"
+          >
+
+        </div>
+
+
+        <div
+          class="full qr-preview"
+          id="qrPreview">
+
+        </div>
+
+
+        <div class="full">
+
+          <button
+            class="save-btn"
+            onclick="savePaymentMethod()">
+
+            + Simpan Metode Pembayaran
+
+          </button>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <div id="paymentMethodsContainer">
+
+    </div>
+
+
+  </section>
+
 
 </main>
 
-<!-- USER MODAL -->
 
-<div class="modal" id="userModal">
+<!-- =====================================================
+     USER MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="userModal">
+
 
   <div class="modal-box">
 
-```
-<div class="modal-head">
-  <h3>Kelola Saldo User</h3>
-  <button class="close" onclick="closeModal('userModal')">×</button>
-</div>
 
-<div id="userModalContent"></div>
-```
+    <div class="modal-head">
+
+      <h3>
+        Kelola Saldo User
+      </h3>
+
+      <button
+        class="close"
+        onclick="closeModal('userModal')">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="userModalContent">
+
+    </div>
+
 
   </div>
 
 </div>
 
-<!-- TOPUP MODAL -->
 
-<div class="modal" id="topupModal">
+<!-- =====================================================
+     TOPUP MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="topupModal">
+
 
   <div class="modal-box">
 
-```
-<div class="modal-head">
-  <h3>Bukti Transfer</h3>
-  <button class="close" onclick="closeModal('topupModal')">×</button>
-</div>
 
-<div id="topupModalContent"></div>
-```
+    <div class="modal-head">
+
+      <h3>
+        Bukti Transfer
+      </h3>
+
+      <button
+        class="close"
+        onclick="closeModal('topupModal')">
+
+        ×
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="topupModalContent">
+
+    </div>
+
 
   </div>
 
 </div>
+
 
 <div id="toast"></div>
 
-<!-- =========================================
+
+
+<!-- =====================================================
      FIREBASE
-========================================= -->
+===================================================== -->
 
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+/* =====================================================
+   FIREBASE SDK
+===================================================== */
+
+import {
+  initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
 
 import {
   getAuth,
   onAuthStateChanged,
   signOut
 }
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 
 import {
   getFirestore,
@@ -968,186 +1927,678 @@ import {
   addDoc,
   deleteDoc,
   onSnapshot,
-  query,
-  orderBy,
-  increment,
   serverTimestamp
 }
-from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-/* =========================================
+
+/* =====================================================
    FIREBASE CONFIG
-========================================= */
+===================================================== */
 
 const firebaseConfig = {
 
   apiKey:
-  "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
+    "AIzaSyCpz9IDhA9b3sVzbIL2DOsy5hpfoPHFVNA",
 
   authDomain:
-  "multibooster-media.firebaseapp.com",
+    "multibooster-media.firebaseapp.com",
 
   projectId:
-  "multibooster-media",
+    "multibooster-media",
 
   storageBucket:
-  "multibooster-media.firebasestorage.app",
+    "multibooster-media.firebasestorage.app",
 
   messagingSenderId:
-  "455058483621",
+    "455058483621",
 
   appId:
-  "1:455058483621:web:7a969f17fdae000588204c",
+    "1:455058483621:web:7a969f17fdae000588204c",
 
   measurementId:
-  "G-Z9S252K9C5"
+    "G-Z9S252K9C5"
 
 };
 
 
-/* =========================================
+
+/* =====================================================
    ADMIN UID
-========================================= */
+===================================================== */
 
 const ADMIN_UID =
-"WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
+  "WwWSSJ0oGlaEh0ylexszH2Z5lZN2";
 
 
-/* =========================================
-   INIT
-========================================= */
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
 
 const app =
-initializeApp(firebaseConfig);
+  initializeApp(
+    firebaseConfig
+  );
+
 
 const auth =
-getAuth(app);
+  getAuth(app);
+
 
 const db =
-getFirestore(app);
+  getFirestore(app);
 
 
-/* =========================================
-   GLOBAL DATA
-========================================= */
+
+/* =====================================================
+   DATA
+===================================================== */
 
 let allUsers = [];
 
 let currentTopup = null;
 
+let topupUnsubscribe = null;
 
-/* =========================================
-   CHECK ADMIN
-========================================= */
+let paymentUnsubscribe = null;
 
-onAuthStateChanged(auth, async (user) => {
-
-  if (!user) {
-
-    window.location.href = "auth.html";
-
-    return;
-
-  }
+let adminVerified = false;
 
 
-  if (user.uid !== ADMIN_UID) {
 
-    alert(
-      "Akses ditolak.\n\nAkun ini bukan administrator."
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function setLoading(
+  show,
+  text
+){
+
+  const loading =
+    document.getElementById(
+      "loading"
     );
 
-    await signOut(auth);
+  const loadingText =
+    document.getElementById(
+      "loadingText"
+    );
 
-    window.location.href =
-      "dashboard.html";
+
+  if(
+    loadingText &&
+    text
+  ){
+
+    loadingText.textContent =
+      text;
+
+  }
+
+
+  loading.style.display =
+    show
+    ? "flex"
+    : "none";
+
+}
+
+
+
+function showToast(
+  text
+){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.textContent =
+    text;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    ()=>{
+      toast.classList.remove(
+        "show"
+      );
+    },
+    3000
+  );
+
+}
+
+
+
+function escapeHTML(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
+
+}
+
+
+
+function escapeAttribute(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  );
+
+}
+
+
+
+function getTime(
+  value
+){
+
+  if(!value){
+
+    return 0;
+
+  }
+
+
+  if(
+    typeof value.toMillis ===
+    "function"
+  ){
+
+    return value.toMillis();
+
+  }
+
+
+  if(
+    value.seconds
+  ){
+
+    return (
+      value.seconds * 1000
+    );
+
+  }
+
+
+  return (
+    new Date(value).getTime()
+    || 0
+  );
+
+}
+
+
+
+/* =====================================================
+   CHECK ADMIN FIRESTORE
+===================================================== */
+
+async function verifyAdmin(
+  user
+){
+
+  if(!user){
+
+    return false;
+
+  }
+
+
+  console.log(
+    "================================"
+  );
+
+  console.log(
+    "VERIFY ADMIN"
+  );
+
+  console.log(
+    "UID:",
+    user.uid
+  );
+
+
+  /*
+     Ambil:
+
+     admins/{UID}
+  */
+
+  const adminRef =
+    doc(
+      db,
+      "admins",
+      user.uid
+    );
+
+
+  const adminSnap =
+    await getDoc(
+      adminRef
+    );
+
+
+  console.log(
+    "ADMIN EXISTS:",
+    adminSnap.exists()
+  );
+
+
+  if(
+    !adminSnap.exists()
+  ){
+
+    /*
+       Fallback hanya untuk UID admin
+       yang sudah ditentukan.
+
+       Tetapi tetap mencoba membaca
+       Firestore terlebih dahulu.
+    */
+
+    if(
+      user.uid === ADMIN_UID
+    ){
+
+      console.warn(
+        "Admin UID cocok, tetapi dokumen admins tidak ditemukan."
+      );
+
+      return true;
+
+    }
+
+
+    return false;
+
+  }
+
+
+  const data =
+    adminSnap.data();
+
+
+  console.log(
+    "ADMIN DATA:",
+    data
+  );
+
+
+  const role =
+    String(
+      data.role || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  const active =
+    data.active === true;
+
+
+  console.log(
+    "ROLE:",
+    role
+  );
+
+
+  console.log(
+    "ACTIVE:",
+    active
+  );
+
+
+  /*
+     Admin wajib:
+
+     role = admin
+     active = true
+  */
+
+  return (
+    role === "admin" &&
+    active === true
+  );
+
+}
+
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+onAuthStateChanged(
+  auth,
+  async(user)=>{
+
+    try{
+
+      /*
+         BELUM LOGIN
+      */
+
+      if(!user){
+
+        setLoading(
+          true,
+          "Anda belum login. Membuka login..."
+        );
+
+
+        window.location.replace(
+          "auth.html"
+        );
+
+
+        return;
+
+      }
+
+
+      console.log(
+        "LOGIN USER:",
+        user.email
+      );
+
+
+      console.log(
+        "LOGIN UID:",
+        user.uid
+      );
+
+
+      setLoading(
+        true,
+        "Memverifikasi administrator..."
+      );
+
+
+      /*
+         CEK ADMIN
+      */
+
+      const isAdmin =
+        await verifyAdmin(
+          user
+        );
+
+
+      if(
+        !isAdmin
+      ){
+
+        alert(
+          "Akses ditolak.\n\n" +
+          "Akun ini bukan administrator."
+        );
+
+
+        await signOut(
+          auth
+        );
+
+
+        window.location.replace(
+          "auth.html"
+        );
+
+
+        return;
+
+      }
+
+
+      /*
+         ADMIN VALID
+      */
+
+      adminVerified =
+        true;
+
+
+      console.log(
+        "================================"
+      );
+
+      console.log(
+        "ADMIN VERIFIED"
+      );
+
+      console.log(
+        "PANEL ADMIN DIBUKA"
+      );
+
+
+      setLoading(
+        false
+      );
+
+
+      /*
+         Load semua data
+      */
+
+      await loadUsers();
+
+      listenTopups();
+
+      listenPaymentMethods();
+
+
+    }catch(error){
+
+      console.error(
+        "ADMIN AUTH ERROR:",
+        error
+      );
+
+
+      setLoading(
+        true,
+        "Gagal memverifikasi admin."
+      );
+
+
+      alert(
+        "Gagal memverifikasi akses admin.\n\n" +
+        error.message
+      );
+
+
+      /*
+         Jangan lempar ke dashboard.
+
+         Jika terjadi error akses,
+         kembali ke auth.
+      */
+
+      try{
+
+        await signOut(
+          auth
+        );
+
+      }catch(e){}
+
+
+      window.location.replace(
+        "auth.html"
+      );
+
+    }
+
+  }
+);
+
+
+
+/* =====================================================
+   LOAD USERS
+===================================================== */
+
+async function loadUsers(){
+
+  if(!adminVerified){
 
     return;
 
   }
 
-
-  document
-    .getElementById("loading")
-    .style.display = "none";
-
-
-  await loadUsers();
-
-  listenTopups();
-
-  listenPaymentMethods();
-
-});
-
-
-/* =========================================
-   LOAD USERS
-========================================= */
-
-async function loadUsers(){
 
   try{
 
     const snap =
       await getDocs(
-        collection(db,"users")
+        collection(
+          db,
+          "users"
+        )
       );
+
 
     allUsers = [];
 
+
     let totalBalance = 0;
 
-    snap.forEach(item => {
 
-      const data =
-        item.data();
+    snap.forEach(
+      item=>{
 
-      const balance =
-        Number(data.balance || 0);
+        const data =
+          item.data();
 
-      totalBalance += balance;
 
-      allUsers.push({
+        const balance =
+          Number(
+            data.balance || 0
+          );
 
-        id:item.id,
 
-        ...data
+        totalBalance +=
+          balance;
 
-      });
 
-    });
+        allUsers.push({
+
+          id:item.id,
+
+          ...data
+
+        });
+
+      }
+    );
 
 
     document
-      .getElementById("totalUsers")
+      .getElementById(
+        "totalUsers"
+      )
       .innerText =
       allUsers.length;
 
 
     document
-      .getElementById("userCountText")
+      .getElementById(
+        "userCountText"
+      )
       .innerText =
-      allUsers.length + " user";
+      allUsers.length +
+      " user";
 
 
     document
-      .getElementById("totalBalance")
+      .getElementById(
+        "totalBalance"
+      )
       .innerText =
       "Rp " +
-      totalBalance.toLocaleString("id-ID");
+      totalBalance
+        .toLocaleString(
+          "id-ID"
+        );
 
 
-    renderUsers(allUsers);
+    renderUsers(
+      allUsers
+    );
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "LOAD USERS ERROR:",
+      error
+    );
+
 
     showToast(
-      "Gagal mengambil data user"
+      "Gagal mengambil data user: " +
+      error.message
     );
 
   }
@@ -1155,188 +2606,273 @@ async function loadUsers(){
 }
 
 
-/* =========================================
-   RENDER USERS
-========================================= */
 
-function renderUsers(users){
+/* =====================================================
+   RENDER USERS
+===================================================== */
+
+function renderUsers(
+  users
+){
 
   const tbody =
     document.getElementById(
       "usersTable"
     );
 
-  tbody.innerHTML = "";
+
+  tbody.innerHTML =
+    "";
 
 
-  if(!users.length){
+  if(
+    !users.length
+  ){
 
-    tbody.innerHTML =
-      `<tr>
+    tbody.innerHTML = `
+
+      <tr>
+
         <td colspan="6">
+
           <div class="empty">
+
             Tidak ada user.
+
           </div>
+
         </td>
-      </tr>`;
+
+      </tr>
+
+    `;
 
     return;
 
   }
 
 
-  users.forEach(user => {
+  users.forEach(
+    user=>{
 
-    const tr =
-      document.createElement("tr");
-
-
-    const blocked =
-      user.isBlocked === true;
-
-
-    const role =
-      user.role || "user";
+      const tr =
+        document.createElement(
+          "tr"
+        );
 
 
-    tr.innerHTML = `
-
-      <td>
-        <strong>
-          ${escapeHTML(user.name || "User")}
-        </strong>
-      </td>
-
-      <td>
-        ${escapeHTML(user.email || "-")}
-      </td>
-
-      <td>
-        <strong>
-          Rp ${Number(user.balance || 0)
-          .toLocaleString("id-ID")}
-        </strong>
-      </td>
-
-      <td>
-
-        ${
-          blocked
-
-          ?
-
-          '<span class="badge red">BLOCKED</span>'
-
-          :
-
-          '<span class="badge green">AKTIF</span>'
-        }
-
-      </td>
-
-      <td>
-
-        ${
-          role === "admin"
-
-          ?
-
-          '<span class="badge orange">ADMIN</span>'
-
-          :
-
-          '<span class="badge green">USER</span>'
-        }
-
-      </td>
-
-      <td>
-
-        <button
-          class="action btn-blue"
-          onclick="openUser('${user.id}')"
-        >
-          Saldo
-        </button>
-
-        ${
-          user.id !== ADMIN_UID
-
-          ?
-
-          `<button
-             class="action ${
-               blocked
-               ? "btn-green"
-               : "btn-red"
-             }"
-             onclick="toggleBlock('${user.id}',${blocked})"
-           >
-             ${blocked ? "Buka" : "Blokir"}
-           </button>`
-
-          :
-
-          '<span style="color:#8d9ab3;font-size:10px">ADMIN</span>'
-        }
-
-      </td>
-
-    `;
+      const blocked =
+        user.isBlocked === true;
 
 
-    tbody.appendChild(tr);
+      const role =
+        String(
+          user.role || "user"
+        )
+        .toLowerCase();
 
-  });
+
+      tr.innerHTML = `
+
+        <td>
+
+          <strong>
+            ${escapeHTML(
+              user.name || "User"
+            )}
+          </strong>
+
+        </td>
+
+
+        <td>
+
+          ${escapeHTML(
+            user.email || "-"
+          )}
+
+        </td>
+
+
+        <td>
+
+          <strong>
+
+            Rp ${
+              Number(
+                user.balance || 0
+              )
+              .toLocaleString(
+                "id-ID"
+              )
+            }
+
+          </strong>
+
+        </td>
+
+
+        <td>
+
+          ${
+            blocked
+
+            ?
+
+            '<span class="badge red">BLOCKED</span>'
+
+            :
+
+            '<span class="badge green">AKTIF</span>'
+          }
+
+        </td>
+
+
+        <td>
+
+          ${
+            role === "admin"
+
+            ?
+
+            '<span class="badge orange">ADMIN</span>'
+
+            :
+
+            '<span class="badge green">USER</span>'
+          }
+
+        </td>
+
+
+        <td>
+
+          <button
+            class="action btn-blue"
+            onclick="openUser('${user.id}')">
+
+            Saldo
+
+          </button>
+
+
+          ${
+            user.id !== ADMIN_UID
+
+            ?
+
+            `
+
+            <button
+              class="action ${
+                blocked
+                ? "btn-green"
+                : "btn-red"
+              }"
+              onclick="
+                toggleBlock(
+                  '${user.id}',
+                  ${blocked}
+                )
+              ">
+
+              ${
+                blocked
+                ? "Buka"
+                : "Blokir"
+              }
+
+            </button>
+
+            `
+
+            :
+
+            '<span style="color:#8d9ab3;font-size:10px">ADMIN</span>'
+          }
+
+        </td>
+
+      `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
 
 }
 
 
-/* =========================================
-   SEARCH USER
-========================================= */
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 window.filterUsers =
 function(){
 
   const keyword =
     document
-      .getElementById("userSearch")
+      .getElementById(
+        "userSearch"
+      )
       .value
       .toLowerCase();
 
 
   const result =
-    allUsers.filter(user =>
+    allUsers.filter(
+      user=>{
 
-      String(user.name || "")
-        .toLowerCase()
-        .includes(keyword)
+        return (
 
-      ||
+          String(
+            user.name || ""
+          )
+          .toLowerCase()
+          .includes(
+            keyword
+          )
 
-      String(user.email || "")
-        .toLowerCase()
-        .includes(keyword)
+          ||
 
+          String(
+            user.email || ""
+          )
+          .toLowerCase()
+          .includes(
+            keyword
+          )
+
+        );
+
+      }
     );
 
 
-  renderUsers(result);
+  renderUsers(
+    result
+  );
 
 };
 
 
-/* =========================================
-   USER MODAL
-========================================= */
+
+/* =====================================================
+   OPEN USER
+===================================================== */
 
 window.openUser =
 async function(uid){
 
   const user =
     allUsers.find(
-      x => x.id === uid
+      x =>
+      x.id === uid
     );
 
 
@@ -1367,98 +2903,162 @@ async function(uid){
 
     <div class="topup-grid">
 
+
       <div class="info">
 
-        <label>NAMA</label>
+        <label>
+          NAMA
+        </label>
 
         <strong>
-          ${escapeHTML(user.name || "-")}
+          ${escapeHTML(
+            user.name || "-"
+          )}
         </strong>
 
       </div>
 
+
       <div class="info">
 
-        <label>EMAIL</label>
+        <label>
+          EMAIL
+        </label>
 
         <strong>
-          ${escapeHTML(user.email || "-")}
+          ${escapeHTML(
+            user.email || "-"
+          )}
         </strong>
 
       </div>
 
+
       <div class="info">
 
-        <label>SALDO SAAT INI</label>
+        <label>
+          SALDO SAAT INI
+        </label>
 
         <strong>
-          Rp ${Number(user.balance || 0)
-          .toLocaleString("id-ID")}
+
+          Rp ${
+            Number(
+              user.balance || 0
+            )
+            .toLocaleString(
+              "id-ID"
+            )
+          }
+
         </strong>
 
       </div>
+
 
       <div class="info">
 
-        <label>UID</label>
+        <label>
+          UID
+        </label>
 
-        <strong style="font-size:9px;word-break:break-all">
-          ${uid}
+        <strong
+          style="
+            font-size:9px;
+            word-break:break-all;
+          ">
+
+          ${escapeHTML(uid)}
+
         </strong>
 
       </div>
+
 
     </div>
 
+
     <br>
+
 
     <div class="form-group">
 
-      <label>JUMLAH SALDO</label>
+      <label>
+        JUMLAH SALDO
+      </label>
 
       <input
         id="balanceAmount"
         type="number"
-        min="0"
+        min="1"
         placeholder="Contoh: 50000"
       >
 
     </div>
 
+
     <br>
+
 
     <div class="modal-actions">
 
-      <button
-        style="background:rgba(40,233,138,.12);color:#28e98a"
-        onclick="changeBalance('${uid}','add')"
-      >
-        + Tambah Saldo
-      </button>
 
       <button
-        style="background:rgba(255,83,100,.12);color:#ff7180"
-        onclick="changeBalance('${uid}','subtract')"
-      >
-        − Kurangi Saldo
+        style="
+          background:rgba(39,233,138,.12);
+          color:#27e98a;
+        "
+        onclick="
+          changeBalance(
+            '${uid}',
+            'add'
+          )
+        ">
+
+        + Tambah Saldo
+
       </button>
+
+
+      <button
+        style="
+          background:rgba(255,83,100,.12);
+          color:#ff7180;
+        "
+        onclick="
+          changeBalance(
+            '${uid}',
+            'subtract'
+          )
+        ">
+
+        − Kurangi Saldo
+
+      </button>
+
 
     </div>
 
   `;
 
 
-  modal.classList.add("show");
+  modal.classList.add(
+    "show"
+  );
 
 };
 
 
-/* =========================================
+
+/* =====================================================
    CHANGE BALANCE
-========================================= */
+===================================================== */
 
 window.changeBalance =
-async function(uid,type){
+async function(
+  uid,
+  type
+){
 
   const input =
     document.getElementById(
@@ -1467,10 +3067,15 @@ async function(uid,type){
 
 
   const amount =
-    Number(input.value);
+    Number(
+      input.value
+    );
 
 
-  if(!amount || amount <= 0){
+  if(
+    !amount ||
+    amount <= 0
+  ){
 
     showToast(
       "Masukkan nominal yang benar"
@@ -1481,15 +3086,20 @@ async function(uid,type){
   }
 
 
+  const action =
+    type === "add"
+    ? "Tambah"
+    : "Kurangi";
+
+
   if(
     !confirm(
-      `${
-        type === "add"
-        ? "Tambah"
-        : "Kurangi"
-      } saldo Rp ${
-        amount.toLocaleString("id-ID")
-      }?`
+      action +
+      " saldo Rp " +
+      amount.toLocaleString(
+        "id-ID"
+      ) +
+      "?"
     )
   ){
 
@@ -1509,13 +3119,17 @@ async function(uid,type){
 
 
     const snap =
-      await getDoc(userRef);
+      await getDoc(
+        userRef
+      );
 
 
-    if(!snap.exists()){
+    if(
+      !snap.exists()
+    ){
 
       throw new Error(
-        "Data user tidak ditemukan"
+        "Data user tidak ditemukan."
       );
 
     }
@@ -1530,7 +3144,9 @@ async function(uid,type){
     let newBalance;
 
 
-    if(type === "add"){
+    if(
+      type === "add"
+    ){
 
       newBalance =
         current + amount;
@@ -1549,13 +3165,14 @@ async function(uid,type){
     await updateDoc(
       userRef,
       {
-        balance:newBalance
+        balance:
+          newBalance
       }
     );
 
 
     showToast(
-      "Saldo berhasil diperbarui"
+      "Saldo berhasil diperbarui."
     );
 
 
@@ -1569,10 +3186,15 @@ async function(uid,type){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "CHANGE BALANCE ERROR:",
+      error
+    );
+
 
     showToast(
-      "Gagal memperbarui saldo"
+      "Gagal memperbarui saldo: " +
+      error.message
     );
 
   }
@@ -1580,17 +3202,23 @@ async function(uid,type){
 };
 
 
-/* =========================================
-   BLOCK / UNBLOCK
-========================================= */
+
+/* =====================================================
+   BLOCK
+===================================================== */
 
 window.toggleBlock =
-async function(uid,current){
+async function(
+  uid,
+  current
+){
 
-  if(uid === ADMIN_UID){
+  if(
+    uid === ADMIN_UID
+  ){
 
     showToast(
-      "Akun admin tidak dapat diblokir"
+      "Akun admin tidak dapat diblokir."
     );
 
     return;
@@ -1601,17 +3229,29 @@ async function(uid,current){
   try{
 
     await updateDoc(
-      doc(db,"users",uid),
+
+      doc(
+        db,
+        "users",
+        uid
+      ),
+
       {
-        isBlocked:!current
+
+        isBlocked:
+          !current
+
       }
+
     );
 
 
     showToast(
+
       current
-      ? "User dibuka"
-      : "User diblokir"
+      ? "User dibuka."
+      : "User diblokir."
+
     );
 
 
@@ -1620,10 +3260,13 @@ async function(uid,current){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
-      "Gagal mengubah status user"
+      "Gagal mengubah status user."
     );
 
   }
@@ -1631,87 +3274,124 @@ async function(uid,current){
 };
 
 
-/* =========================================
+
+/* =====================================================
    TOPUP REALTIME
-========================================= */
+===================================================== */
 
 function listenTopups(){
 
-  onSnapshot(
-    collection(
-      db,
-      "topupRequests"
-    ),
+  if(
+    topupUnsubscribe
+  ){
 
-    snapshot => {
+    topupUnsubscribe();
 
-      const requests = [];
+  }
 
 
-      snapshot.forEach(item => {
+  topupUnsubscribe =
+    onSnapshot(
 
-        requests.push({
+      collection(
+        db,
+        "topupRequests"
+      ),
 
-          id:item.id,
+      snapshot=>{
 
-          ...item.data()
-
-        });
-
-      });
-
-
-      requests.sort(
-        (a,b) =>
-
-          getTime(b.createdAt) -
-          getTime(a.createdAt)
-
-      );
+        const requests = [];
 
 
-      const pending =
-        requests.filter(
-          x =>
-          String(
-            x.status || ""
-          ).toLowerCase()
-          === "pending"
-        ).length;
+        snapshot.forEach(
+          item=>{
+
+            requests.push({
+
+              id:item.id,
+
+              ...item.data()
+
+            });
+
+          }
+        );
 
 
-      document
-        .getElementById(
-          "pendingTopup"
-        )
-        .innerText =
-        pending;
+        requests.sort(
+          (a,b)=>
+
+            getTime(
+              b.createdAt
+            )
+
+            -
+
+            getTime(
+              a.createdAt
+            )
+
+        );
 
 
-      renderTopups(requests);
+        const pending =
+          requests.filter(
+            x =>
 
-    },
+            String(
+              x.status || ""
+            )
+            .toLowerCase()
 
-    error => {
+            ===
 
-      console.error(error);
+            "pending"
 
-      showToast(
-        "Gagal membaca topup"
-      );
+          ).length;
 
-    }
 
-  );
+        document
+          .getElementById(
+            "pendingTopup"
+          )
+          .innerText =
+          pending;
+
+
+        renderTopups(
+          requests
+        );
+
+      },
+
+      error=>{
+
+        console.error(
+          "TOPUP ERROR:",
+          error
+        );
+
+
+        showToast(
+          "Gagal membaca topup: " +
+          error.message
+        );
+
+      }
+
+    );
 
 }
 
 
-/* =========================================
-   RENDER TOPUPS
-========================================= */
 
-function renderTopups(requests){
+/* =====================================================
+   RENDER TOPUP
+===================================================== */
+
+function renderTopups(
+  requests
+){
 
   const container =
     document.getElementById(
@@ -1719,138 +3399,221 @@ function renderTopups(requests){
     );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
-  if(!requests.length){
+  if(
+    !requests.length
+  ){
 
-    container.innerHTML =
-      `<div class="empty">
+    container.innerHTML = `
+
+      <div class="empty">
+
         Belum ada permintaan topup.
-      </div>`;
+
+      </div>
+
+    `;
 
     return;
 
   }
 
 
-  requests.forEach(item => {
+  requests.forEach(
+    item=>{
 
-    const status =
-      String(
-        item.status || "Pending"
-      );
-
-
-    const card =
-      document.createElement("div");
+      const status =
+        String(
+          item.status ||
+          "Pending"
+        );
 
 
-    card.className =
-      "topup-card";
+      const lowerStatus =
+        status.toLowerCase();
 
 
-    card.innerHTML = `
+      const card =
+        document.createElement(
+          "div"
+        );
 
-      <div class="topup-grid">
 
-        <div class="info">
-          <label>USER</label>
-          <strong>
-            ${escapeHTML(item.userName || "-")}
-          </strong>
+      card.className =
+        "topup-card";
+
+
+      card.innerHTML = `
+
+        <div class="topup-grid">
+
+
+          <div class="info">
+
+            <label>
+              USER
+            </label>
+
+            <strong>
+              ${escapeHTML(
+                item.userName || "-"
+              )}
+            </strong>
+
+          </div>
+
+
+          <div class="info">
+
+            <label>
+              EMAIL
+            </label>
+
+            <strong>
+              ${escapeHTML(
+                item.userEmail || "-"
+              )}
+            </strong>
+
+          </div>
+
+
+          <div class="info">
+
+            <label>
+              NOMINAL
+            </label>
+
+            <strong
+              style="color:#27e98a">
+
+              Rp ${
+                Number(
+                  item.amount || 0
+                )
+                .toLocaleString(
+                  "id-ID"
+                )
+              }
+
+            </strong>
+
+          </div>
+
+
+          <div class="info">
+
+            <label>
+              STATUS
+            </label>
+
+
+            ${
+              lowerStatus === "pending"
+
+              ?
+
+              '<span class="badge orange">PENDING</span>'
+
+              :
+
+              lowerStatus === "approved"
+
+              ?
+
+              '<span class="badge green">DITERIMA</span>'
+
+              :
+
+              '<span class="badge red">DITOLAK</span>'
+            }
+
+
+          </div>
+
+
         </div>
 
-        <div class="info">
-          <label>EMAIL</label>
-          <strong>
-            ${escapeHTML(item.userEmail || "-")}
-          </strong>
-        </div>
 
-        <div class="info">
-          <label>NOMINAL</label>
-          <strong style="color:#28e98a">
-            Rp ${Number(item.amount || 0)
-            .toLocaleString("id-ID")}
-          </strong>
-        </div>
+        <div style="margin-top:12px">
 
-        <div class="info">
-          <label>STATUS</label>
+
+          <button
+            class="action btn-blue"
+            onclick="
+              viewTopup(
+                '${item.id}'
+              )
+            ">
+
+            Lihat Bukti
+
+          </button>
+
 
           ${
-            status.toLowerCase() === "pending"
+            lowerStatus === "pending"
 
             ?
 
-            '<span class="badge orange">PENDING</span>'
+            `
+
+            <button
+              class="action btn-green"
+              onclick="
+                approveTopup(
+                  '${item.id}'
+                )
+              ">
+
+              ✓ Terima
+
+            </button>
+
+
+            <button
+              class="action btn-red"
+              onclick="
+                rejectTopup(
+                  '${item.id}'
+                )
+              ">
+
+              ✕ Tolak
+
+            </button>
+
+            `
 
             :
 
-            status.toLowerCase() === "approved"
+            ""
 
-            ?
-
-            '<span class="badge green">DITERIMA</span>'
-
-            :
-
-            '<span class="badge red">DITOLAK</span>'
           }
+
 
         </div>
 
-      </div>
-
-      <div style="margin-top:12px">
-
-        <button
-          class="action btn-blue"
-          onclick="viewTopup('${item.id}')"
-        >
-          Lihat Bukti
-        </button>
-
-        ${
-          status.toLowerCase() === "pending"
-
-          ?
-
-          `<button
-             class="action btn-green"
-             onclick="approveTopup('${item.id}')"
-           >
-             ✓ Terima
-           </button>
-
-           <button
-             class="action btn-red"
-             onclick="rejectTopup('${item.id}')"
-           >
-             ✕ Tolak
-           </button>`
-
-          :
-
-          ""
-        }
-
-      </div>
-
-    `;
+      `;
 
 
-    container.appendChild(card);
+      container.appendChild(
+        card
+      );
 
-  });
+    }
+  );
 
 }
 
 
-/* =========================================
+
+/* =====================================================
    VIEW TOPUP
-========================================= */
+===================================================== */
 
 window.viewTopup =
 async function(id){
@@ -1859,18 +3622,22 @@ async function(id){
 
     const snap =
       await getDoc(
+
         doc(
           db,
           "topupRequests",
           id
         )
+
       );
 
 
-    if(!snap.exists()){
+    if(
+      !snap.exists()
+    ){
 
       showToast(
-        "Data topup tidak ditemukan"
+        "Data topup tidak ditemukan."
       );
 
       return;
@@ -1879,8 +3646,11 @@ async function(id){
 
 
     currentTopup = {
+
       id,
+
       ...snap.data()
+
     };
 
 
@@ -1905,85 +3675,178 @@ async function(id){
 
       <div class="topup-grid">
 
-        <div class="info">
-          <label>USER</label>
-          <strong>
-            ${escapeHTML(data.userName || "-")}
-          </strong>
-        </div>
 
         <div class="info">
-          <label>NOMINAL</label>
-          <strong style="color:#28e98a">
-            Rp ${Number(data.amount || 0)
-            .toLocaleString("id-ID")}
+
+          <label>
+            USER
+          </label>
+
+          <strong>
+            ${escapeHTML(
+              data.userName || "-"
+            )}
           </strong>
+
         </div>
 
-        <div class="info">
-          <label>EMAIL</label>
-          <strong>
-            ${escapeHTML(data.userEmail || "-")}
-          </strong>
-        </div>
 
         <div class="info">
-          <label>STATUS</label>
-          <strong>
-            ${escapeHTML(data.status || "Pending")}
+
+          <label>
+            NOMINAL
+          </label>
+
+          <strong
+            style="color:#27e98a">
+
+            Rp ${
+              Number(
+                data.amount || 0
+              )
+              .toLocaleString(
+                "id-ID"
+              )
+            }
+
           </strong>
+
         </div>
+
+
+        <div class="info">
+
+          <label>
+            EMAIL
+          </label>
+
+          <strong>
+            ${escapeHTML(
+              data.userEmail || "-"
+            )}
+          </strong>
+
+        </div>
+
+
+        <div class="info">
+
+          <label>
+            STATUS
+          </label>
+
+          <strong>
+            ${escapeHTML(
+              data.status ||
+              "Pending"
+            )}
+          </strong>
+
+        </div>
+
 
       </div>
 
+
       <br>
+
 
       ${
         proof
 
         ?
 
-        `<img
-           class="proof"
-           src="${escapeAttribute(proof)}"
-           alt="Bukti Transfer"
-           onerror="this.outerHTML='<div class=&quot;empty&quot;>Bukti transfer gagal dimuat.</div>'"
-         >`
+        `
+
+        <img
+          class="proof"
+          src="${escapeAttribute(proof)}"
+          alt="Bukti Transfer"
+          onerror="
+            this.outerHTML=
+            '<div class=&quot;empty&quot;>Bukti transfer gagal dimuat.</div>'
+          "
+        >
+
+        `
 
         :
 
-        `<div class="empty">
-           User belum mengupload bukti transfer.
-         </div>`
+        `
+
+        <div class="empty">
+
+          User belum mengupload
+          bukti transfer.
+
+        </div>
+
+        `
+
       }
 
+
       ${
-        String(data.status || "")
-        .toLowerCase() === "pending"
+        String(
+          data.status || ""
+        )
+        .toLowerCase()
+        ===
+        "pending"
 
         ?
 
-        `<div class="modal-actions">
+        `
+
+        <div class="modal-actions">
+
 
           <button
-            style="background:rgba(40,233,138,.12);color:#28e98a"
-            onclick="approveTopup('${id}');closeModal('topupModal')"
-          >
+            style="
+              background:rgba(39,233,138,.12);
+              color:#27e98a;
+            "
+            onclick="
+              approveTopup(
+                '${id}'
+              );
+              closeModal(
+                'topupModal'
+              );
+            ">
+
             ✓ Terima & Tambah Saldo
+
           </button>
+
 
           <button
-            style="background:rgba(255,83,100,.12);color:#ff7180"
-            onclick="rejectTopup('${id}');closeModal('topupModal')"
-          >
+            style="
+              background:rgba(255,83,100,.12);
+              color:#ff7180;
+            "
+            onclick="
+              rejectTopup(
+                '${id}'
+              );
+              closeModal(
+                'topupModal'
+              );
+            ">
+
             ✕ Tolak
+
           </button>
 
-        </div>`
+
+        </div>
+
+        `
 
         :
 
         ""
+
       }
 
     `;
@@ -1993,15 +3856,20 @@ async function(id){
       .getElementById(
         "topupModal"
       )
-      .classList.add("show");
+      .classList.add(
+        "show"
+      );
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
-      "Gagal membuka topup"
+      "Gagal membuka topup."
     );
 
   }
@@ -2009,9 +3877,10 @@ async function(id){
 };
 
 
-/* =========================================
+
+/* =====================================================
    APPROVE TOPUP
-========================================= */
+===================================================== */
 
 window.approveTopup =
 async function(id){
@@ -2027,13 +3896,17 @@ async function(id){
 
 
     const snap =
-      await getDoc(topupRef);
+      await getDoc(
+        topupRef
+      );
 
 
-    if(!snap.exists()){
+    if(
+      !snap.exists()
+    ){
 
       showToast(
-        "Topup tidak ditemukan"
+        "Topup tidak ditemukan."
       );
 
       return;
@@ -2046,12 +3919,16 @@ async function(id){
 
 
     if(
-      String(data.status || "")
-      .toLowerCase() !== "pending"
+      String(
+        data.status || ""
+      )
+      .toLowerCase()
+      !==
+      "pending"
     ){
 
       showToast(
-        "Topup sudah diproses"
+        "Topup sudah diproses."
       );
 
       return;
@@ -2060,13 +3937,17 @@ async function(id){
 
 
     const amount =
-      Number(data.amount || 0);
+      Number(
+        data.amount || 0
+      );
 
 
-    if(amount <= 0){
+    if(
+      amount <= 0
+    ){
 
       showToast(
-        "Nominal topup tidak valid"
+        "Nominal topup tidak valid."
       );
 
       return;
@@ -2074,10 +3955,14 @@ async function(id){
     }
 
 
-    if(!data.userEmail){
+    if(
+      !data.userEmail &&
+      !data.userId &&
+      !data.uid
+    ){
 
       showToast(
-        "Email user tidak tersedia"
+        "UID/email user tidak tersedia."
       );
 
       return;
@@ -2087,9 +3972,15 @@ async function(id){
 
     if(
       !confirm(
+
         "Terima topup Rp " +
-        amount.toLocaleString("id-ID") +
+
+        amount.toLocaleString(
+          "id-ID"
+        ) +
+
         " dan tambahkan ke saldo user?"
+
       )
     ){
 
@@ -2099,47 +3990,113 @@ async function(id){
 
 
     /*
-      Karena topup lama menyimpan userEmail,
-      kita cari dokumen user berdasarkan email.
+       Prioritas UID.
+
+       Topup baru sebaiknya menyimpan:
+
+       userId / uid
+
+       Jika tidak ada,
+       fallback menggunakan email.
     */
-
-    const usersSnap =
-      await getDocs(
-        collection(
-          db,
-          "users"
-        )
-      );
-
 
     let userDoc = null;
 
 
-    usersSnap.forEach(item => {
+    const targetUid =
+      data.userId ||
+      data.uid ||
+      "";
 
-      const u =
-        item.data();
+
+    if(
+      targetUid
+    ){
+
+      const userRef =
+        doc(
+          db,
+          "users",
+          targetUid
+        );
+
+
+      const userSnap =
+        await getDoc(
+          userRef
+        );
 
 
       if(
-        String(u.email || "")
-        .toLowerCase()
-        ===
-        String(data.userEmail || "")
-        .toLowerCase()
+        userSnap.exists()
       ){
 
-        userDoc = item;
+        userDoc =
+          userSnap;
 
       }
 
-    });
+    }
 
 
-    if(!userDoc){
+    /*
+       Fallback email untuk data lama.
+    */
+
+    if(
+      !userDoc &&
+      data.userEmail
+    ){
+
+      const usersSnap =
+        await getDocs(
+          collection(
+            db,
+            "users"
+          )
+        );
+
+
+      usersSnap.forEach(
+        item=>{
+
+          const u =
+            item.data();
+
+
+          if(
+
+            String(
+              u.email || ""
+            )
+            .toLowerCase()
+
+            ===
+
+            String(
+              data.userEmail || ""
+            )
+            .toLowerCase()
+
+          ){
+
+            userDoc =
+              item;
+
+          }
+
+        }
+      );
+
+    }
+
+
+    if(
+      !userDoc
+    ){
 
       showToast(
-        "User penerima tidak ditemukan"
+        "User penerima tidak ditemukan."
       );
 
       return;
@@ -2149,7 +4106,8 @@ async function(id){
 
     const current =
       Number(
-        userDoc.data().balance || 0
+        userDoc.data().balance ||
+        0
       );
 
 
@@ -2158,37 +4116,53 @@ async function(id){
 
 
     /*
-      Update saldo user
+       Tambahkan saldo.
     */
 
     await updateDoc(
+
       doc(
         db,
         "users",
         userDoc.id
       ),
+
       {
-        balance:newBalance
+
+        balance:
+          newBalance
+
       }
+
     );
 
 
     /*
-      Tandai topup sudah diterima
+       Tandai Approved.
     */
 
     await updateDoc(
+
       topupRef,
+
       {
-        status:"Approved",
-        approvedAt:serverTimestamp(),
-        approvedBy:auth.currentUser.uid
+
+        status:
+          "Approved",
+
+        approvedAt:
+          serverTimestamp(),
+
+        approvedBy:
+          auth.currentUser.uid
+
       }
+
     );
 
 
     showToast(
-      "Topup diterima dan saldo berhasil ditambahkan"
+      "Topup diterima. Saldo berhasil ditambahkan."
     );
 
 
@@ -2198,12 +4172,14 @@ async function(id){
   }catch(error){
 
     console.error(
-      "Approve topup error:",
+      "APPROVE TOPUP ERROR:",
       error
     );
 
+
     showToast(
-      "Gagal memproses topup"
+      "Gagal memproses topup: " +
+      error.message
     );
 
   }
@@ -2211,9 +4187,10 @@ async function(id){
 };
 
 
-/* =========================================
+
+/* =====================================================
    REJECT TOPUP
-========================================= */
+===================================================== */
 
 window.rejectTopup =
 async function(id){
@@ -2240,29 +4217,35 @@ async function(id){
       ),
 
       {
-        status:"Rejected",
+
+        status:
+          "Rejected",
 
         rejectedAt:
           serverTimestamp(),
 
         rejectedBy:
           auth.currentUser.uid
+
       }
 
     );
 
 
     showToast(
-      "Topup ditolak"
+      "Topup ditolak."
     );
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
-      "Gagal menolak topup"
+      "Gagal menolak topup."
     );
 
   }
@@ -2270,84 +4253,115 @@ async function(id){
 };
 
 
-/* =========================================
+
+/* =====================================================
    PAYMENT METHODS REALTIME
-========================================= */
+===================================================== */
 
 function listenPaymentMethods(){
 
-  onSnapshot(
+  if(
+    paymentUnsubscribe
+  ){
 
-    collection(
-      db,
-      "paymentMethods"
-    ),
+    paymentUnsubscribe();
 
-    snapshot => {
-
-      const methods = [];
+  }
 
 
-      snapshot.forEach(item => {
+  paymentUnsubscribe =
+    onSnapshot(
 
-        methods.push({
+      collection(
+        db,
+        "paymentMethods"
+      ),
 
-          id:item.id,
+      snapshot=>{
 
-          ...item.data()
-
-        });
-
-      });
-
-
-      methods.sort(
-        (a,b) =>
-          Number(a.order || 0) -
-          Number(b.order || 0)
-      );
+        const methods = [];
 
 
-      const active =
-        methods.filter(
-          x => x.active === true
-        ).length;
+        snapshot.forEach(
+          item=>{
+
+            methods.push({
+
+              id:item.id,
+
+              ...item.data()
+
+            });
+
+          }
+        );
 
 
-      document
-        .getElementById(
-          "activeMethods"
-        )
-        .innerText =
-        active;
+        methods.sort(
+          (a,b)=>
+
+            Number(
+              a.order || 0
+            )
+
+            -
+
+            Number(
+              b.order || 0
+            )
+
+        );
 
 
-      renderPaymentMethods(
-        methods
-      );
+        const active =
+          methods.filter(
+            x =>
+            x.active === true
+          ).length;
 
-    },
 
-    error => {
+        document
+          .getElementById(
+            "activeMethods"
+          )
+          .innerText =
+          active;
 
-      console.error(error);
 
-      showToast(
-        "Gagal membaca payment methods"
-      );
+        renderPaymentMethods(
+          methods
+        );
 
-    }
+      },
 
-  );
+      error=>{
+
+        console.error(
+          "PAYMENT METHODS ERROR:",
+          error
+        );
+
+
+        showToast(
+          "Gagal membaca metode pembayaran: " +
+          error.message
+        );
+
+      }
+
+    );
 
 }
 
 
-/* =========================================
-   RENDER PAYMENT METHODS
-========================================= */
 
-function renderPaymentMethods(methods){
+/* =====================================================
+   RENDER PAYMENT
+===================================================== */
+
+function renderPaymentMethods(
+  methods
+){
 
   const container =
     document.getElementById(
@@ -2355,211 +4369,303 @@ function renderPaymentMethods(methods){
     );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
-  if(!methods.length){
+  if(
+    !methods.length
+  ){
 
-    container.innerHTML =
-      `<div class="empty">
+    container.innerHTML = `
+
+      <div class="empty">
+
         Belum ada metode pembayaran.
-      </div>`;
+
+      </div>
+
+    `;
 
     return;
 
   }
 
 
-  methods.forEach(method => {
+  methods.forEach(
+    method=>{
 
-    const card =
-      document.createElement(
-        "div"
-      );
-
-
-    card.className =
-      "payment-method";
+      const card =
+        document.createElement(
+          "div"
+        );
 
 
-    card.innerHTML = `
+      card.className =
+        "payment-method";
 
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:10px;
-      ">
 
-        <div>
+      card.innerHTML = `
 
-          <strong style="font-size:14px">
-            ${escapeHTML(
-              method.name || "-"
-            )}
-          </strong>
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+          "
+        >
 
-          <div style="
-            color:#8d9ab3;
-            font-size:10px;
-            margin-top:5px;
-          ">
-            ${escapeHTML(
-              method.type || "-"
-            )}
+
+          <div>
+
+            <strong
+              style="font-size:14px">
+
+              ${escapeHTML(
+                method.name || "-"
+              )}
+
+            </strong>
+
+
+            <div
+              style="
+                color:#8d9ab3;
+                font-size:10px;
+                margin-top:5px;
+              "
+            >
+
+              ${escapeHTML(
+                method.type || "-"
+              )}
+
+            </div>
+
           </div>
+
+
+          ${
+            method.active === true
+
+            ?
+
+            '<span class="badge green">AKTIF</span>'
+
+            :
+
+            '<span class="badge red">NONAKTIF</span>'
+          }
+
 
         </div>
 
+
+        <div
+          class="topup-grid"
+          style="margin-top:12px"
+        >
+
+
+          <div class="info">
+
+            <label>
+              NOMOR
+            </label>
+
+            <strong>
+              ${escapeHTML(
+                method.number || "-"
+              )}
+            </strong>
+
+          </div>
+
+
+          <div class="info">
+
+            <label>
+              PEMILIK
+            </label>
+
+            <strong>
+              ${escapeHTML(
+                method.owner || "-"
+              )}
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
         ${
-          method.active === true
+          method.qrUrl
 
           ?
 
-          '<span class="badge green">AKTIF</span>'
+          `
+
+          <div class="qr-preview">
+
+            <img
+              src="${escapeAttribute(
+                method.qrUrl
+              )}"
+              alt="QR"
+            >
+
+          </div>
+
+          `
 
           :
 
-          '<span class="badge red">NONAKTIF</span>'
+          ""
+
         }
 
-      </div>
 
-      <div class="topup-grid"
-           style="margin-top:12px">
+        <div
+          style="margin-top:12px"
+        >
 
-        <div class="info">
-          <label>NOMOR</label>
-          <strong>
-            ${escapeHTML(
-              method.number || "-"
-            )}
-          </strong>
-        </div>
 
-        <div class="info">
-          <label>PEMILIK</label>
-          <strong>
-            ${escapeHTML(
-              method.owner || "-"
-            )}
-          </strong>
-        </div>
-
-      </div>
-
-      ${
-        method.qrUrl
-
-        ?
-
-        `<div class="qr-preview">
-          <img
-            src="${escapeAttribute(method.qrUrl)}"
-            alt="QR"
+          <button
+            class="
+              action
+              ${
+                method.active === true
+                ? "btn-red"
+                : "btn-green"
+              }
+            "
+            onclick="
+              togglePayment(
+                '${method.id}',
+                ${method.active === true}
+              )
+            "
           >
-        </div>`
 
-        :
+            ${
+              method.active === true
+              ? "Nonaktifkan"
+              : "Aktifkan"
+            }
 
-        ""
-      }
-
-      <div style="margin-top:12px">
-
-        <button
-          class="action ${
-            method.active === true
-            ? "btn-red"
-            : "btn-green"
-          }"
-          onclick="togglePayment('${method.id}',${method.active === true})"
-        >
-          ${
-            method.active === true
-            ? "Nonaktifkan"
-            : "Aktifkan"
-          }
-        </button>
-
-        <button
-          class="action btn-red"
-          onclick="deletePayment('${method.id}')"
-        >
-          Hapus
-        </button>
-
-      </div>
-
-    `;
+          </button>
 
 
-    container.appendChild(card);
+          <button
+            class="action btn-red"
+            onclick="
+              deletePayment(
+                '${method.id}'
+              )
+            "
+          >
 
-  });
+            Hapus
+
+          </button>
+
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
 
 }
 
 
-/* =========================================
-   SAVE PAYMENT
-========================================= */
+
+/* =====================================================
+   SAVE PAYMENT METHOD
+===================================================== */
 
 window.savePaymentMethod =
 async function(){
 
   const name =
     document
-      .getElementById("pmName")
+      .getElementById(
+        "pmName"
+      )
       .value
       .trim();
 
 
   const type =
     document
-      .getElementById("pmType")
+      .getElementById(
+        "pmType"
+      )
       .value;
 
 
   const number =
     document
-      .getElementById("pmNumber")
+      .getElementById(
+        "pmNumber"
+      )
       .value
       .trim();
 
 
   const owner =
     document
-      .getElementById("pmOwner")
+      .getElementById(
+        "pmOwner"
+      )
       .value
       .trim();
 
 
   const qrUrl =
     document
-      .getElementById("pmQr")
+      .getElementById(
+        "pmQr"
+      )
       .value
       .trim();
 
 
   const active =
     document
-      .getElementById("pmStatus")
-      .value === "true";
+      .getElementById(
+        "pmStatus"
+      )
+      .value ===
+      "true";
 
 
   const order =
     Number(
       document
-        .getElementById("pmOrder")
-        .value || 1
+        .getElementById(
+          "pmOrder"
+        )
+        .value ||
+      1
     );
 
 
-  if(!name){
+  if(
+    !name
+  ){
 
     showToast(
-      "Nama provider wajib diisi"
+      "Nama provider wajib diisi."
     );
 
     return;
@@ -2578,19 +4684,26 @@ async function(){
 
       {
 
-        name:name,
+        name:
+          name,
 
-        type:type,
+        type:
+          type,
 
-        number:number,
+        number:
+          number,
 
-        owner:owner,
+        owner:
+          owner,
 
-        qrUrl:qrUrl,
+        qrUrl:
+          qrUrl,
 
-        active:active,
+        active:
+          active,
 
-        order:order,
+        order:
+          order,
 
         createdAt:
           serverTimestamp(),
@@ -2604,38 +4717,61 @@ async function(){
 
 
     document
-      .getElementById("pmName")
-      .value = "";
-
-    document
-      .getElementById("pmNumber")
-      .value = "";
-
-    document
-      .getElementById("pmOwner")
-      .value = "";
-
-    document
-      .getElementById("pmQr")
-      .value = "";
+      .getElementById(
+        "pmName"
+      )
+      .value =
+      "";
 
 
     document
-      .getElementById("qrPreview")
-      .innerHTML = "";
+      .getElementById(
+        "pmNumber"
+      )
+      .value =
+      "";
+
+
+    document
+      .getElementById(
+        "pmOwner"
+      )
+      .value =
+      "";
+
+
+    document
+      .getElementById(
+        "pmQr"
+      )
+      .value =
+      "";
+
+
+    document
+      .getElementById(
+        "qrPreview"
+      )
+      .innerHTML =
+      "";
 
 
     showToast(
-      "Metode pembayaran berhasil ditambahkan"
+      "Metode pembayaran berhasil ditambahkan."
     );
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "SAVE PAYMENT ERROR:",
+      error
+    );
+
 
     showToast(
-      "Gagal menyimpan metode pembayaran"
+      "Gagal menyimpan metode: " +
+      error.message
     );
 
   }
@@ -2643,12 +4779,16 @@ async function(){
 };
 
 
-/* =========================================
+
+/* =====================================================
    TOGGLE PAYMENT
-========================================= */
+===================================================== */
 
 window.togglePayment =
-async function(id,current){
+async function(
+  id,
+  current
+){
 
   try{
 
@@ -2661,28 +4801,36 @@ async function(id,current){
       ),
 
       {
-        active:!current,
+
+        active:
+          !current,
 
         updatedAt:
           serverTimestamp()
+
       }
 
     );
 
 
     showToast(
+
       current
-      ? "Metode dinonaktifkan"
-      : "Metode diaktifkan"
+      ? "Metode dinonaktifkan."
+      : "Metode diaktifkan."
+
     );
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
-      "Gagal mengubah metode"
+      "Gagal mengubah metode."
     );
 
   }
@@ -2690,9 +4838,10 @@ async function(id,current){
 };
 
 
-/* =========================================
+
+/* =====================================================
    DELETE PAYMENT
-========================================= */
+===================================================== */
 
 window.deletePayment =
 async function(id){
@@ -2711,25 +4860,30 @@ async function(id){
   try{
 
     await deleteDoc(
+
       doc(
         db,
         "paymentMethods",
         id
       )
+
     );
 
 
     showToast(
-      "Metode pembayaran dihapus"
+      "Metode pembayaran dihapus."
     );
 
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     showToast(
-      "Gagal menghapus metode"
+      "Gagal menghapus metode."
     );
 
   }
@@ -2737,77 +4891,127 @@ async function(id){
 };
 
 
-/* =========================================
+
+/* =====================================================
    QR PREVIEW
-========================================= */
+===================================================== */
 
 window.previewQR =
 function(){
 
   const url =
     document
-      .getElementById("pmQr")
+      .getElementById(
+        "pmQr"
+      )
       .value
       .trim();
 
 
   const preview =
-    document
-      .getElementById("qrPreview");
+    document.getElementById(
+      "qrPreview"
+    );
 
 
-  if(!url){
+  if(
+    !url
+  ){
 
-    preview.innerHTML = "";
+    preview.innerHTML =
+      "";
 
     return;
 
   }
 
 
-  preview.innerHTML =
-    `<img
+  preview.innerHTML = `
+
+    <img
       src="${escapeAttribute(url)}"
       alt="Preview QR"
-    >`;
+    >
+
+  `;
 
 };
 
 
-/* =========================================
+
+/* =====================================================
    NAVIGATION
-========================================= */
+===================================================== */
 
 window.openPanel =
-function(id,button){
+function(
+  id,
+  button
+){
 
   document
-    .querySelectorAll(".panel")
-    .forEach(panel =>
-      panel.classList.remove("active")
+    .querySelectorAll(
+      ".panel"
+    )
+    .forEach(
+      panel =>
+        panel.classList.remove(
+          "active"
+        )
     );
 
 
   document
-    .querySelectorAll(".nav button")
-    .forEach(btn =>
-      btn.classList.remove("active")
+    .querySelectorAll(
+      ".nav button"
+    )
+    .forEach(
+      btn =>
+        btn.classList.remove(
+          "active"
+        )
     );
 
 
   document
-    .getElementById(id)
-    .classList.add("active");
+    .getElementById(
+      id
+    )
+    .classList.add(
+      "active"
+    );
 
 
-  button.classList.add("active");
+  button.classList.add(
+    "active"
+  );
 
 };
 
 
-/* =========================================
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+window.closeModal =
+function(id){
+
+  document
+    .getElementById(
+      id
+    )
+    .classList.remove(
+      "show"
+    );
+
+};
+
+
+
+/* =====================================================
    LOGOUT
-========================================= */
+===================================================== */
 
 window.logoutAdmin =
 async function(){
@@ -2825,17 +5029,44 @@ async function(){
 
   try{
 
-    await signOut(auth);
+    if(
+      topupUnsubscribe
+    ){
 
-    window.location.href =
-      "auth.html";
+      topupUnsubscribe();
+
+    }
+
+
+    if(
+      paymentUnsubscribe
+    ){
+
+      paymentUnsubscribe();
+
+    }
+
+
+    await signOut(
+      auth
+    );
+
+
+    window.location.replace(
+      "auth.html"
+    );
+
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "LOGOUT ERROR:",
+      error
+    );
+
 
     showToast(
-      "Logout gagal"
+      "Logout gagal."
     );
 
   }
@@ -2843,108 +5074,30 @@ async function(){
 };
 
 
-/* =========================================
-   MODAL
-========================================= */
 
-window.closeModal =
-function(id){
+/* =====================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+===================================================== */
 
-  document
-    .getElementById(id)
-    .classList.remove("show");
+document.addEventListener(
+  "click",
+  event=>{
 
-};
+    if(
+      event.target.classList.contains(
+        "modal"
+      )
+    ){
 
-
-/* =========================================
-   TOAST
-========================================= */
-
-function showToast(message){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  toast.innerText =
-    message;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  setTimeout(
-    () =>
-      toast.classList.remove(
+      event.target.classList.remove(
         "show"
-      ),
-    3000
-  );
+      );
 
-}
-
-
-/* =========================================
-   HELPERS
-========================================= */
-
-function getTime(value){
-
-  if(!value){
-    return 0;
-  }
-
-
-  if(
-    typeof value.toMillis ===
-    "function"
-  ){
-
-    return value.toMillis();
+    }
 
   }
+);
 
-
-  if(
-    value.seconds
-  ){
-
-    return value.seconds * 1000;
-
-  }
-
-
-  return new Date(value).getTime() || 0;
-
-}
-
-
-function escapeHTML(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-function escapeAttribute(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/"/g,"&quot;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;");
-
-}
 
 </script>
 
